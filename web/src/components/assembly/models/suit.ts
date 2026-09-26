@@ -247,8 +247,8 @@ export function uAtHeight(curve: THREE.Curve<THREE.Vector3>, y: number): number 
 }
 
 const ARM_KNOTS: [number, number, number][] = [
-  [0.135, 1.44, -0.01],
-  [0.188, 1.39, -0.012],
+  [0.14, 1.415, -0.01],
+  [0.19, 1.37, -0.012],
   [0.215, 1.26, -0.02],
   [0.235, 1.12, -0.03],
   [0.252, 1.0, -0.012],
@@ -266,16 +266,16 @@ const ARM_Y: number[][] = [
   [1.05, 0.037, 0.038, 0.0],
   [1.13, 0.035, 0.037, 0.0],
   [1.24, 0.041, 0.043, 0.0],
-  [1.36, 0.05, 0.053, 0.0],
-  [1.44, 0.055, 0.058, 0.0],
+  [1.34, 0.049, 0.052, 0.0],
+  [1.42, 0.052, 0.055, 0.0],
 ];
 
 // torso (elliptical lathe): y, half-width, half-depth, forward shift
 const TORSO_Y: number[][] = [
-  [0.8, 0.1, 0.075, -0.004],
-  [0.84, 0.148, 0.1, -0.006],
-  [0.9, 0.168, 0.108, -0.006],
-  [0.96, 0.157, 0.1, -0.004],
+  [0.81, 0.07, 0.055, -0.012],
+  [0.845, 0.118, 0.082, -0.01],
+  [0.89, 0.152, 0.1, -0.008],
+  [0.94, 0.158, 0.1, -0.004],
   [1.0, 0.143, 0.094, 0.0],
   [1.07, 0.14, 0.098, 0.004],
   [1.17, 0.152, 0.108, 0.01],
@@ -299,7 +299,10 @@ const HEAD_Y: number[][] = [
 
 // ---------- materials ----------
 
-const SUIT_BLUE = '#2d56b3';
+// royal blue sampled from the leggings photo (lit ~#3a62d0, shade ~#2446a8); the top is a hair
+// lighter, as the bodysuit reference shows a separate knit with a softer satin sheen
+const SUIT_BLUE = '#2c55c4';
+const TOP_BLUE = '#3460cb';
 const SKIN = '#e8dccb';
 
 function knitTexture(): THREE.CanvasTexture | null {
@@ -344,7 +347,7 @@ export function buildSuit(): THREE.Group {
   const root = new THREE.Group();
   root.name = 'suit';
   const bump = knitTexture();
-  const top = fabric(SUIT_BLUE, bump);
+  const top = fabric(TOP_BLUE, bump);
   top.name = 'suit-top';
   const leggings = fabric(SUIT_BLUE, bump);
   leggings.name = 'suit-leggings';
@@ -408,7 +411,7 @@ export function buildSuit(): THREE.Group {
     // outer side seam of the leggings
     const seamPts: THREE.Vector3[] = [];
     const uHip = 0.02;
-    const th = side > 0 ? -Math.PI / 2 : -Math.PI / 2;
+    const th = (-side * Math.PI) / 2; // outer side of each leg
     for (let k = 0; k <= 24; k++) {
       const u = uHip + ((uAnkle - 0.02 - uHip) * k) / 24;
       seamPts.push(leg.surface(u, th, 0.0008));

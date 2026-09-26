@@ -25,8 +25,6 @@ export function buildBoots(): THREE.Group {
   const cuffMat = vinyl.clone();
   cuffMat.name = 'boot-cuff';
   cuffMat.roughness = 0.4;
-  const sole = new THREE.MeshStandardMaterial({ color: '#7a0f14', roughness: 0.7 });
-  sole.name = 'boot-sole';
 
   // deterministic crease pattern (soft horizontal slouch rings + one vertical fold)
   const creases = (side: number) => {
@@ -45,12 +43,17 @@ export function buildBoots(): THREE.Group {
         d += r.a * Math.exp(-(((p.y - yy) / r.w) ** 2)) * (0.6 + 0.4 * Math.cos(th - r.ph));
       }
       // a long shallow fold down the outside of the shaft
-      const out = side > 0 ? -Math.PI / 2 : -Math.PI / 2;
+      const out = (-side * Math.PI) / 2; // outer side of each leg
       const dth = Math.atan2(Math.sin(th - out - 0.5), Math.cos(th - out - 0.5));
       d += 0.0022 * Math.exp(-((dth / 0.18) ** 2)) * Math.max(0, Math.min(1, (0.42 - p.y) / 0.2));
       return d;
     };
   };
+
+  const welt = (p: THREE.Vector3) =>
+    p.y > 0.06
+      ? 0
+      : 0.0022 * Math.exp(-(((p.y - 0.012) / 0.0035) ** 2)) + 0.0016 * Math.exp(-(((p.y - 0.026) / 0.003) ** 2));
 
   for (const side of [1, -1] as const) {
     const g = new THREE.Group();
@@ -67,11 +70,12 @@ export function buildBoots(): THREE.Group {
       n0: new THREE.Vector3(0, 0, 1),
       section: (p) => {
         const s = legSection(p);
-        const foot = p.y < 0.1 ? 0.004 : 0; // a little looser over the foot
+        const foot = 0.004 * (1 - Math.min(1, Math.max(0, (p.y - 0.07) / 0.08))); // looser over the foot
         return { rx: s.rx + EASE + foot, rz: s.rz + EASE + foot, off: s.off };
       },
       capEnd: 0.045,
-      displace: (p, th) => crease(p, th),
+      // creases on the shaft; two moulded welt ridges round the foot just above the floor
+      displace: (p, th) => crease(p, th) + welt(p),
       clampY: 0.0,
     });
     const m = new THREE.Mesh(shaft.geometry, vinyl);
@@ -106,15 +110,6 @@ export function buildBoots(): THREE.Group {
     const bandMesh = new THREE.Mesh(band.geometry, cuffMat);
     bandMesh.name = side > 0 ? 'boot-cuff-r' : 'boot-cuff-l';
     g.add(bandMesh);
-
-    // thin darker sole line where the cover meets the floor
-    const toe = curve.getPointAt(0.999);
-    const soleGeo = new THREE.CylinderGeometry(1, 1, 0.006, 28);
-    soleGeo.scale(0.05, 1, (toe.z + 0.075) / 2);
-    soleGeo.translate(p.x + side * 0.003, 0.003, (toe.z - 0.075) / 2 + 0.004);
-    const soleMesh = new THREE.Mesh(soleGeo, sole);
-    soleMesh.name = side > 0 ? 'boot-sole-r' : 'boot-sole-l';
-    g.add(soleMesh);
 
     g.traverse((o) => {
       const mm = o as THREE.Mesh;

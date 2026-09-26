@@ -1,0 +1,487 @@
+{
+  "categories": {
+    "red-satin-fabric": {
+      "url": "https://images.unsplash.com/photo-1518893063132-36e46dbe2428?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by MontyLov on Unsplash",
+      "page": "https://unsplash.com/photos/red-textile-HyBXy5PHQR8"
+    },
+    "red-cape": {
+      "url": "https://images.pexels.com/photos/13257637/pexels-photo-13257637.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Connor Scott McManus on Pexels",
+      "page": "https://www.pexels.com/photo/girl-in-red-cape-walking-on-paved-walkway-13257637/"
+    },
+    "superman-costume": {
+      "url": "https://images.pexels.com/photos/21613260/pexels-photo-21613260.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Felipe Sodre on Pexels",
+      "page": "https://www.pexels.com/photo/photo-of-a-little-boy-in-a-superman-costume-standing-on-a-roof-21613260/"
+    },
+    "chest-emblem": {
+      "url": "https://images.unsplash.com/photo-1594344041337-0223bd103abe?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Jon Tyson on Unsplash",
+      "page": "https://unsplash.com/photos/red-and-yellow-heart-sticker-on-black-wooden-door-6RcT6zEmm9A"
+    },
+    "iron-on-patches": {
+      "url": "https://images.unsplash.com/photo-1761682719755-d745218bbdab?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Jason Leung on Unsplash",
+      "page": "https://unsplash.com/photos/various-embroidered-patches-in-a-white-organizer-GP2Z8X4X2Jk"
+    },
+    "felt-sheets": {
+      "url": "https://images.pexels.com/photos/3709397/pexels-photo-3709397.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Adrien Olichon on Pexels",
+      "page": "https://www.pexels.com/photo/assorted-color-textile-3709397/"
+    },
+    "red-boot-covers": {
+      "url": "https://images.pexels.com/photos/4061613/pexels-photo-4061613.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Introspectivedsgn on Pexels",
+      "page": "https://www.pexels.com/photo/crop-person-in-colorful-waterproof-boots-4061613/"
+    },
+    "red-wellies": {
+      "url": "https://images.unsplash.com/photo-1554569409-f5ac433e0f67?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Sven Brandsma on Unsplash",
+      "page": "https://unsplash.com/photos/person-wearing-black-and-white-striped-socks-and-red-rain-boots-standing-on-concrete-pavement-gn-I07tTixw"
+    },
+    "yellow-belt": {
+      "url": "https://images.unsplash.com/photo-1758297679778-d308606a3f51?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Ruan Richard Rodrigues on Unsplash",
+      "page": "https://unsplash.com/photos/a-shiny-gold-buckle-reflects-on-a-surface-mIxE61ZucEE"
+    },
+    "yellow-ribbon": {
+      "url": "https://images.unsplash.com/photo-1631089667980-7fe55b2abb9a?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Divazus Fabric Store on Unsplash",
+      "page": "https://unsplash.com/photos/yellow-textile-in-close-up-photography-UjK8htBtHUo"
+    },
+    "blue-bodysuit": {
+      "url": "https://images.pexels.com/photos/7927758/pexels-photo-7927758.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Ron Lach on Pexels",
+      "page": "https://www.pexels.com/photo/person-holding-the-railing-7927758/"
+    },
+    "blue-top-leggings": {
+      "url": "https://images.pexels.com/photos/5262953/pexels-photo-5262953.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Shvetsa on Pexels",
+      "page": "https://www.pexels.com/photo/crop-unrecognizable-sportswoman-stretching-and-bending-down-in-gym-5262953/"
+    },
+    "blue-jersey-fabric": {
+      "url": "https://images.unsplash.com/photo-1737527974527-ccc57e97cda5?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Olga Kovalski on Unsplash",
+      "page": "https://unsplash.com/photos/a-close-up-of-a-blue-cloth-due17P1-fSM"
+    },
+    "red-vinyl": {
+      "url": "https://images.unsplash.com/photo-1647960514922-052047430407?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Mohammad Javad Asgharikolahi on Unsplash",
+      "page": "https://unsplash.com/photos/a-close-up-of-a-red-leather-material-UWkvDN4fPhQ"
+    },
+    "sewing-notions": {
+      "url": "https://images.pexels.com/photos/6461490/pexels-photo-6461490.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Pavel Danilyuk on Pexels",
+      "page": "https://www.pexels.com/photo/flatlay-of-sewing-materials-6461490/"
+    },
+    "hot-glue": {
+      "url": "https://images.unsplash.com/photo-1775519686043-c177c2f12049?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Eric Stoynov on Unsplash",
+      "page": "https://unsplash.com/photos/hands-using-a-hot-glue-gun-on-an-orange-object-Q0F2oU26XG8"
+    },
+    "witch-hat": {
+      "url": "https://images.unsplash.com/photo-1697041273673-056e098cc3f2?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Sofia Holmberg on Unsplash",
+      "page": "https://unsplash.com/photos/a-black-hat-sitting-on-top-of-a-rock-LZGizZ56o1o"
+    },
+    "witch-costume": {
+      "url": "https://images.unsplash.com/photo-1699147790292-257de5aeed1f?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Šimom Caban on Unsplash",
+      "page": "https://unsplash.com/photos/a-woman-in-a-black-dress-and-a-witch-hat-YLSdE_WBVms"
+    },
+    "vampire": {
+      "url": "https://images.pexels.com/photos/6800587/pexels-photo-6800587.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Ksenia Chernaya on Pexels",
+      "page": "https://www.pexels.com/photo/a-boy-wearing-a-costume-6800587/"
+    },
+    "black-velvet": {
+      "url": "https://images.unsplash.com/photo-1618022325802-7e5e732d97a1?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Cat Han on Unsplash",
+      "page": "https://unsplash.com/photos/crumpled-black-fabric-texture-W_5Eakb1598"
+    },
+    "face-paint": {
+      "url": "https://images.unsplash.com/photo-1761145275111-e62cbdba6f57?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by maks_d on Unsplash",
+      "page": "https://unsplash.com/photos/face-and-body-painting-kit-with-colorful-paints-N4_Gdi2uLUQ"
+    },
+    "jack-o-lantern": {
+      "url": "https://images.unsplash.com/photo-1602814736315-13fe19927459?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Taylor Foss on Unsplash",
+      "page": "https://unsplash.com/photos/jack-o-lantern-on-brown-dried-leaves-eXb3Rt2b07w"
+    },
+    "mini-pumpkins": {
+      "url": "https://images.unsplash.com/photo-1670843632495-8c7c3073a894?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Joanna Stołowicz on Unsplash",
+      "page": "https://unsplash.com/photos/a-bunch-of-small-pumpkins-sitting-on-a-table-9eai4fZ-wX8"
+    },
+    "fairy-lights": {
+      "url": "https://images.unsplash.com/photo-1512547782667-4786bfbd0754?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Marcus Wallis on Unsplash",
+      "page": "https://unsplash.com/photos/selective-focus-photography-of-person-holding-lighted-brown-string-light-PzPLzNK61do"
+    },
+    "skeleton": {
+      "url": "https://images.unsplash.com/photo-1727777313422-8c1bd34bae95?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by chris robert on Unsplash",
+      "page": "https://unsplash.com/photos/a-skeleton-sitting-on-the-grass-in-front-of-a-house-42J_eTwXpi4"
+    },
+    "terracotta-pot": {
+      "url": "https://images.unsplash.com/photo-1528789386055-75c4b717bad1?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Annie Spratt on Unsplash",
+      "page": "https://unsplash.com/photos/brown-clay-flower-pots-OlUNA6dteb0"
+    },
+    "ceramic-cachepot": {
+      "url": "https://images.unsplash.com/photo-1588440691140-09155c1be58a?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Zakkaria Ahmed on Unsplash",
+      "page": "https://unsplash.com/photos/green-plant-on-white-ceramic-pot-2oVsOVqTdu4"
+    },
+    "potting-mix": {
+      "url": "https://images.unsplash.com/photo-1562722902-d33533894eea?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Aaron Ghena on Unsplash",
+      "page": "https://unsplash.com/photos/brown-soil-close-up-photography-TOyb9z2IVPQ"
+    },
+    "herb-seedling": {
+      "url": "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Markus Spiske on Unsplash",
+      "page": "https://unsplash.com/photos/green-leafed-seedlings-on-black-plastic-pots-4PG6wLlVag4"
+    },
+    "cotton-cord": {
+      "url": "https://images.unsplash.com/photo-1594352161389-11756265d1b5?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Adam Valstar on Unsplash",
+      "page": "https://unsplash.com/photos/white-yarn-on-white-surface-iYMSv8sf1uA"
+    },
+    "self-watering-pot": {
+      "url": "https://images.unsplash.com/photo-1598880940371-c756e015fea1?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by feey on Unsplash",
+      "page": "https://unsplash.com/photos/yellow-flower-in-green-ceramic-pot-k3jEtUmKhJo"
+    },
+    "smart-planter": {
+      "url": "https://images.unsplash.com/photo-1702568227996-0d39769fd2ab?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by feey on Unsplash",
+      "page": "https://unsplash.com/photos/a-white-potted-plant-with-green-leaves-Z3A1UytrR34"
+    },
+    "nursery-pots": {
+      "url": "https://images.unsplash.com/photo-1777732785164-742f4609a95a?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Saravanan Narayanan on Unsplash",
+      "page": "https://unsplash.com/photos/assortment-of-colorful-plant-pots-and-seedling-trays-6szHPBk4dWs"
+    },
+    "storage-tub": {
+      "url": "https://images.pexels.com/photos/13968355/pexels-photo-13968355.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Ibrahim Plastic Industry (IPI) on Pexels",
+      "page": "https://www.pexels.com/photo/a-stack-of-plastic-containers-with-blue-lids-13968355/"
+    },
+    "water-level-float": {
+      "url": "https://images.pexels.com/photos/6478110/pexels-photo-6478110.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Karola G on Pexels",
+      "page": "https://www.pexels.com/photo/fishing-floats-on-white-surface-6478110/"
+    },
+    "glass-jar": {
+      "url": "https://images.unsplash.com/photo-1622428051717-dcd8412959de?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Kier in Sight Archives on Unsplash",
+      "page": "https://unsplash.com/photos/empty-glass-jar-with-black-lid-b29z0iltxk4"
+    },
+    "plastic-bottle": {
+      "url": "https://images.unsplash.com/photo-1616118132534-381148898bb4?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by charlesdeluvio on Unsplash",
+      "page": "https://unsplash.com/photos/clear-plastic-bottle-on-white-table-edBR3b2JAuA"
+    },
+    "old-tshirts": {
+      "url": "https://images.unsplash.com/photo-1562157873-818bc0726f68?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Md Salman on Unsplash",
+      "page": "https://unsplash.com/photos/assorted-color-folded-shirts-on-wooden-panel-tWOz2_EK5EQ"
+    },
+    "wine-corks": {
+      "url": "https://images.unsplash.com/photo-1536583308396-5e8dd8dff017?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Remo Vilkko on Unsplash",
+      "page": "https://unsplash.com/photos/wine-cork-lot-VjpAinGcALg"
+    },
+    "3d-print": {
+      "url": "https://images.unsplash.com/photo-1611117775350-ac3950990985?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Minku Kang on Unsplash",
+      "page": "https://unsplash.com/photos/3d-printers-creating-blue-plastic-cylinders-aCniNTiIFd8"
+    },
+    "esp32-board": {
+      "url": "https://images.unsplash.com/photo-1789036069459-f1a0c50739a6?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Thorium on Unsplash",
+      "page": "https://unsplash.com/photos/esp-32-microcontroller-board-on-grid-ely59DfJwN8"
+    },
+    "jumper-wires": {
+      "url": "https://images.unsplash.com/photo-1733913106110-3f9832a788a0?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Thorium on Unsplash",
+      "page": "https://unsplash.com/photos/a-close-up-of-a-bunch-of-wires-on-a-table--QOsWsR4wFw"
+    },
+    "moisture-sensor": {
+      "url": "https://images.unsplash.com/photo-1599508266124-804fc6eecf09?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Jorge Ramirez on Unsplash",
+      "page": "https://unsplash.com/photos/three-electronic-components-sitting-on-top-of-a-blue-surface-VNfiAyRoKv4"
+    },
+    "microcontroller-kit": {
+      "url": "https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Sahand Babali on Unsplash",
+      "page": "https://unsplash.com/photos/blue-and-black-circuit-board-gavODTHG36Y"
+    },
+    "cordless-drill": {
+      "url": "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Quilia on Unsplash",
+      "page": "https://unsplash.com/photos/red-cordless-powerdrill-CuDoRFyTkAQ"
+    },
+    "wicker-basket": {
+      "url": "https://images.pexels.com/photos/8581052/pexels-photo-8581052.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by RDNE Stock project on Pexels",
+      "page": "https://www.pexels.com/photo/woven-baskets-on-a-shelf-8581052/"
+    },
+    "fabric-storage-box": {
+      "url": "https://images.unsplash.com/photo-1659729752087-98d8fef7b50c?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Jaime Nugent on Unsplash",
+      "page": "https://unsplash.com/photos/a-row-of-grey-boxes-orTmo6lYagg"
+    },
+    "kraft-boxes": {
+      "url": "https://images.pexels.com/photos/8015467/pexels-photo-8015467.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Cup of Couple on Pexels",
+      "page": "https://www.pexels.com/photo/brown-cardboard-box-on-white-surface-8015467/"
+    },
+    "wooden-crate": {
+      "url": "https://images.unsplash.com/photo-1689693138530-cbcb0582a2ea?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Jonathan Kemper on Unsplash",
+      "page": "https://unsplash.com/photos/a-couple-of-wooden-crates-sitting-on-top-of-a-counter-oy0P04JuhOM"
+    },
+    "label-maker": {
+      "url": "https://images.unsplash.com/photo-1783099779589-fd12bde5c2aa?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Cabri Caldwell on Unsplash",
+      "page": "https://unsplash.com/photos/label-maker-smartphone-and-snacks-labels-on-a-grey-surface-x_HkcWw9U9o"
+    },
+    "organiser-set": {
+      "url": "https://images.pexels.com/photos/7408618/pexels-photo-7408618.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by cottonbro studio on Pexels",
+      "page": "https://www.pexels.com/photo/minimalist-decoration-on-shelves-7408618/"
+    },
+    "cable-tidy": {
+      "url": "https://images.unsplash.com/photo-1760348213270-7cd00b8c3405?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Bedirhan Gül on Unsplash",
+      "page": "https://unsplash.com/photos/cable-organizer-holding-coiled-white-cord-under-desk-I_3D0pVrMhY"
+    },
+    "clear-bins": {
+      "url": "https://images.unsplash.com/photo-1786396798357-ac8ba6704d89?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Cabri Caldwell on Unsplash",
+      "page": "https://unsplash.com/photos/labeled-storage-bins-on-wire-shelving-yRLAF1UKiXU"
+    },
+    "lidded-boxes": {
+      "url": "https://images.pexels.com/photos/3912293/pexels-photo-3912293.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Castorly Stock on Pexels",
+      "page": "https://www.pexels.com/photo/three-boxes-3912293/"
+    },
+    "shelf-riser": {
+      "url": "https://images.pexels.com/photos/3952023/pexels-photo-3952023.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Ksenia Chernaya on Pexels",
+      "page": "https://www.pexels.com/photo/plants-on-brown-wooden-shelf-3952023/"
+    },
+    "magazine-file": {
+      "url": "https://images.unsplash.com/photo-1777917845221-f92884c1b61b?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Sou Jest on Unsplash",
+      "page": "https://unsplash.com/photos/white-office-organizer-with-files-on-desk-V-OCHNjTLAU"
+    },
+    "desk-organiser": {
+      "url": "https://images.unsplash.com/photo-1751107807635-a2ac6035e8dd?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Zoshua Colah on Unsplash",
+      "page": "https://unsplash.com/photos/a-bamboo-pencil-holder-with-pens-and-markers-2vrbec8atp0"
+    },
+    "washi-tape": {
+      "url": "https://images.unsplash.com/photo-1777401085816-0192a4e2a7b0?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Madeline Liu on Unsplash",
+      "page": "https://unsplash.com/photos/four-rolls-of-decorative-tape-with-cute-designs-gBgUy1hrx54"
+    },
+    "tag-labels": {
+      "url": "https://images.unsplash.com/photo-1571907483086-3c0ea40cc16d?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Angèle Kamp on Unsplash",
+      "page": "https://unsplash.com/photos/four-paper-card-tags-KaeaUITiWnc"
+    },
+    "wall-hooks": {
+      "url": "https://images.pexels.com/photos/4194839/pexels-photo-4194839.jpeg?auto=compress&cs=tinysrgb&w=480&h=480&fit=crop",
+      "credit": "Photo by Karola G on Pexels",
+      "page": "https://www.pexels.com/photo/yellow-and-white-towel-hanging-on-a-mounted-hook-4194839/"
+    },
+    "wrapping-paper": {
+      "url": "https://images.unsplash.com/photo-1638560927109-062a7e7bdf03?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Natalia Arkusha on Unsplash",
+      "page": "https://unsplash.com/photos/a-present-wrapped-in-brown-paper-and-tied-with-twine-4cDjb_aoh1g"
+    },
+    "pine-board": {
+      "url": "https://images.unsplash.com/photo-1786356470030-0703dc1f7a08?w=480&h=480&fit=crop&auto=format&q=70",
+      "credit": "Photo by Matthias Fiesel on Unsplash",
+      "page": "https://unsplash.com/photos/horizontal-wooden-planks-with-screws-iawyJ9cmUcE"
+    }
+  },
+  "items": {
+    "p1": "chest-emblem",
+    "p2": "red-boot-covers",
+    "p3": "yellow-belt",
+    "p4": "blue-bodysuit",
+    "p5": "witch-hat",
+    "p6": "vampire",
+    "p7": "face-paint",
+    "p8": "jack-o-lantern",
+    "p9": "fairy-lights",
+    "p10": "red-satin-fabric",
+    "p11": "felt-sheets",
+    "p12": "yellow-ribbon",
+    "p13": "blue-jersey-fabric",
+    "p14": "red-vinyl",
+    "p15": "cotton-cord",
+    "p16": "black-velvet",
+    "p17": "ceramic-cachepot",
+    "p18": "terracotta-pot",
+    "p19": "potting-mix",
+    "p20": "water-level-float",
+    "p21": "self-watering-pot",
+    "p22": "herb-seedling",
+    "p23": "mini-pumpkins",
+    "p24": "storage-tub",
+    "p25": "cotton-cord",
+    "p26": "water-level-float",
+    "p27": "cordless-drill",
+    "p28": "hot-glue",
+    "p29": "moisture-sensor",
+    "p30": "esp32-board",
+    "p31": "jumper-wires",
+    "p32": "fairy-lights",
+    "p33": "witch-costume",
+    "p34": "vampire",
+    "p35": "skeleton",
+    "p36": "superman-costume",
+    "p37": "herb-seedling",
+    "p38": "self-watering-pot",
+    "p39": "superman-costume",
+    "p40": "superman-costume",
+    "p41": "superman-costume",
+    "p42": "blue-bodysuit",
+    "p43": "blue-top-leggings",
+    "p44": "blue-top-leggings",
+    "p45": "red-cape",
+    "p46": "chest-emblem",
+    "p47": "red-boot-covers",
+    "p48": "yellow-belt",
+    "p49": "witch-costume",
+    "p50": "vampire",
+    "p51": "skeleton",
+    "p52": "face-paint",
+    "p53": "witch-costume",
+    "p54": "blue-jersey-fabric",
+    "p55": "red-satin-fabric",
+    "p56": "sewing-notions",
+    "p57": "felt-sheets",
+    "p58": "sewing-notions",
+    "p59": "red-vinyl",
+    "p60": "sewing-notions",
+    "p61": "yellow-ribbon",
+    "p62": "sewing-notions",
+    "p63": "self-watering-pot",
+    "p64": "ceramic-cachepot",
+    "p65": "nursery-pots",
+    "p66": "cotton-cord",
+    "p67": "cotton-cord",
+    "p68": "water-level-float",
+    "p69": "potting-mix",
+    "p70": "potting-mix",
+    "p71": "esp32-board",
+    "p72": "moisture-sensor",
+    "p73": "jumper-wires",
+    "p74": "moisture-sensor",
+    "p75": "smart-planter",
+    "p76": "3d-print",
+    "p77": "3d-print",
+    "p78": "3d-print",
+    "p79": "fairy-lights",
+    "p80": "wooden-crate",
+    "p81": "shelf-riser",
+    "p82": "label-maker",
+    "p83": "wall-hooks",
+    "p84": "clear-bins",
+    "p85": "cable-tidy",
+    "p86": "wicker-basket",
+    "p87": "fabric-storage-box",
+    "p88": "lidded-boxes",
+    "p89": "desk-organiser",
+    "p90": "magazine-file",
+    "p91": "cable-tidy",
+    "p92": "tag-labels",
+    "p93": "wrapping-paper",
+    "p94": "kraft-boxes",
+    "p95": "wicker-basket",
+    "p96": "pine-board",
+    "p97": "pine-board",
+    "p98": "kraft-boxes",
+    "p99": "washi-tape",
+    "p100": "tag-labels",
+    "p101": "3d-print",
+    "p102": "cable-tidy",
+    "p103": "organiser-set",
+    "p104": "organiser-set",
+    "p105": "lidded-boxes",
+    "p106": "wicker-basket",
+    "p107": "shelf-riser",
+    "p108": "clear-bins",
+    "p109": "tag-labels",
+    "p110": "cable-tidy",
+    "s1": "blue-top-leggings",
+    "s2": "blue-top-leggings",
+    "s3": "blue-bodysuit",
+    "s4": "red-cape",
+    "s5": "red-cape",
+    "s6": "felt-sheets",
+    "s7": "iron-on-patches",
+    "s8": "red-wellies",
+    "s9": "red-boot-covers",
+    "s10": "yellow-belt",
+    "s11": "yellow-ribbon",
+    "s12": "glass-jar",
+    "s13": "ceramic-cachepot",
+    "s14": "terracotta-pot",
+    "s15": "nursery-pots",
+    "s16": "plastic-bottle",
+    "s17": "old-tshirts",
+    "s18": "cotton-cord",
+    "s19": "wine-corks",
+    "s20": "water-level-float",
+    "s21": "esp32-board",
+    "s22": "microcontroller-kit",
+    "s23": "potting-mix",
+    "s24": "potting-mix",
+    "s25": "superman-costume",
+    "s26": "witch-hat",
+    "s27": "vampire",
+    "s28": "skeleton",
+    "s29": "face-paint",
+    "s30": "herb-seedling",
+    "s31": "fairy-lights",
+    "s32": "mini-pumpkins",
+    "s33": "wicker-basket",
+    "s34": "wooden-crate",
+    "s35": "fabric-storage-box",
+    "s36": "clear-bins",
+    "s37": "shelf-riser",
+    "s38": "desk-organiser",
+    "s39": "magazine-file",
+    "s40": "label-maker",
+    "s41": "cable-tidy",
+    "g_suit": "blue-top-leggings",
+    "g_cape": "red-cape",
+    "g_emblem": "chest-emblem",
+    "g_bootcovers": "red-boot-covers",
+    "g_belt": "yellow-belt",
+    "g_bottle_pot": "plastic-bottle",
+    "g_jar_reservoir": "glass-jar",
+    "g_wick": "old-tshirts",
+    "g_float": "wine-corks",
+    "g_esp32": "esp32-board",
+    "g_potting_mix": "potting-mix",
+    "g_witch_hat": "witch-hat",
+    "g_skeleton_paint": "face-paint",
+    "g_shoebox_drawers": "kraft-boxes",
+    "g_cereal_files": "magazine-file",
+    "g_crate_riser": "wooden-crate",
+    "g_card_dividers": "kraft-boxes",
+    "g_washi_labels": "washi-tape",
+    "g_binder_cables": "cable-tidy",
+    "g_tshirt_basket": "fabric-storage-box"
+  }
+}
