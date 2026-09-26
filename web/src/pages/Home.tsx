@@ -41,7 +41,6 @@ function Header({ area, setArea, solid }: { area: Area; setArea: (a: Area) => vo
           <span className="font-display text-[26px] leading-none text-ink">Assemble</span>
         </a>
         <div className="flex items-center gap-2 sm:gap-5">
-          <a href="/sell" className="hidden text-sm text-muted transition hover:text-ink sm:inline">Sell or lend</a>
           <a href="/admin" className="hidden text-sm text-muted transition hover:text-ink sm:inline">For shops</a>
           <LocationPicker value={area} onChange={setArea} />
         </div>
