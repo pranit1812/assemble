@@ -27,20 +27,21 @@ const PH2 = hash(11) * Math.PI * 2;
 function profile(v: number) {
   const settle = 1 - Math.exp(-v / 0.03); // collar -> shoulders transition
   const a = 0.095 + 0.14 * settle + 0.21 * v; // half width (flares to ~0.445 at the hem)
-  const b = 0.1 + 0.045 * settle + 0.105 * Math.pow(v, 1.2); // depth behind the body centre
+  const b = 0.1 + 0.045 * settle + 0.08 * Math.pow(v, 1.3); // depth behind the body centre
   const c = 0.1 - 0.03 * v * v; // body centre sits ~0.1 m in front of the attach point
   const span = THREE.MathUtils.degToRad(80 + 45 * Math.exp(-((v / 0.18) ** 2))); // wrap angle
   const x = v / 0.12;
-  const drop = 0.035 + 0.08 * x * Math.exp(1 - x) - 0.06 * v * v; // side sag over the shoulders
+  const drop = 0.035 + 0.1 * x * Math.exp(1 - x) - 0.06 * v * v; // side sag over the shoulders
   return { a, b, c, span, drop };
 }
 
 /** Broad radial folds (few, deepening toward the hem) plus small gathers at the collar. */
 function fold(u: number, v: number): number {
-  const amp = 0.055 * Math.pow(THREE.MathUtils.smoothstep(v, 0.04, 1), 1.15);
+  const amp = 0.07 * Math.pow(THREE.MathUtils.smoothstep(v, 0.04, 1), 1.1);
+  // ~3 broad folds across the back that drift diagonally, like the photo's hem swing
   const f =
-    Math.sin(Math.PI * 2 * 3.5 * u + PH1 + 0.7 * v) +
-    0.45 * Math.sin(Math.PI * 2 * 6.2 * u + PH2 - 0.5 * v);
+    Math.sin(Math.PI * 2 * 3 * u + PH1 + 1.6 * v) +
+    0.3 * Math.sin(Math.PI * 2 * 5 * u + PH2 - 1.1 * v);
   const gather = 0.012 * Math.exp(-v / 0.05) * Math.sin(Math.PI * 2 * 11 * u);
   return amp * f + gather;
 }
@@ -163,14 +164,14 @@ export function buildCape(): THREE.Group | null {
   // specular streaks the photo shows along fold ridges, sheen for the cloth rim glow.
   const satin = new THREE.MeshPhysicalMaterial({
     name: 'cape-red-satin',
-    color: '#c3111a',
+    color: '#d3141d',
     roughness: 0.45,
     metalness: 0,
     sheen: 0.8,
     sheenColor: new THREE.Color('#ff6a5c'),
     sheenRoughness: 0.3,
-    clearcoat: 0.35,
-    clearcoatRoughness: 0.28,
+    clearcoat: 0.5,
+    clearcoatRoughness: 0.2,
     side: THREE.DoubleSide,
   });
 
