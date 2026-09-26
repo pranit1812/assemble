@@ -20,6 +20,7 @@ import { queueVision } from './vision';
 import { webScout, hasWeb } from '../agents/web';
 import { advise } from '../agents/advisor';
 import { offersForGoal } from './bridge';
+import { FOLLOWUP_SYSTEM, FollowupOut } from '../prompts';
 import { triggerBot } from '../trigger';
 
 export const shopRouter = Router();
@@ -220,13 +221,66 @@ shopRouter.post('/goals/:id/acquire', (req, res) => {
 });
 
 // Follow-up buying questions about a plan: "should I wait?", "does it matter which one?".
+const histOf = (h: unknown) => (Array.isArray(h) ? h : []).slice(-4).map((x: any) => ({ q: String(x?.q ?? '').slice(0, 200), a: String(x?.a ?? '').slice(0, 200) }));
+
+// Rules when the model is unavailable: read the message plus the last question for plan changes.
+function followupRules(text: string, history: { q: string }[], comps: { id: string; words: string }[]) {
+  const t = text.toLowerCase(), ctx = `${history.at(-1)?.q ?? ''} ${text}`.toLowerCase();
+  const out: { intent: 'ask' | 'revise' | 'new'; skill?: string; budgetPence?: number; owned?: string[]; boxed?: boolean; reply?: string } = { intent: 'new' };
+  const budget = /£\s?(\d+)/.exec(t);
+  // "I already have a power bank": match what follows the verb against each part's name and options.
+  const obj = /\b(?:have|own|got)\b(.*)$/.exec(t)?.[1] ?? '';
+  const objWords = obj.split(/[^a-z]+/).filter((w) => w.length > 3 && !['already', 'some', 'spare', 'that', 'this', 'with'].includes(w));
+  const owned = /\bi\b.*\b(have|own|got)\b/.test(t) ? comps.filter((c) => objWords.some((w) => c.words.includes(w))).map((c) => c.id) : [];
+  const strong = /prebuilt|pre-built|ready[- ]?made|almost built|no diy|don'?t want to (make|diy)|more diy|\bkit\b|boxed|complete set|cheaper/.test(t) || !!budget || owned.length > 0;
+  const weak = /\b(updated?|redo|re-?plan|change it|instead|do that|go with|switch)\b/.test(t);
+  if (strong || weak) {
+    out.intent = 'revise';
+    if (/boxed|complete set|\bkit\b/.test(ctx)) out.boxed = true;
+    else if (/prebuilt|pre-built|ready[- ]?made|almost built|buy it|no diy|don'?t want to (make|diy)/.test(ctx)) out.skill = 'none';
+    else if (/more diy|myself|diy (it|everything)/.test(ctx)) out.skill = 'crafty';
+    if (budget) out.budgetPence = +budget[1] * 100;
+    if (owned.length) out.owned = owned;
+    out.reply = out.boxed ? 'Showing the complete set.' : out.skill === 'none' ? 'Switching to ready-made parts you can buy today.' : out.skill === 'crafty' ? 'Leaning into DIY.'
+      : owned.length ? "Got it, I'll use what you already have." : budget ? `Refitting the plan to ${budget[0]}.` : 'Updating your plan.';
+  } else if (/\?\s*$|^(should|is|are|will|would|do|does|can|which|what|how|why)\b|\b(wait|worth|better|newer|matter)\b/.test(t)) out.intent = 'ask';
+  return out;
+}
+
+shopRouter.post('/goals/:id/followup', async (req, res) => {
+  const goal = loadGoal(req.params.id);
+  const st = J<State | null>(goal?.blocks, null);
+  const text = String(req.body?.text ?? '').trim().slice(0, 300);
+  if (!goal || !st || !text) return void res.status(400).json({ error: 'Follow up on a plan' });
+  const history = histOf(req.body?.history);
+  const answers = J<Record<string, any>>(get<any>('SELECT answers FROM goals WHERE id = ?', goal.id)?.answers, {});
+  const comps = st.bd.components.map((c) => ({ id: c.id, words: [c.name, ...c.options.map((o) => o.title)].join(' ').toLowerCase() }));
+  const ai = await llmJSON({
+    messages: [{ role: 'system', content: FOLLOWUP_SYSTEM }, { role: 'user', content: JSON.stringify({
+      message: text, conversation: history, goal: goal.title, answers,
+      parts: st.bd.components.map((c) => { const p = c.options.find((o) => o.id === c.pickId); return { id: c.id, name: c.name, pick: p ? `${p.tag}: ${p.title} ${pounds(p.pricePence)}` : 'none nearby' }; }),
+    }) }],
+    schema: FollowupOut, timeoutMs: 6000,
+  });
+  const r = ai ?? followupRules(text, history, comps);
+  const next = { ...answers };
+  if (r.skill) next.skill = r.skill;
+  if (r.budgetPence) next.budget = String(r.budgetPence);
+  const ownedIds = (r.owned ?? []).filter((id) => comps.some((c) => c.id === id));
+  if (ownedIds.length) next.owned = [...new Set([...([] as string[]).concat(answers.owned ?? []).filter((v) => v !== 'none'), ...ownedIds])];
+  if (r.budgetPence) run('UPDATE goals SET budget_pence = ? WHERE id = ?', r.budgetPence, goal.id);
+  track('Follow-up', `"${text.slice(0, 60)}"`, `${r.intent}${r.skill ? ` · skill ${r.skill}` : ''}${r.boxed ? ' · boxed' : ''} · ${ai ? aiName() : 'rules'}`);
+  res.json({ intent: r.intent, answers: next, boxed: !!r.boxed, reply: r.reply ?? '' });
+});
+
 shopRouter.post('/goals/:id/ask', async (req, res) => {
   const goal = loadGoal(req.params.id);
   const st = J<State | null>(goal?.blocks, null);
   const question = String(req.body?.question ?? '').trim().slice(0, 300);
   if (!goal || !st || !question) return void res.status(400).json({ error: 'Ask about a plan' });
   const comps = all<any>('SELECT tag, tags FROM components WHERE goal_id = ?', goal.id);
-  const block = await advise({ question, goalTitle: goal.title, deadline: goal.deadline, budgetPence: goal.budget_pence,
+  const history = histOf(req.body?.history);
+  const block = await advise({ question, history, goalTitle: goal.title, deadline: goal.deadline, budgetPence: goal.budget_pence,
     picks: st.bd.components.map((c) => ({ component: c.name, pick: c.options.find((o) => o.id === c.pickId) ?? null })),
     tags: comps.flatMap((c) => [c.tag, ...J<string[]>(c.tags, [])]) });
   track('Advisor', `"${question.slice(0, 60)}"`, `${block.verdict} · ${block.by === 'grok' ? aiName() : 'rules'}${block.sources.length ? ` · ${block.sources.length} web sources` : ''}`);

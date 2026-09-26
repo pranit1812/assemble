@@ -72,7 +72,7 @@ export default function Home() {
   const [boxed, setBoxed] = useState(false);
   const [vision, setVision] = useState<{ status: string; seen?: string; owned?: string[] } | null>(null);
   const lastAnswers = useRef<Record<string, string | string[]>>({});
-  const [asks, setAsks] = useState<{ q: string; b: BlockOf<'AdviceCard'> | null }[]>([]);
+  const [asks, setAsks] = useState<{ q: string; b: BlockOf<'AdviceCard'> | null; note?: string }[]>([]);
   const askRef = useRef<HTMLDivElement>(null);
   const planRef = useRef<HTMLDivElement>(null);
   const guidesRef = useRef<HTMLDivElement>(null);
@@ -151,14 +151,23 @@ export default function Home() {
     } catch (e: any) { setErr(e.message); }
   }
 
-  // Follow-up buying questions go to the Advisor; anything else starts a new goal.
+  // Follow-ups after a plan: Grok decides whether it's a question (Advisor), a change to this plan
+  // (re-plan with new answers, or the boxed set), or a new goal. The conversation so far goes with it.
   async function onDock(text: string, image?: string) {
-    const isQ = /\?\s*$|^(should|is|are|will|would|do|does|can|which|what if|how long)\b|\b(wait|worth it|better|newer|upgrade|does it matter)\b/i.test(text);
-    if (!(phase === 'planned' && goal && text && !image && isQ)) return start(text, image);
+    if (!(phase === 'planned' && goal && text && !image)) return start(text, image);
+    const history = asks.slice(-4).map((a) => ({ q: a.q, a: a.note ?? a.b?.headline ?? '' }));
     setAsks((a) => [...a, { q: text, b: null }]);
     setTimeout(() => askRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }), 60);
-    const r = await api.ask(goal.id, text).catch(() => null);
-    setAsks((a) => a.map((x) => (x.q === text && !x.b ? { ...x, b: (r?.block as BlockOf<'AdviceCard'>) ?? null } : x)));
+    const f = await api.followup(goal.id, text, history).catch(() => null);
+    if (f?.intent === 'new') { setAsks((a) => a.filter((x) => x.q !== text || x.b || x.note)); return start(text, image); }
+    if (f?.intent === 'revise') {
+      setAsks((a) => a.map((x) => (x.q === text && !x.b && !x.note ? { ...x, note: f.reply || 'Updating your plan.' } : x)));
+      if (f.boxed) { setBoxed(true); planRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+      setBoxed(false);
+      return plan(f.answers);
+    }
+    const r = await api.ask(goal.id, text, history).catch(() => null);
+    setAsks((a) => a.map((x) => (x.q === text && !x.b && !x.note ? { ...x, b: (r?.block as BlockOf<'AdviceCard'>) ?? null } : x)));
   }
 
   async function pick(cid: string, o: Option) {
@@ -311,7 +320,7 @@ export default function Home() {
                 {asks.map((a, i) => (
                   <div key={i} className="space-y-3">
                     <div className="rise flex justify-end"><div className="max-w-[85%] rounded-3xl rounded-br-md bg-ink px-5 py-3 text-[16px] text-paper">{a.q}</div></div>
-                    {a.b ? <AdviceCardView b={a.b} /> : <div className="pulse-dot text-[14px] text-muted">Advisor is checking…</div>}
+                    {a.b ? <AdviceCardView b={a.b} /> : a.note ? <p className="rise text-[16px] text-ink">{a.note}</p> : <div className="pulse-dot text-[14px] text-muted">Thinking…</div>}
                   </div>
                 ))}
               </div>

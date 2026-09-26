@@ -12,8 +12,9 @@ export function score(o: Option, x: ScoutCtx): Option {
   let s = BASE[o.tag];
   let feasible = true;
   let why = o.why;
+  // 'Buy it ready' (skill none): any ready-made route should beat making it.
   if (o.tag === 'DIY' || o.tag === 'Parts' || (o.tag === 'Local' && o.makeIt)) {
-    if (x.skill === 'none') { s -= o.tag === 'DIY' ? 45 : 30; why = `You'd rather buy it ready. ${why}`; }
+    if (x.skill === 'none') { s -= o.tag === 'DIY' ? 65 : 30; why = `You'd rather buy it ready. ${why}`; }
     else if (x.skill === 'some') s -= o.effortMins > 60 ? 18 : o.effortMins > 30 ? 9 : 0;
     else if (x.skill === 'crafty') s += 4;
   }

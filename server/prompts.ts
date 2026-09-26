@@ -75,3 +75,21 @@ export const AdvisorOut = z.object({
   upcoming: z.string().nullable().optional(),
   sources: z.array(z.object({ title: z.string(), url: z.string() })).max(4).default([]),
 });
+
+// Follow-ups typed after a plan: answer, change the plan, or start a new goal.
+export const FOLLOWUP_SYSTEM = `You route a shopper's follow-up message in Assemble, a mindful shopping planner. They already have a plan for GOAL (parts, picks, answers below) and a short CONVERSATION so far.
+Decide the intent:
+- "ask": a question about the plan (buy now or wait, which is better, does it matter, is it worth it). Leave every change empty.
+- "revise": they want THIS plan changed. Set only what changes: skill "none" for ready-made / prebuilt / buy it, "crafty" for more DIY, "some" for a mix; budgetPence for a new budget; owned = ids of parts they say they already have; boxed true if they want the complete boxed set or kit. Use the conversation: "give me the updated plan" or "do that" right after asking about buying it prebuilt means revise with skill "none".
+- "new": a clearly different goal (a different thing to make, fix or buy).
+reply: one short, friendly sentence saying what happens next, e.g. "Switching to ready-made parts you can buy today." For "ask", reply can be empty.
+Return JSON only: {"intent": "...", "skill": null, "budgetPence": null, "owned": [], "boxed": false, "reply": "..."}`;
+
+export const FollowupOut = z.object({
+  intent: z.enum(['ask', 'revise', 'new']),
+  skill: z.enum(['none', 'some', 'crafty']).nullish(),
+  budgetPence: z.number().int().positive().nullish(),
+  owned: z.array(z.string()).nullish(),
+  boxed: z.boolean().nullish(),
+  reply: z.string().max(240).nullish(),
+});

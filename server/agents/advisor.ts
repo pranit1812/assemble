@@ -11,7 +11,7 @@ const TIMING = /\b(wait|newer|new model|upgrade|better|replace|release|coming|sa
 
 export async function advise(o: {
   question: string; goalTitle: string; deadline: string | null; budgetPence: number | null;
-  picks: { component: string; pick: Option | null }[]; tags: string[];
+  picks: { component: string; pick: Option | null }[]; tags: string[]; history?: { q: string; a: string }[];
 }): Promise<BlockOf<'AdviceCard'>> {
   const chosen = o.picks.filter((p) => p.pick);
   const newish = chosen.filter((p) => ['New', 'Parts', 'Local'].includes(p.pick!.tag));
@@ -26,7 +26,7 @@ export async function advise(o: {
     messages: [
       { role: 'system', content: ADVISOR_SYSTEM },
       { role: 'user', content: JSON.stringify({
-        question: o.question, goal: o.goalTitle, deadline: deadlineLabel(o.deadline) ?? 'none', budget: o.budgetPence ? pounds(o.budgetPence) : 'none',
+        question: o.question, conversationSoFar: o.history ?? [], goal: o.goalTitle, deadline: deadlineLabel(o.deadline) ?? 'none', budget: o.budgetPence ? pounds(o.budgetPence) : 'none',
         plan: chosen.map((p) => ({ part: p.component, route: p.pick!.tag, item: p.pick!.title, price: pounds(p.pick!.pricePence) })),
         webSnippets: snippets.map((s) => ({ title: s.title, url: s.url, text: s.content.slice(0, 400) })),
       }) },
