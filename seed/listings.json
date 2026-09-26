@@ -426,6 +426,7 @@
   "description": "Red lining, high collar, from last year.",
   "price_pence": 500,
   "tags": [
+    "cape",
    "vampire",
    "costume",
    "black",
@@ -656,5 +657,51 @@
   "area": "Hackney",
   "lat": 51.5436,
   "lng": -0.061
- }
+ },
+  {
+    "id": "s100",
+    "title": "Table lamp, works fine",
+    "description": "Moving out, brass base.",
+    "price_pence": 500,
+    "tags": [
+      "lamp",
+      "home",
+      "lights"
+    ],
+    "condition": "good",
+    "seller": "Jo",
+    "area": "Hackney",
+    "lat": 51.5441,
+    "lng": -0.0574
+  },
+  {
+    "id": "s101",
+    "title": "Washing machine, 7kg, 3 years old",
+    "description": "Works perfectly, you collect.",
+    "price_pence": 8000,
+    "tags": [
+      "washing-machine",
+      "appliance"
+    ],
+    "condition": "good",
+    "seller": "Priya",
+    "area": "Dalston",
+    "lat": 51.5476,
+    "lng": -0.0741
+  },
+  {
+    "id": "s102",
+    "title": "Box of spare bulbs",
+    "description": "Mixed fittings, all working.",
+    "price_pence": 100,
+    "tags": [
+      "bulb",
+      "lamp"
+    ],
+    "condition": "good",
+    "seller": "Tom",
+    "area": "Hackney",
+    "lat": 51.5459,
+    "lng": -0.054
+  }
 ]

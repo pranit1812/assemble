@@ -85,3 +85,13 @@ body::before {
   .font-mono { font-variant-numeric: tabular-nums; letter-spacing: 0; }
 }
 em { font-style: normal; }
+
+/* Budget slider: a thin line with an accent fill up to the thumb. */
+.slider { appearance: none; -webkit-appearance: none; height: 22px; background: transparent; cursor: pointer; }
+.slider::-webkit-slider-runnable-track { height: 3px; border-radius: 3px; background: linear-gradient(to right, var(--color-accent) var(--p), var(--color-line) var(--p)); }
+.slider::-moz-range-track { height: 3px; border-radius: 3px; background: linear-gradient(to right, var(--color-accent) var(--p), var(--color-line) var(--p)); }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; margin-top: -8.5px; border-radius: 50%; background: var(--color-card); border: 2px solid var(--color-accent); box-shadow: 0 1px 4px rgb(0 0 0 / 0.12); transition: transform .15s; }
+.slider::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--color-card); border: 2px solid var(--color-accent); }
+.slider:active::-webkit-slider-thumb { transform: scale(1.15); }
+.slider:focus-visible { outline: none; }
+.slider:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px var(--color-accent-soft); }

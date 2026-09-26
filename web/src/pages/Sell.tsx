@@ -13,6 +13,7 @@ export default function Sell() {
   const [price, setPrice] = useState('');
   const [condition, setCondition] = useState('good');
   const [seller, setSeller] = useState('');
+  const [brand, setBrand] = useState('');
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<{ title: string; tags: string[]; area: string; price: number } | null>(null);
 
@@ -24,10 +25,10 @@ export default function Sell() {
     setBusy(true);
     const pricePence = Math.round((parseFloat(price) || 0) * 100);
     const r = await fetch('/api/listings', { method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ title, pricePence, areaId: area.id, seller: seller || undefined, condition }) }).then((r) => r.json());
+      body: JSON.stringify({ title, brand: brand.trim() || undefined, pricePence, areaId: area.id, seller: seller || undefined, condition }) }).then((r) => r.json());
     setBusy(false);
-    setDone({ title, tags: r.tags ?? [], area: r.area ?? area.name, price: pricePence });
-    setTitle(''); setPrice('');
+    setDone({ title: r.title ?? title, tags: r.tags ?? [], area: r.area ?? area.name, price: pricePence });
+    setTitle(''); setPrice(''); setBrand('');
   }
 
   return (
@@ -76,6 +77,10 @@ export default function Sell() {
               <label className="block">
                 <span className="text-[12px] font-medium uppercase tracking-[0.12em] text-muted">What is it?</span>
                 <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Red satin cape, adult, worn once" className="mt-1.5 w-full rounded-xl border border-line bg-paper/60 px-3.5 py-2.5 text-[15px] text-ink outline-none focus:border-ink/40" />
+              </label>
+              <label className="block">
+                <span className="text-[12px] font-medium uppercase tracking-[0.12em] text-muted">Brand <span className="normal-case tracking-normal text-faint">(optional)</span></span>
+                <input value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="IKEA, Rubie's, Muji…" className="mt-1.5 w-full rounded-xl border border-line bg-paper/60 px-3.5 py-2.5 text-[15px] text-ink outline-none focus:border-ink/40" />
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <label className="block">

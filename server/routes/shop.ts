@@ -5,7 +5,9 @@ import { llmJSON } from '../llm';
 import { all, get, run, J, id, logEvent } from '../db';
 import { AREAS, DEFAULT_AREA, km } from '../../shared/areas';
 import { ROUTE_ORDER, pounds, type BlockOf, type Option, type PlanEvent } from '../../shared/genui';
-import { intake, deadlineDays, getRecipe } from '../agents/orchestrator';
+import { intake, deadlineDays, getRecipe, parseConstraints } from '../agents/orchestrator';
+
+const COLOURS = new Set(['blue', 'yellow', 'black', 'white', 'green', 'purple', 'orange', 'pink', 'brown', 'grey', 'gray']);
 import { SCOUTS, wholeProduct, type ScoutCtx } from '../agents/scouts';
 import { score, rank, pickPlan, judgeWhys } from '../agents/judge';
 import { compose, guidesFor, type GoalRow } from '../agents/composer';
@@ -64,9 +66,14 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
   const answers: Record<string, string | string[]> = req.body?.answers ?? {};
   const one = (k: string) => (Array.isArray(answers[k]) ? answers[k][0] : (answers[k] as string | undefined));
   const budget = goal.budget_pence ?? (one('budget') && one('budget') !== 'any' ? parseInt(one('budget')!, 10) : null);
-  const deadline = goal.deadline ?? (one('deadline') && one('deadline') !== 'any' ? one('deadline')! : null);
-  const owned = new Set(([] as string[]).concat(answers.owned ?? []).filter((v) => v !== 'none'));
-  const skill = one('skill') ?? 'some';
+  // "Other" answers arrive as free text in <key>_text; read them with rules so any wording works.
+  const txt = (k: string) => String(answers[`${k}_text`] ?? '').trim().toLowerCase();
+  const deadline = goal.deadline ?? (one('deadline') === 'other' ? parseConstraints(txt('deadline')).deadline
+    : one('deadline') && one('deadline') !== 'any' ? one('deadline')! : null);
+  const owned = new Set(([] as string[]).concat(answers.owned ?? []).filter((v) => v !== 'none' && v !== 'other'));
+  const skill = one('skill') === 'other'
+    ? (/buy|ready|no time|busy|lazy/.test(txt('skill')) ? 'none' : /love|project|craft|sew|diy|make|handy|build/.test(txt('skill')) ? 'crafty' : 'some')
+    : one('skill') ?? 'some';
   run('UPDATE goals SET answers = ?, budget_pence = ?, deadline = ? WHERE id = ?', JSON.stringify(answers), budget, deadline, goal.id);
   Object.assign(goal, { budget_pence: budget, deadline });
 
@@ -80,8 +87,16 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
   try {
     const comps = all<any>('SELECT * FROM components WHERE goal_id = ? ORDER BY rowid', goal.id).map((c) => ({ id: c.id, name: c.name, tag: c.tag, tags: J<string[]>(c.tags, []) }));
     // Answers that are catalogue tags (e.g. 'adult', 'kids', 'black') steer ranking within each route.
-    const prefs = Object.values(answers).flat().filter((v): v is string => typeof v === 'string' && (TAGS as readonly string[]).includes(v));
+    const typed = Object.keys(answers).filter((k) => k.endsWith('_text')).flatMap((k) => txt(k.slice(0, -5)).split(/[^a-z0-9-]+/));
+    const prefs = [...Object.values(answers).flat(), ...typed].filter((v): v is string => typeof v === 'string' && (TAGS as readonly string[]).includes(v));
     for (const c of comps) c.tags.push(...prefs.filter((t) => !c.tags.includes(t)));
+    // "I already have red boots" → the Boots part counts as owned.
+    const ownedText = txt('owned');
+    if (ownedText) {
+      for (const c of comps)
+        if ([c.tag, ...c.name.toLowerCase().split(/[^a-z-]+/)].some((w) => w.length > 3 && !COLOURS.has(w) && ownedText.includes(w.replace(/s$/, '')))) owned.add(c.id);
+      run('UPDATE goals SET answers = ? WHERE id = ?', JSON.stringify({ ...answers, owned: [...owned] }), goal.id);
+    }
     const x: ScoutCtx = { lat: goal.lat, lng: goal.lng, owned, skill, deadlineDays: deadlineDays(deadline) };
     send({ t: 'status', agent: 'Orchestrator', text: `${comps.length} parts. Sending ${comps.length * ROUTE_ORDER.length} scouts out around ${goal.area}.` });
     send({ t: 'components', components: comps.map(({ id, name, tag }) => ({ id, name, tag })) });
@@ -276,8 +291,11 @@ shopRouter.get('/wanted', (req, res) => {
 });
 
 shopRouter.post('/listings', async (req, res) => {
-  const { title, pricePence, areaId, seller, condition, description } = req.body ?? {};
-  if (!title || typeof title !== 'string') return void res.status(400).json({ error: 'What are you selling?' });
+  const { pricePence, areaId, seller, condition, description } = req.body ?? {};
+  if (!req.body?.title || typeof req.body.title !== 'string') return void res.status(400).json({ error: 'What are you selling?' });
+  // Brand goes in front of the title so shoppers see it ("IKEA Kallax insert"), unless it's already there.
+  const brand = typeof req.body.brand === 'string' ? req.body.brand.trim().slice(0, 40) : '';
+  const title = brand && !req.body.title.toLowerCase().includes(brand.toLowerCase()) ? `${brand} ${req.body.title}` : req.body.title;
   const a = AREAS.find((x) => x.id === areaId) ?? DEFAULT_AREA;
   const { tags, by } = await autoTag(title, description ?? '');
   const lid = id('s');
@@ -286,5 +304,5 @@ shopRouter.post('/listings', async (req, res) => {
     lid, title.slice(0, 80), description ?? '', Math.max(0, Math.round(Number(pricePence) || 0)), JSON.stringify(tags), condition || 'good', seller || 'A neighbour', a.name, a.lat + r * Math.cos(t), a.lng + r * Math.sin(t) * 1.6);
   logEvent('listing.created', title, a.name, null, { tags });
   track('Listing agent', `Listed "${title}" in ${a.name}`, `tags: ${tags.join(', ')} · ${by === 'grok' ? 'Grok' : 'rules'}`);
-  res.json({ id: lid, tags, area: a.name });
+  res.json({ id: lid, title, tags, area: a.name });
 });

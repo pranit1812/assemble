@@ -229,5 +229,168 @@
         "note": "Clips loose chargers out of sight"
       }
     ]
+  },
+  {
+    "id": "witch",
+    "title": "Witch costume",
+    "match": [
+      "witch",
+      "witches"
+    ],
+    "whole_tag": "witch",
+    "components": [
+      {
+        "id": "hat",
+        "name": "Witch hat",
+        "tag": "hat",
+        "tags": [
+          "hat",
+          "witch",
+          "black"
+        ],
+        "note": "Card and black paint make a great one"
+      },
+      {
+        "id": "cloak",
+        "name": "Black cloak",
+        "tag": "cape",
+        "tags": [
+          "cape",
+          "black"
+        ],
+        "note": "Any black cape or 1m of black fabric"
+      },
+      {
+        "id": "paint",
+        "name": "Face paint",
+        "tag": "face-paint",
+        "tags": [
+          "face-paint",
+          "halloween"
+        ],
+        "note": "Green or a few dark dots is plenty"
+      },
+      {
+        "id": "wig",
+        "name": "Wig",
+        "tag": "wig",
+        "tags": [
+          "wig",
+          "witch",
+          "black"
+        ],
+        "note": "Optional, messy hair works too"
+      }
+    ]
+  },
+  {
+    "id": "lamp",
+    "title": "Fix a lamp",
+    "match": [
+      "lamp",
+      "light won",
+      "light doesn",
+      "light isn",
+      "light not",
+      "light stopped"
+    ],
+    "whole_tag": "lamp",
+    "repair": true,
+    "components": [
+      {
+        "id": "bulb",
+        "name": "Bulb",
+        "tag": "bulb",
+        "tags": [
+          "bulb",
+          "lamp"
+        ],
+        "note": "Try a bulb you know works first"
+      },
+      {
+        "id": "fuse",
+        "name": "Plug fuse",
+        "tag": "fuse",
+        "tags": [
+          "fuse",
+          "plug"
+        ],
+        "note": "A 3A or 5A fuse in the plug"
+      },
+      {
+        "id": "switch",
+        "name": "Switch",
+        "tag": "lamp-switch",
+        "tags": [
+          "lamp-switch",
+          "lamp"
+        ],
+        "note": "Inline switches wear out; 15-minute swap"
+      },
+      {
+        "id": "repair",
+        "name": "Repair if it is the wiring",
+        "tag": "repair-visit",
+        "tags": [
+          "repair-visit",
+          "lamp"
+        ],
+        "note": "A repair café rewires it while you wait"
+      }
+    ]
+  },
+  {
+    "id": "washer",
+    "title": "Fix the washing machine",
+    "match": [
+      "washing machine",
+      "washer",
+      "washing-machine"
+    ],
+    "whole_tag": "washing-machine",
+    "repair": true,
+    "components": [
+      {
+        "id": "filter",
+        "name": "Drain filter",
+        "tag": "drain-filter",
+        "tags": [
+          "drain-filter",
+          "washing-machine"
+        ],
+        "note": "Most 'won't drain' problems are a blocked filter"
+      },
+      {
+        "id": "hose",
+        "name": "Drain hose",
+        "tag": "drain-hose",
+        "tags": [
+          "drain-hose",
+          "washing-machine"
+        ],
+        "note": "A kinked hose stops draining too"
+      },
+      {
+        "id": "seal",
+        "name": "Door seal",
+        "tag": "door-seal",
+        "tags": [
+          "door-seal",
+          "washing-machine"
+        ],
+        "note": "If it leaks from the door"
+      },
+      {
+        "id": "engineer",
+        "name": "Engineer, if it is the pump or motor",
+        "tag": "engineer",
+        "tags": [
+          "engineer",
+          "washing-machine",
+          "appliance"
+        ],
+        "note": "Drum, pump or electronics need a pro"
+      }
+    ]
   }
 ]

@@ -44,8 +44,26 @@ export function AgentNoteView({ b }: { b: BlockOf<'AgentNote'> }) {
   );
 }
 
+// Budget is a slider line: £5 … £200, then "No limit" at the far end.
+const BUDGET_STEPS = [5, 10, 15, 20, 25, 30, 40, 50, 60, 80, 100, 150, 200];
+const OTHER_HINT: Record<string, string> = { owned: 'e.g. red boots, a black belt', deadline: 'e.g. Saturday morning', skill: 'e.g. I can sew a little' };
+
+function BudgetSlider({ value, onChange }: { value: number; onChange: (i: number) => void }) {
+  const max = BUDGET_STEPS.length;
+  return (
+    <div className="mt-4">
+      <div className="font-mono text-3xl text-ink">{value >= max ? 'No limit' : `£${BUDGET_STEPS[value]}`}</div>
+      <input type="range" min={0} max={max} step={1} value={value} onChange={(e) => onChange(+e.target.value)} aria-label="Budget"
+        className="slider mt-3 w-full" style={{ '--p': `${(value / max) * 100}%` } as React.CSSProperties} />
+      <div className="mt-1.5 flex justify-between text-[11px] text-faint"><span>£5</span><span>No limit</span></div>
+    </div>
+  );
+}
+
 export function ClarifyGroup({ cards, onSubmit, busy }: { cards: BlockOf<'ClarifyCard'>[]; onSubmit: (a: Record<string, string | string[]>) => void; busy: boolean }) {
   const [ans, setAns] = useState<Record<string, string[]>>(() => Object.fromEntries(cards.filter((c) => c.selected?.length).map((c) => [c.key, c.selected!])));
+  const [text, setText] = useState<Record<string, string>>({});
+  const [budget, setBudget] = useState(BUDGET_STEPS.indexOf(40));
   const toggle = (c: BlockOf<'ClarifyCard'>, v: string) =>
     setAns((a) => {
       const cur = a[c.key] ?? [];
@@ -54,29 +72,50 @@ export function ClarifyGroup({ cards, onSubmit, busy }: { cards: BlockOf<'Clarif
       const next = cur.includes(v) ? cur.filter((x) => x !== v) : [...cur.filter((x) => x !== 'none'), v];
       return { ...a, [c.key]: next };
     });
-  const ready = cards.every((c) => c.multi || (ans[c.key]?.length ?? 0) > 0);
+  const otherOn = (k: string) => !!ans[k]?.includes('other');
+  const ready = cards.every((c) => c.key === 'budget' || (otherOn(c.key) ? !!text[c.key]?.trim() : c.multi || (ans[c.key]?.length ?? 0) > 0));
+  const submit = () => {
+    const out: Record<string, string | string[]> = {};
+    for (const c of cards) {
+      if (c.key === 'budget') { out.budget = budget >= BUDGET_STEPS.length ? 'any' : String(BUDGET_STEPS[budget] * 100); continue; }
+      const v = ans[c.key] ?? [];
+      if (c.multi) out[c.key] = v.filter((x) => x !== 'other');
+      else if (v[0]) out[c.key] = v[0];
+      if (otherOn(c.key) && text[c.key]?.trim()) out[`${c.key}_text`] = text[c.key].trim();
+    }
+    onSubmit(out);
+  };
   return (
     <div className="rise space-y-6 rounded-3xl border border-line bg-card p-6 shadow-[var(--shadow-soft)] sm:p-8">
       {cards.map((c, i) => (
         <div key={c.key} className="rise" style={{ animationDelay: `${i * 90}ms` }}>
           <div className="font-display text-2xl text-ink">{c.question}</div>
-          {c.multi && <div className="mt-0.5 text-xs text-muted">Pick any</div>}
-          <div className="mt-3 flex flex-wrap gap-2">
-            {c.options.map((o) => {
-              const on = ans[c.key]?.includes(o.value);
-              return (
-                <button key={o.value} onClick={() => toggle(c, o.value)}
-                  className={`rounded-full border px-4 py-2 text-sm transition ${on ? 'border-ink bg-ink text-paper' : 'border-line bg-paper/60 text-ink hover:border-ink/40'}`}>
-                  {o.label}
-                </button>
-              );
-            })}
-          </div>
+          {c.key === 'budget' ? <BudgetSlider value={budget} onChange={setBudget} /> : (
+            <>
+              {c.multi && <div className="mt-0.5 text-xs text-muted">Pick any</div>}
+              <div className="mt-3 flex flex-wrap gap-2">
+                {[...c.options, { label: 'Other', value: 'other' }].map((o) => {
+                  const on = ans[c.key]?.includes(o.value);
+                  return (
+                    <button key={o.value} onClick={() => toggle(c, o.value)}
+                      className={`rounded-full border px-4 py-2 text-sm transition ${on ? 'border-ink bg-ink text-paper' : 'border-line bg-paper/60 text-ink hover:border-ink/40'}`}>
+                      {o.label}
+                    </button>
+                  );
+                })}
+              </div>
+              {otherOn(c.key) && (
+                <input autoFocus value={text[c.key] ?? ''} onChange={(e) => setText((t) => ({ ...t, [c.key]: e.target.value }))}
+                  onKeyDown={(e) => e.key === 'Enter' && ready && !busy && submit()} placeholder={OTHER_HINT[c.key] ?? 'Type your answer'}
+                  className="rise mt-3 w-full rounded-xl border border-line bg-paper/60 px-3.5 py-2.5 text-[15px] text-ink outline-none placeholder:text-faint focus:border-ink/40" />
+              )}
+            </>
+          )}
         </div>
       ))}
       <div className="flex items-center justify-between gap-4 border-t border-line pt-5">
         <span className="text-xs text-muted">We search in this order: own, make, neighbours, local shops, parts, new.</span>
-        <button disabled={!ready || busy} onClick={() => onSubmit(Object.fromEntries(Object.entries(ans).map(([k, v]) => [k, cards.find((c) => c.key === k)?.multi ? v : v[0]])))}
+        <button disabled={!ready || busy} onClick={submit}
           className="shrink-0 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-white transition hover:brightness-110 disabled:opacity-40">
           {busy ? 'Scouting…' : 'Find my routes →'}
         </button>

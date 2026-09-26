@@ -529,5 +529,115 @@
       "Glue each new strip over the end of the last.",
       "Fold the final strip over the rim and glue it inside."
     ]
+  },
+  {
+    "id": "g_lamp_check",
+    "merchant_id": null,
+    "title": "Two-minute lamp check: bulb and fuse",
+    "tags": [
+      "bulb",
+      "fuse",
+      "lamp"
+    ],
+    "difficulty": "easy",
+    "minutes": 5,
+    "cost_pence": 0,
+    "materials": [
+      "A bulb that works in another lamp",
+      "Small screwdriver"
+    ],
+    "steps": [
+      "Unplug the lamp.",
+      "Try a bulb you know works.",
+      "Still dead? Open the plug and swap the fuse (3A or 5A).",
+      "Plug it into a socket you know works.",
+      "Still nothing? It is the switch or the cable."
+    ]
+  },
+  {
+    "id": "g_lamp_switch",
+    "merchant_id": null,
+    "title": "Swap an inline lamp switch",
+    "tags": [
+      "lamp-switch",
+      "lamp"
+    ],
+    "difficulty": "easy",
+    "minutes": 15,
+    "cost_pence": 280,
+    "materials": [
+      "Inline switch",
+      "Small screwdriver"
+    ],
+    "steps": [
+      "Unplug the lamp.",
+      "Unscrew the old switch and note which wire goes where.",
+      "Fit the wires into the new switch the same way.",
+      "Screw the cover back on and test."
+    ]
+  },
+  {
+    "id": "g_drain_filter",
+    "merchant_id": null,
+    "title": "Clean the drain filter (fixes most \"won't drain\")",
+    "tags": [
+      "drain-filter",
+      "washing-machine"
+    ],
+    "difficulty": "easy",
+    "minutes": 20,
+    "cost_pence": 0,
+    "materials": [
+      "Towel",
+      "Shallow tray"
+    ],
+    "steps": [
+      "Turn the machine off at the wall.",
+      "Open the small flap at the bottom front.",
+      "Put down a towel and tray, then slowly unscrew the filter.",
+      "Pull out fluff, coins and hair. Rinse it.",
+      "Screw it back tight and run a rinse cycle."
+    ]
+  },
+  {
+    "id": "g_door_seal",
+    "merchant_id": null,
+    "title": "Check the door seal for leaks",
+    "tags": [
+      "door-seal",
+      "washing-machine"
+    ],
+    "difficulty": "easy",
+    "minutes": 10,
+    "cost_pence": 0,
+    "materials": [
+      "Cloth",
+      "Torch"
+    ],
+    "steps": [
+      "Pull back the rubber seal and look for tears or trapped socks.",
+      "Wipe out grime; a dirty seal can leak too.",
+      "Torn? Note the model number on the door frame and get a new seal."
+    ]
+  },
+  {
+    "id": "g_drain_hose",
+    "merchant_id": null,
+    "title": "Check the drain hose for kinks",
+    "tags": [
+      "drain-hose",
+      "washing-machine"
+    ],
+    "difficulty": "easy",
+    "minutes": 10,
+    "cost_pence": 0,
+    "materials": [
+      "Torch"
+    ],
+    "steps": [
+      "Pull the machine out a little.",
+      "Follow the grey hose from the back to the drain.",
+      "Straighten any kinks and check it is not pushed too far into the pipe."
+    ]
   }
 ]

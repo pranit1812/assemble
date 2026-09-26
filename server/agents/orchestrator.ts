@@ -60,8 +60,13 @@ function sanitize(cs: Comp[]): Comp[] {
 }
 
 const GENERIC = new Set(['costume', 'halloween', 'kids', 'adult', 'red', 'blue', 'yellow', 'black', 'craft', 'party', 'garden', 'electronics']);
+const REPAIR = /\b(broken|broke|not working|isn'?t working|doesn'?t work|won'?t (work|turn|drain|spin|start|switch)|stopped working|leak(s|ing)?|fix|repair|faulty)\b/i;
+
 export const cleanTitle = (text: string) => {
-  const t = text.replace(/^\s*(i('d| would)? (want|need|like|would like|'d like) to|help me|how (do|can) i)\s+(be|make|build|get|create|prototype|find|buy)?\s*(a|an|some|my)?\s*/i, '').replace(/[,.].*$/, '').trim().slice(0, 40);
+  let t = text.replace(/^\s*(i('d| would)? (want|need|like|would like|'d like) to|help me|how (do|can) i)\s+(be|make|build|get|create|prototype|find|buy)?\s*(a|an|some|my)?\s*/i, '').replace(/[,.].*$/, '')
+    // Budget and deadline are shown separately, so drop them from the title ("… by tomorrow", "under £20").
+    .replace(/\s+(by|before|for|under|within|in)\s+(today|tonight|tomorrow|next week|this week|\w+day|£\s?\d+\S*|\d+\s?(quid|pounds|days?|weeks?))\b.*$/i, '').trim();
+  if (t.length > 40) t = t.slice(0, 40).replace(/\s+\S*$/, '');
   return t ? t[0].toUpperCase() + t.slice(1) : 'Your goal';
 };
 
@@ -96,13 +101,22 @@ export async function intake(text: string, image?: string) {
   } else {
     components = genericComponents(text);
     title = components[0].name;
+    // Something broken we have no recipe for: a repair shop first, a replacement second.
+    if (REPAIR.test(text)) {
+      const thing = components[0];
+      components = [{ id: 'fix', name: 'Repair café or engineer', tag: 'repair-visit', tags: ['repair-visit'] },
+        ...(thing.tag === 'craft' ? [] : [{ ...thing, name: "A replacement, if it's not worth fixing" }])];
+    }
   }
+  const repair = REPAIR.test(text) || ['lamp', 'washer'].includes(recipe?.id ?? '');
   const budgetPence = parsed.budgetPence ?? out?.budgetPence ?? null;
   const deadline = parsed.deadline ?? out?.deadline ?? null;
   const dl = deadlineLabel(deadline);
   const restated =
     (out?.seen ? `${out.seen} ` : '') + (out?.restated ??
-    `${title}${budgetPence ? `, under £${budgetPence / 100}` : ''}${dl ? `, by ${dl}` : ''}. I'll check what you own, what neighbours and local shops have, and only then what's new.`);
+    `${title}${budgetPence ? `, under £${budgetPence / 100}` : ''}${dl ? `, by ${dl}` : ''}.${repair ? '' : " I'll check what you own, what neighbours and local shops have, and only then what's new."}`) +
+    // Be honest about what we can't do, and say what we can.
+    (repair ? " I can't come round and fix it, but here's how I can help: free checks you can try first, the part if it's a simple swap, a repair shop nearby if it isn't, and a secondhand replacement if it's not worth fixing." : '');
 
   const cards: BlockOf<'ClarifyCard'>[] = [];
   if (budgetPence == null)

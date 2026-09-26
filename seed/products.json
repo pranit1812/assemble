@@ -511,6 +511,7 @@
   "description": "Floor-length black cloak with a red lining and high collar.",
   "price_pence": 1400,
   "tags": [
+    "cape",
    "vampire",
    "costume",
    "black",
@@ -1682,5 +1683,184 @@
   "kind": "complete",
   "stock": 20,
   "eta_days": 2
- }
+ },
+  {
+    "id": "p200",
+    "merchant_id": "m_fixers",
+    "title": "LED bulb, E27 / B22",
+    "description": "Warm white, fits most lamps.",
+    "price_pence": 350,
+    "tags": [
+      "bulb",
+      "lamp",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p201",
+    "merchant_id": "m_fixers",
+    "title": "Plug fuses, 3A and 5A, 4 pack",
+    "description": "The usual culprit when a lamp dies.",
+    "price_pence": 150,
+    "tags": [
+      "fuse",
+      "plug",
+      "lamp",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p202",
+    "merchant_id": "m_fixers",
+    "title": "Inline lamp switch",
+    "description": "Fitted free if you bring the lamp in.",
+    "price_pence": 280,
+    "tags": [
+      "lamp-switch",
+      "lamp",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p203",
+    "merchant_id": "m_fixers",
+    "title": "Lamp rewire while you wait",
+    "description": "New flex, switch and plug. About 30 minutes.",
+    "price_pence": 1200,
+    "tags": [
+      "repair-visit",
+      "lamp",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p204",
+    "merchant_id": "m_fixers",
+    "title": "Washing machine door seal (most brands)",
+    "description": "Bring your model number, we check fit.",
+    "price_pence": 2400,
+    "tags": [
+      "door-seal",
+      "washing-machine",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p205",
+    "merchant_id": "m_fixers",
+    "title": "Drain hose, 1.5m universal",
+    "description": "Fits most front loaders.",
+    "price_pence": 800,
+    "tags": [
+      "drain-hose",
+      "washing-machine",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p206",
+    "merchant_id": "m_fixers",
+    "title": "Appliance repair visit (Hackney)",
+    "description": "Call-out and first 30 minutes. Pumps, motors, electronics.",
+    "price_pence": 4500,
+    "tags": [
+      "engineer",
+      "washing-machine",
+      "appliance",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p207",
+    "merchant_id": "m_fixers",
+    "title": "Repair café drop-in (small appliances)",
+    "description": "Toasters, kettles, radios, lamps. Pay what it takes.",
+    "price_pence": 1000,
+    "tags": [
+      "repair-visit",
+      "repair"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p208",
+    "merchant_id": "m_hardware",
+    "title": "LED bulb, 2 pack",
+    "description": "E27 screw fit.",
+    "price_pence": 450,
+    "tags": [
+      "bulb",
+      "lamp"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p209",
+    "merchant_id": "m_hardware",
+    "title": "Plug fuses, 13A/5A/3A mixed",
+    "description": "Mixed pack of 10.",
+    "price_pence": 200,
+    "tags": [
+      "fuse",
+      "plug"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 0
+  },
+  {
+    "id": "p210",
+    "merchant_id": "m_nest",
+    "title": "Table lamp, linen shade",
+    "description": "New, delivered in 2 days.",
+    "price_pence": 1800,
+    "tags": [
+      "lamp",
+      "home",
+      "lights"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 2
+  },
+  {
+    "id": "p211",
+    "merchant_id": "m_nest",
+    "title": "Washing machine, 8kg, A-rated",
+    "description": "New, delivered and installed.",
+    "price_pence": 27900,
+    "tags": [
+      "washing-machine",
+      "appliance",
+      "home"
+    ],
+    "kind": "complete",
+    "stock": 10,
+    "eta_days": 3
+  }
 ]

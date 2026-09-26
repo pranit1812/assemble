@@ -16,6 +16,8 @@ export const TAGS = [
   '3d-print', 'pla', 'drill', 'electronics', 'garden', 'craft', 'party', 'lights',
   // home organising / room decor
   'home', 'storage', 'shelf', 'shelf-riser', 'box', 'basket', 'crate', 'drawer', 'divider', 'hooks', 'rail', 'label', 'magazine-file', 'cable-tidy', 'wood', 'fabric-bin', 'wall-mount', 'tray', 'shelf-organiser-set',
+  // repairs
+  'repair', 'repair-visit', 'engineer', 'appliance', 'lamp', 'bulb', 'fuse', 'plug', 'lamp-switch', 'washing-machine', 'drain-filter', 'drain-hose', 'door-seal',
 ] as const;
 export type Tag = (typeof TAGS)[number];
 export const isTag = (t: string): t is Tag => (TAGS as readonly string[]).includes(t);

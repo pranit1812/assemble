@@ -1,0 +1,14 @@
+# Every PR and push: types, build, then the golden flows against a fresh seeded server.
+name: check
+on: [pull_request, push]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run check
+      - run: npx tsx seed/seed.ts
+      - run: (PORT=3000 npm start > server.log 2>&1 &) && BASE=http://localhost:3000 npm run smoke || (cat server.log; exit 1)

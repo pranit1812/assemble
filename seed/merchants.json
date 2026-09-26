@@ -10,5 +10,20 @@
   {"id":"m_camden","name":"Camden Costume Cupboard","kind":"local","category":"costume","area":"Camden","address":"190 Camden High Street, London NW1 8QP","email":"hire@camdencupboard.example","hours":"Daily 11:00-19:00","blurb":"Wigs, masks and hire costumes in a basement a few doors from the lock.","lat":51.5405,"lng":-0.144,"walk_in":true,"api_key":"mk_live_41f6d0a8e93b"},
   {"id":"m_peckham","name":"Bellenden Plant Shed","kind":"local","category":"garden","area":"Peckham","address":"74 Bellenden Road, London SE15 4RQ","email":"shed@bellendenplants.example","hours":"Wed-Sun 10:00-17:00","blurb":"A tiny plant shop with herbs, troughs and a watering-can refill bar out the back.","lat":51.4705,"lng":-0.0712,"walk_in":true,"api_key":"mk_live_b86c3e1f0a27"},
   {"id":"m_nest","name":"Nest & Shelf","kind":"online","category":"craft","area":null,"address":"Online, ships UK-wide","email":"hello@nestandshelf.example","hours":"Online 24/7, dispatch Mon-Fri","blurb":"Boxes, baskets and shelf fittings for small London homes, sent flat to save space.","lat":null,"lng":null,"walk_in":false,"api_key":"mk_live_6ad2f19e03c7"},
-  {"id":"m_charity","name":"Mare Street Charity Shop","kind":"local","category":"hardware","area":"Hackney","address":"176 Mare Street, London E8 3RD","email":"volunteers@marestreetcharity.example","hours":"Mon-Sat 10:00-17:00","blurb":"Donated baskets, boxes and homeware, cleaned by volunteers and priced to find a second home.","lat":51.5392,"lng":-0.0569,"walk_in":true,"api_key":"mk_live_d3b870c5a21e"}
+  {"id":"m_charity","name":"Mare Street Charity Shop","kind":"local","category":"hardware","area":"Hackney","address":"176 Mare Street, London E8 3RD","email":"volunteers@marestreetcharity.example","hours":"Mon-Sat 10:00-17:00","blurb":"Donated baskets, boxes and homeware, cleaned by volunteers and priced to find a second home.","lat":51.5392,"lng":-0.0569,"walk_in":true,"api_key":"mk_live_d3b870c5a21e"},
+  {
+    "id": "m_fixers",
+    "name": "Hackney Fixers",
+    "kind": "local",
+    "category": "repair",
+    "area": "Hackney",
+    "address": "203 Mare Street, London E8 3QE",
+    "email": "hello@hackneyfixers.example",
+    "hours": "Tue-Sat 10:00-18:00",
+    "blurb": "Repair café and appliance spares. Most lamps and small appliances fixed while you wait.",
+    "lat": 51.5452,
+    "lng": -0.0561,
+    "walk_in": true,
+    "api_key": "mk_live_hackneyfixers"
+  }
 ]
