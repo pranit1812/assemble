@@ -10,6 +10,7 @@ import { opsRouter } from './routes/ops';
 import { recipesRouter } from './routes/recipes';
 import { bridgeRouter } from './routes/bridge';
 import { visionRouter, UPLOADS } from './routes/vision';
+import { ownerRouter } from './routes/owner';
 import { TAGS } from '../shared/tags';
 import { z } from 'zod';
 import { llmJSON, llmStatus } from './llm';
@@ -31,6 +32,7 @@ app.get('/api/ops/tags', (_q, s) => { s.json(TAGS); });
 app.use('/api/ops/recipes', recipesRouter); // owner: lead
 app.use('/api/briefs', bridgeRouter);       // owner: lead
 app.use('/api/vision', visionRouter);       // owner: lead (Grok-bot vision)
+app.use('/api/owner', ownerRouter);         // owner: lead
 app.use('/uploads', express.static(UPLOADS));
 app.use('/api/ops', opsRouter);        // owner: Cursor
 app.use('/v1', v1Router);              // owner: Codex
