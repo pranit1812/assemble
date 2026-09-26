@@ -183,7 +183,7 @@ const smooth = (a: number, b: number, x: number) => {
 
 /** Leg path: hip joint -> thigh -> knee -> calf -> ankle -> instep -> toe. */
 export const LEG_KNOTS: [number, number, number][] = [
-  [0.088, 0.95, 0.0],
+  [0.084, 0.96, 0.0],
   [0.097, 0.76, 0.012],
   [0.105, 0.5, 0.014],
   [0.108, 0.3, -0.008],
@@ -206,7 +206,8 @@ const LEG_Y: number[][] = [
   [0.58, 0.058, 0.06, 0.004],
   [0.7, 0.071, 0.074, 0.004],
   [0.82, 0.082, 0.082, 0.0],
-  [0.95, 0.085, 0.085, 0.0],
+  [0.9, 0.084, 0.084, 0.0],
+  [0.96, 0.062, 0.066, 0.0], // tapers inside the pelvis so no rim shows at the hip
 ];
 // foot section by forward distance: z, rx (width), rz (height), off
 const FOOT_Z: number[][] = [
@@ -247,8 +248,8 @@ export function uAtHeight(curve: THREE.Curve<THREE.Vector3>, y: number): number 
 }
 
 const ARM_KNOTS: [number, number, number][] = [
-  [0.14, 1.415, -0.01],
-  [0.19, 1.37, -0.012],
+  [0.16, 1.44, -0.01],
+  [0.198, 1.375, -0.012],
   [0.215, 1.26, -0.02],
   [0.235, 1.12, -0.03],
   [0.252, 1.0, -0.012],
@@ -272,21 +273,24 @@ const ARM_Y: number[][] = [
 
 // torso (elliptical lathe): y, half-width, half-depth, forward shift
 const TORSO_Y: number[][] = [
-  [0.81, 0.07, 0.055, -0.012],
-  [0.845, 0.118, 0.082, -0.01],
-  [0.89, 0.152, 0.1, -0.008],
-  [0.94, 0.158, 0.1, -0.004],
+  [0.845, 0.075, 0.058, -0.01],
+  [0.875, 0.128, 0.088, -0.008],
+  [0.915, 0.154, 0.1, -0.006],
+  [0.95, 0.156, 0.099, -0.004],
   [1.0, 0.143, 0.094, 0.0],
   [1.07, 0.14, 0.098, 0.004],
   [1.17, 0.152, 0.108, 0.01],
   [1.27, 0.166, 0.118, 0.012],
-  [1.33, 0.172, 0.117, 0.008],
-  [1.39, 0.173, 0.108, 0.0],
-  [1.44, 0.155, 0.093, -0.006],
-  [1.475, 0.105, 0.072, -0.01],
-  [1.5, 0.064, 0.058, -0.01],
+  [1.33, 0.174, 0.117, 0.008],
+  [1.39, 0.18, 0.109, 0.0],
+  [1.43, 0.178, 0.099, -0.005],
+  [1.46, 0.155, 0.086, -0.009],
+  [1.485, 0.1, 0.068, -0.01],
+  [1.505, 0.064, 0.058, -0.01],
   [1.515, 0.057, 0.054, -0.01],
 ];
+const T0 = 0.845;
+const TLEN = 1.515 - T0;
 
 const HEAD_Y: number[][] = [
   [1.575, 0.042, 0.05, 0.02],
@@ -371,7 +375,7 @@ export function buildSuit(): THREE.Group {
 
   // torso: elliptical lathe; leggings below the top's hem at y 0.93
   const HEM = 0.93;
-  const torsoLine = new THREE.LineCurve3(new THREE.Vector3(0, 0.8, 0), new THREE.Vector3(0, 1.515, 0));
+  const torsoLine = new THREE.LineCurve3(new THREE.Vector3(0, T0, 0), new THREE.Vector3(0, T0 + TLEN, 0));
   const torso = sweep(torsoLine, {
     lenSegs: 60,
     radSegs: 48,
@@ -380,9 +384,9 @@ export function buildSuit(): THREE.Group {
       const [rx, rz, off] = keyed(TORSO_Y, p.y);
       return { rx, rz, off };
     },
-    capStart: 0.04,
+    capStart: 0.03,
     displace: (p) => ridge(p.y, HEM + 0.008, 0.006, 0.0035) - ridge(p.y, 0.985, 0.004, 0.0012),
-    splitU: [(HEM - 0.8) / 0.715],
+    splitU: [(HEM - T0) / TLEN],
   });
   add('suit-torso', torso.geometry, [leggings, top]);
 
@@ -449,7 +453,7 @@ export function buildSuit(): THREE.Group {
   for (const side of [1, -1] as const) {
     const pts: THREE.Vector3[] = [];
     for (let k = 0; k <= 20; k++) {
-      const u = (HEM + 0.015 - 0.8) / 0.715 + ((1.37 - HEM - 0.015) / 0.715) * (k / 20);
+      const u = (HEM + 0.015 - T0) / TLEN + ((1.37 - HEM - 0.015) / TLEN) * (k / 20);
       pts.push(torso.surface(u, (side * Math.PI) / 2, 0.0008));
     }
     const seam = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 32, 0.0016, 4, false);
