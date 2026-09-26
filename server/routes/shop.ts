@@ -68,6 +68,9 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
 
   try {
     const comps = all<any>('SELECT * FROM components WHERE goal_id = ? ORDER BY rowid', goal.id).map((c) => ({ id: c.id, name: c.name, tag: c.tag, tags: J<string[]>(c.tags, []) }));
+    // Answers that are catalogue tags (e.g. 'adult', 'kids', 'black') steer ranking within each route.
+    const prefs = Object.values(answers).flat().filter((v): v is string => typeof v === 'string' && (TAGS as readonly string[]).includes(v));
+    for (const c of comps) c.tags.push(...prefs.filter((t) => !c.tags.includes(t)));
     const x: ScoutCtx = { lat: goal.lat, lng: goal.lng, owned, skill, deadlineDays: deadlineDays(deadline) };
     send({ t: 'status', agent: 'Orchestrator', text: `${comps.length} parts. Sending ${comps.length * ROUTE_ORDER.length} scouts out around ${goal.area}.` });
     send({ t: 'components', components: comps.map(({ id, name, tag }) => ({ id, name, tag })) });
