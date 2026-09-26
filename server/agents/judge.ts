@@ -56,6 +56,8 @@ export async function judgeWhys(
   skill: string,
   allNewPence: number,
 ) {
+  // Parts nobody nearby has: the honest written summary beats the model's "£0 vs £0".
+  if (comps.some((c) => !c.pick)) return { whys: {}, summary: ruleSummary(goal.budgetPence, comps, allNewPence) };
   const out = await llmJSON({
     messages: [
       { role: 'system', content: JUDGE_SYSTEM },
