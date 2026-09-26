@@ -10,6 +10,7 @@ import { SCOUTS, wholeProduct, type ScoutCtx } from '../agents/scouts';
 import { score, rank, pickPlan, judgeWhys } from '../agents/judge';
 import { compose, guidesFor, type GoalRow } from '../agents/composer';
 import { queueRecipe } from './recipes';
+import { offersForGoal } from './bridge';
 
 export const shopRouter = Router();
 
@@ -89,7 +90,8 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
     const whole = wholeProduct(recipe?.whole_tag ?? null);
 
     const bd: BlockOf<'Breakdown'> = { type: 'Breakdown', goal: goal.title, components: results.map(({ c, options }) => {
-      const unmet = !options.some((o) => o.tag === 'Secondhand' || o.tag === 'Local');
+      // Unmet = nothing ready-made within 3 km (materials to make it yourself don't count).
+      const unmet = !options.some((o) => (o.tag === 'Secondhand' || (o.tag === 'Local' && !o.makeIt)) && (o.source.distanceKm ?? 99) <= 3);
       return { id: c.id, name: c.name, options, pickId: picks[c.id], briefOpen: unmet };
     }) };
 
@@ -165,6 +167,31 @@ shopRouter.post('/goals/:id/acquire', (req, res) => {
   const allAcquired = st.bd.components.every((c) => acq[c.id]);
   if (allAcquired) run("UPDATE goals SET status = 'assembled' WHERE id = ?", goal.id);
   res.json({ blocks: compose(goal, st.bd, acq, st.note, st.wholeNewPence), allAcquired });
+});
+
+// Live offers from shops answering this shopper's briefs.
+shopRouter.get('/goals/:id/offers', (req, res) => { res.json(offersForGoal(req.params.id)); });
+
+// Re-run the scouts for one component (e.g. after a shop answered its brief).
+shopRouter.post('/goals/:id/rescout', (req, res) => {
+  const goal = loadGoal(req.params.id);
+  const st = J<State | null>(goal?.blocks, null);
+  if (!goal || !st) return void res.status(404).json({ error: 'No plan yet' });
+  const row = get<any>('SELECT * FROM components WHERE goal_id = ? AND id = ?', goal.id, req.body?.componentId);
+  const c = st.bd.components.find((k) => k.id === row?.id);
+  if (!row || !c) return void res.status(400).json({ error: 'Unknown component' });
+  const answers = J<Record<string, any>>(get<any>('SELECT answers FROM goals WHERE id = ?', goal.id)?.answers, {});
+  const x: ScoutCtx = { lat: goal.lat, lng: goal.lng, owned: new Set(([] as string[]).concat(answers.owned ?? []).filter((v) => v !== 'none')),
+    skill: (Array.isArray(answers.skill) ? answers.skill[0] : answers.skill) ?? 'some', deadlineDays: deadlineDays(goal.deadline) };
+  const comp = { id: row.id, name: row.name, tag: row.tag, tags: J<string[]>(row.tags, []) };
+  const fresh = rank(ROUTE_ORDER.flatMap((r) => SCOUTS[r](comp, x)).map((o) => score(o, x)));
+  const keep = c.options.find((o) => o.id === c.pickId);
+  c.options = fresh.map((o) => (keep && o.id === keep.id ? { ...o, why: keep.why } : o));
+  if (req.body?.pickId && c.options.some((o) => o.id === req.body.pickId)) c.pickId = req.body.pickId;
+  else if (!c.options.some((o) => o.id === c.pickId)) c.pickId = c.options[0]?.id ?? null;
+  c.briefOpen = false;
+  run('UPDATE goals SET blocks = ? WHERE id = ?', JSON.stringify(st), goal.id);
+  res.json({ blocks: compose(goal, st.bd, acquiredMap(goal.id), st.note, st.wholeNewPence) });
 });
 
 shopRouter.get('/goals/:id/assembly', (req, res) => {

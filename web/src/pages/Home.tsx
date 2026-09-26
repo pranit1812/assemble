@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ROUTE_ORDER, type Block, type BlockOf, type Option, type PlanEvent } from '@shared/genui';
 import type { Area } from '@shared/areas';
-import { api, type GoalInfo } from '../lib/api';
+import { api, type GoalInfo, type Offer } from '../lib/api';
 import { LocationPicker, loadArea } from '../components/map/LocationPicker';
 import { NearbyMap } from '../components/map/NearbyMap';
 import { Composer } from '../components/Composer';
@@ -69,6 +69,7 @@ export default function Home() {
   const [guides, setGuides] = useState<Block[]>([]);
   const [err, setErr] = useState('');
   const [nearby, setNearby] = useState<{ shops: number; listings: number } | null>(null);
+  const [offers, setOffers] = useState<Record<string, Offer>>({});
   const planRef = useRef<HTMLDivElement>(null);
   const guidesRef = useRef<HTMLDivElement>(null);
   const [lg, setLg] = useState(() => window.matchMedia('(min-width: 1024px)').matches);
@@ -80,10 +81,27 @@ export default function Home() {
   }, []);
   useEffect(() => { api.nearby(area.id).then(setNearby).catch(() => {}); }, [area.id]);
 
+  // Shops answering this shopper's briefs show up live.
+  useEffect(() => {
+    if (phase !== 'planned' || !goal) return;
+    const seen = new Set(Object.values(offers).map((o) => o.id));
+    const t = setInterval(async () => {
+      const list = await api.offers(goal.id).catch(() => [] as Offer[]);
+      for (const o of list) {
+        if (seen.has(o.id)) continue;
+        seen.add(o.id);
+        setOffers((m) => ({ ...m, [o.componentId]: o }));
+        const r = await api.rescout(goal.id, o.componentId).catch(() => null);
+        if (r) setBlocks(r.blocks);
+      }
+    }, 3000);
+    return () => clearInterval(t);
+  }, [phase, goal?.id]);
+
   async function start(text: string, image?: string) {
     if (!text && !image) return;
     setErr(''); setGoalText(text || 'Here’s what I have.'); setGoalImage(image);
-    setPhase('intake'); setBlocks([]); setGuides([]); setStatus([]); setScouts({}); setComps([]); setIntake([]);
+    setPhase('intake'); setOffers({}); setBlocks([]); setGuides([]); setStatus([]); setScouts({}); setComps([]); setIntake([]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     try {
       const r = await api.intake(text, area.id, image, name || undefined);
@@ -223,7 +241,8 @@ export default function Home() {
               <div className="space-y-4">
                 {!lg && map && <NearbyMap block={map} />}
                 {(bd?.components ?? comps).map((c, i) => (
-                  <ComponentCard key={c.id} idx={i} c={c} scouts={scouts[c.id]} ownImage={goalImage} onPick={bd ? (o) => pick(c.id, o) : undefined} />
+                  <ComponentCard key={c.id} idx={i} c={c} scouts={scouts[c.id]} ownImage={goalImage} onPick={bd ? (o) => pick(c.id, o) : undefined}
+                    offer={offers[c.id]} onUseOffer={async (o) => goal && setBlocks((await api.rescout(goal.id, c.id, `product:${o.productId}`)).blocks)} />
                 ))}
                 {of(blocks, 'CostCompare').map((b, i) => <CostCompareView key={i} b={b} />)}
                 {of(blocks, 'LocalShopCard').map((b) => <LocalShopCardView key={b.shop.id} b={b} />)}

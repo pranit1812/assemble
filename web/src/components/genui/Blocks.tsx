@@ -2,6 +2,7 @@
 // The server only ever sends zod-validated JSON; each block type maps to one component here.
 import { useState } from 'react';
 import { ROUTE_ORDER, pounds, type BlockOf, type Option, type RouteTag } from '@shared/genui';
+import type { Offer } from '../../lib/api';
 
 export const ROUTE_STYLE: Record<RouteTag, { bg: string; text: string; ring: string; soft: string; label: string; short?: string; hint: string }> = {
   Own: { bg: 'bg-own', text: 'text-own', ring: 'ring-own', soft: 'bg-own/10', label: 'Own', hint: 'Already yours' },
@@ -133,7 +134,7 @@ function MindfulRing({ v }: { v: number }) {
   );
 }
 
-export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage }: { c: { id: string; name: string; note?: string; options?: Option[]; pickId?: string | null; briefOpen?: boolean }; scouts?: ScoutState[string]; onPick?: (o: Option) => void; idx?: number; ownImage?: string }) {
+export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onUseOffer }: { c: { id: string; name: string; note?: string; options?: Option[]; pickId?: string | null; briefOpen?: boolean }; scouts?: ScoutState[string]; onPick?: (o: Option) => void; idx?: number; ownImage?: string; offer?: Offer; onUseOffer?: (o: Offer) => void }) {
   const o = c.options?.find((x) => x.id === c.pickId);
   return (
     <div className="rise rounded-2xl border border-line bg-card p-4 shadow-[var(--shadow-soft)] sm:p-5" style={{ animationDelay: `${idx * 70}ms` }}>
@@ -141,6 +142,18 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage }: { c: { i
         <h3 className="font-display text-2xl text-ink">{c.name}</h3>
         {o && <span className="font-display text-2xl text-ink">{o.pricePence === 0 ? 'Free' : pounds(o.pricePence)}</span>}
       </div>
+      {offer && (
+        <div className="offer-in mb-3 flex flex-wrap items-center gap-3 rounded-xl border border-local/30 bg-local/10 px-3.5 py-3">
+          <span className="relative flex h-2.5 w-2.5"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-local opacity-60" /><span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-local" /></span>
+          <div className="min-w-0 flex-1 text-[14px]">
+            <div className="text-ink"><b className="font-medium">{offer.merchant}</b> answered your brief: {offer.title} · <span className="font-mono">{pounds(offer.pricePence)}</span>{offer.distanceKm != null ? ` · ${offer.distanceKm} km` : ''}</div>
+            {offer.note && <div className="text-[13px] text-muted">“{offer.note}”</div>}
+          </div>
+          {c.pickId !== `product:${offer.productId}` ? (
+            <button onClick={() => onUseOffer?.(offer)} className="shrink-0 rounded-full bg-local px-3.5 py-1.5 text-[13px] font-medium text-white">Use this offer</button>
+          ) : <span className="shrink-0 text-[13px] font-medium text-local">In your plan ✓</span>}
+        </div>
+      )}
       <Ladder options={c.options} pickId={c.pickId} scouts={scouts} onPick={onPick} />
       {o && (
         <div className="mt-4 flex gap-3.5">
@@ -161,7 +174,7 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage }: { c: { i
           <MindfulRing v={o.mindful} />
         </div>
       )}
-      {c.briefOpen && (
+      {c.briefOpen && !offer && (
         <div className="mt-3 rounded-xl bg-accent-soft/60 px-3 py-2 text-[13px] text-accent">No neighbour or local shop has this yet. We've posted a brief to shops near you.</div>
       )}
     </div>

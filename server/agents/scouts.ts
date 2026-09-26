@@ -47,8 +47,9 @@ function local(c: Comp, x: ScoutCtx): Option[] {
     WHERE m.kind = 'local' AND m.walk_in = 1 AND p.stock > 0 AND ${tagged('p.tags')}`, c.tag);
   return rows
     .map((p) => ({ p, d: km(x, { lat: p.mlat, lng: p.mlng }) }))
-    .sort((a, b) => a.d - b.d || overlap(b.p.tags, c) - overlap(a.p.tags, c))
-    .slice(0, 2)
+    // fresh stock (e.g. a shop just answered a brief) first, then nearest
+    .sort((a, b) => Number(isRecent(b.p.created_at)) - Number(isRecent(a.p.created_at)) || a.d - b.d || overlap(b.p.tags, c) - overlap(a.p.tags, c))
+    .slice(0, 3)
     .map(({ p, d }) => ({ id: `product:${p.id}`, tag: 'Local' as const, title: p.title, pricePence: p.price_pence, effortMins: walkMins(d) * 2, etaDays: 0,
       source: { name: p.mname, kind: 'merchant' as const, merchantId: p.merchant_id, area: p.marea, distanceKm: d, lat: p.mlat, lng: p.mlng },
       isNew: isRecent(p.created_at), guideId: p.guide_id ?? undefined, image: imageFor(p.id), makeIt: p.kind === 'material' || p.kind === 'part',

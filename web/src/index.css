@@ -75,3 +75,5 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   .aura i, .word-in, .ph-swap, .rise, .dock-in, .mic-ring { animation: none !important; }
 }
+@keyframes offer-in { 0% { opacity: 0; transform: translateY(-6px) scale(.98); } 60% { opacity: 1; transform: none; } 100% { box-shadow: 0 0 0 0 rgb(176 125 18 / 0); } }
+.offer-in { animation: offer-in .6s cubic-bezier(.2,.7,.2,1) both; }

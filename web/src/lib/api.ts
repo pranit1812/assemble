@@ -6,6 +6,7 @@ async function j<T>(res: Response): Promise<T> {
 }
 const post = (url: string, body: unknown) => fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
 
+export type Offer = { id: string; componentId: string; merchant: string; title: string; productId: string; pricePence: number; note: string; address: string; distanceKm: number | null; createdAt: string };
 export type GoalInfo = { id: string; title: string; by: string; components: { id: string; name: string }[] };
 
 export const api = {
@@ -13,6 +14,8 @@ export const api = {
   pick: (gid: string, componentId: string, optionId: string) => post(`/api/goals/${gid}/pick`, { componentId, optionId }).then((r) => j<{ blocks: Block[] }>(r)),
   acquire: (gid: string, componentId: string, acquired: boolean) => post(`/api/goals/${gid}/acquire`, { componentId, acquired }).then((r) => j<{ blocks: Block[]; allAcquired: boolean }>(r)),
   assembly: (gid: string) => fetch(`/api/goals/${gid}/assembly`).then((r) => j<{ blocks: Block[] }>(r)),
+  offers: (gid: string) => fetch(`/api/goals/${gid}/offers`).then((r) => j<Offer[]>(r)),
+  rescout: (gid: string, componentId: string, pickId?: string) => post(`/api/goals/${gid}/rescout`, { componentId, pickId }).then((r) => j<{ blocks: Block[] }>(r)),
   nearby: (areaId: string) => fetch(`/api/nearby?area=${areaId}`).then((r) => j<{ area: string; shops: number; listings: number }>(r)),
 
   // NDJSON stream. Scout events are paced on the client so the board animates

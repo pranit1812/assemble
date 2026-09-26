@@ -8,6 +8,7 @@ import { merchantRouter } from './routes/merchant';
 import { v1Router } from './routes/v1';
 import { opsRouter } from './routes/ops';
 import { recipesRouter } from './routes/recipes';
+import { bridgeRouter } from './routes/bridge';
 import { TAGS } from '../shared/tags';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -18,6 +19,7 @@ app.get('/api/health', (_q, s) => { s.json({ ok: true, llm: !!process.env.LLM_AP
 app.use('/api/admin', merchantRouter); // owner: Codex
 app.get('/api/ops/tags', (_q, s) => { s.json(TAGS); });
 app.use('/api/ops/recipes', recipesRouter); // owner: lead
+app.use('/api/briefs', bridgeRouter);       // owner: lead
 app.use('/api/ops', opsRouter);        // owner: Cursor
 app.use('/v1', v1Router);              // owner: Codex
 app.use('/api', shopRouter);           // owner: lead
