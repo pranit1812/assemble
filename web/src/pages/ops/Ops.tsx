@@ -90,6 +90,20 @@ async function getJson<T>(path: string): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+function Header() {
+  return (
+    <header className="sticky top-0 z-30 border-b border-line/70 bg-paper/80 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-4 sm:px-6">
+        <a href="/" className="flex shrink-0 items-center gap-2">
+          <span className="h-3 w-3 rounded-full bg-accent" />
+          <span className="font-display text-[26px] leading-none text-ink">Assemble</span>
+        </a>
+        <a href="/owner" className="text-sm text-muted transition hover:text-ink">Overview</a>
+      </div>
+    </header>
+  );
+}
+
 export default function Ops() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [shops, setShops] = useState<Shop[]>([]);
@@ -135,140 +149,106 @@ export default function Ops() {
   };
 
   return (
-    <div className="min-h-dvh px-4 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6">
-      <header className="sticky top-0 z-10 -mx-4 border-b border-line bg-paper/95 px-4 pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] backdrop-blur-sm sm:-mx-6 sm:px-6">
-        <div className="flex items-end justify-between gap-3">
-          <div>
-            <p className="text-sm font-medium uppercase tracking-[0.16em] text-accent">Assemble</p>
-            <h1 className="font-display text-5xl leading-none text-ink sm:text-6xl">Ops</h1>
-          </div>
-          <p className="mb-1 flex items-center gap-2 text-base text-muted">
-            <span className="pulse-dot inline-block h-2.5 w-2.5 rounded-full bg-accent" />
-            Live
-          </p>
-        </div>
-        <div className="mt-4 grid grid-cols-4 gap-2">
-          {COLUMNS.map((column) => {
-            const count = tasks.filter((task) => inColumn(task.status, column.id)).length;
-            return (
-              <button
-                key={column.id}
-                type="button"
-                onClick={() => jump(column.id)}
-                className="rounded-2xl border border-line bg-card px-1 py-3 text-center shadow-soft"
-              >
-                <span className="block font-display text-4xl leading-none text-ink sm:text-5xl">{ready ? count : '–'}</span>
-                <span className="mt-1 block text-[0.7rem] font-medium uppercase leading-tight tracking-wide text-muted sm:text-xs">
-                  {column.id === 'needs_approval' ? 'Approve' : column.label}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </header>
-
-      {error && (
-        <p className="mt-4 rounded-2xl bg-accent-soft px-4 py-3 text-lg text-accent">{error}</p>
-      )}
-
-      {!ready ? (
-        <p className="mt-10 font-display text-4xl text-ink">Loading the board…</p>
-      ) : (
-        <main className="mt-6 space-y-10">
-          <section>
-            <h2 className="font-display text-3xl text-ink">Shops onboarded by bots</h2>
-            {shops.length === 0 ? (
-              <p className="mt-3 rounded-2xl border border-dashed border-line bg-card px-4 py-6 text-xl text-muted">
-                None yet. A bot can add one from a shop owner’s message.
-              </p>
-            ) : (
-              <div className="-mx-4 mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:px-6">
-                {shops.map((shop) => (
-                  <article key={shop.id} className="w-[82vw] max-w-sm shrink-0 snap-start rounded-2xl border border-line bg-card p-4 shadow-soft">
-                    <p className="text-sm font-medium uppercase tracking-wide text-accent">{shop.category}</p>
-                    <h3 className="mt-1 font-display text-3xl leading-tight text-ink">{shop.name}</h3>
-                    <p className="mt-1 text-lg text-ink">{[shop.area, shop.hours].filter(Boolean).join(' · ')}</p>
-                    {shop.address && <p className="text-base text-muted">{shop.address}</p>}
-                    {shop.products.length > 0 && (
-                      <ul className="mt-3 space-y-1 text-lg text-ink">
-                        {shop.products.slice(0, 3).map((product) => (
-                          <li key={`${product.title}-${product.pricePence}`}>{product.title} · {money(product.pricePence)}</li>
-                        ))}
-                      </ul>
-                    )}
-                    <p className="mt-3 text-base text-muted">
-                      {shop.walkIn ? 'Walk-ins' : 'No walk-ins'}
-                      {shop.createdAt ? ` · ${ago(shop.createdAt)}` : ''}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            )}
-          </section>
-
-          <section className="space-y-8">
+    <div className="min-h-screen">
+      <Header />
+      <main className="mx-auto min-w-0 max-w-3xl px-4 pb-24 pt-12 sm:px-6">
+        <h1 className="font-display text-[38px] leading-[1.06] text-ink sm:text-[56px]">Bots</h1>
+        <nav className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted" aria-label="Board">
+          {COLUMNS.map((column) => (
+            <button key={column.id} type="button" onClick={() => jump(column.id)} className="transition hover:text-ink">
+              {column.id === 'needs_approval' ? 'Approve' : column.label}
+            </button>
+          ))}
+        </nav>
+        {error && <p className="mt-8 text-sm text-accent">{error}</p>}
+        {!ready ? (
+          <p className="mt-16 text-sm text-muted">Loading the board…</p>
+        ) : (
+          <div className="mt-16 space-y-20">
             {COLUMNS.map((column) => {
               const cards = tasks.filter((task) => inColumn(task.status, column.id));
               return (
-                <div key={column.id} id={column.id} className="scroll-mt-56">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <h2 className="font-display text-4xl text-ink">{column.label}</h2>
-                    <p className="text-base text-muted">{cards.length === 0 ? column.hint : cards.length}</p>
+                <section key={column.id} id={column.id} className="scroll-mt-24">
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h2 className="font-display text-3xl text-ink">{column.label}</h2>
+                    <p className="shrink-0 font-mono text-sm text-muted">{cards.length === 0 ? column.hint : cards.length}</p>
                   </div>
                   {cards.length === 0 ? (
-                    <p className="mt-3 rounded-2xl border border-dashed border-line px-4 py-5 text-lg text-muted">Nothing here</p>
+                    <p className="mt-6 text-sm text-muted">Nothing here</p>
                   ) : (
-                    <div className="mt-3 space-y-3">
+                    <ul className="mt-6 divide-y divide-line border-y border-line">
                       {cards.slice(0, 8).map((task) => {
                         const line = resultText(task.result);
-                        const approval = task.status === 'needs_approval';
-                        const running = task.status === 'running';
                         return (
-                          <article
-                            key={task.id}
-                            className={`rise rounded-2xl border p-4 shadow-soft ${approval ? 'border-accent bg-accent-soft' : running ? 'border-accent bg-card' : 'border-line bg-card'}`}
-                          >
-                            <div className="flex items-center justify-between gap-3">
-                              <p className="flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-accent">
-                                {running && <span className="pulse-dot inline-block h-2 w-2 rounded-full bg-accent" />}
-                                {task.agent}
-                              </p>
-                              <p className="shrink-0 text-base text-muted">{ago(task.updatedAt || task.createdAt)}</p>
+                          <li key={task.id} className="rise py-6">
+                            <div className="flex items-baseline justify-between gap-3">
+                              <p className="min-w-0 break-words text-sm text-muted">{task.agent}</p>
+                              <p className="shrink-0 font-mono text-sm text-muted">{ago(task.updatedAt || task.createdAt)}</p>
                             </div>
-                            <h3 className="mt-1 font-display text-2xl leading-tight text-ink sm:text-3xl">{task.title}</h3>
-                            {task.status === 'failed' && <p className="mt-1 text-base font-medium text-accent">Failed</p>}
-                            {line && <p className="mt-2 font-display text-xl italic leading-snug text-ink">{line}</p>}
-                            {task.detail && <p className="mt-2 text-lg leading-snug text-ink">{task.detail}</p>}
-                          </article>
+                            <h3 className="mt-2 break-words font-display text-2xl leading-tight text-ink">{task.title}</h3>
+                            {task.status === 'failed' && <p className="mt-2 text-sm text-accent">Failed</p>}
+                            {line && <p className="mt-3 break-words text-[15px] leading-relaxed text-ink">{line}</p>}
+                            {task.detail && <p className="mt-2 break-words text-sm leading-relaxed text-muted">{task.detail}</p>}
+                          </li>
                         );
                       })}
-                      {cards.length > 8 && <p className="text-lg text-muted">{cards.length - 8} earlier</p>}
-                    </div>
+                    </ul>
                   )}
-                </div>
+                  {cards.length > 8 && <p className="mt-4 text-sm text-muted">{cards.length - 8} earlier</p>}
+                </section>
               );
             })}
-          </section>
 
-          <section>
-            <h2 className="font-display text-3xl text-ink">Events</h2>
-            <p className="text-base text-muted">Last 20</p>
-            {events.length === 0 ? (
-              <p className="mt-3 text-lg text-muted">No events yet</p>
-            ) : (
-              <ol className="mt-3 divide-y divide-line rounded-2xl border border-line bg-card px-4 shadow-soft">
-                {events.map((event) => (
-                  <li key={event.id} className="py-3">
-                    <p className="text-sm font-medium uppercase tracking-wide text-accent">{eventLabel(event.type)}</p>
-                    <p className="text-xl leading-snug text-ink">{[event.label, event.area].filter(Boolean).join(' · ')}</p>
-                    <p className="text-base text-muted">{ago(event.createdAt)}</p>
-                  </li>
-                ))}
-              </ol>
-            )}
-          </section>
-        </main>
-      )}
+            <section>
+              <h2 className="font-display text-3xl text-ink">Shops onboarded by bots</h2>
+              {shops.length === 0 ? (
+                <p className="mt-6 text-sm leading-relaxed text-muted">None yet. A bot can add one from a shop owner’s message.</p>
+              ) : (
+                <ul className="mt-6 divide-y divide-line border-y border-line">
+                  {shops.map((shop) => (
+                    <li key={shop.id} className="py-6">
+                      <h3 className="break-words font-display text-2xl leading-tight text-ink">{shop.name}</h3>
+                      <p className="mt-2 break-words text-sm text-muted">{[shop.category, shop.area, shop.hours].filter(Boolean).join(' · ')}</p>
+                      {shop.address && <p className="mt-1 break-words text-sm text-muted">{shop.address}</p>}
+                      {shop.products.length > 0 && (
+                        <ul className="mt-3 space-y-1 text-sm text-ink">
+                          {shop.products.slice(0, 3).map((product) => (
+                            <li key={`${product.title}-${product.pricePence}`} className="break-words">{product.title} · {money(product.pricePence)}</li>
+                          ))}
+                        </ul>
+                      )}
+                      <p className="mt-3 text-sm text-muted">
+                        {shop.walkIn ? 'Walk-ins' : 'No walk-ins'}
+                        {shop.createdAt ? ` · ${ago(shop.createdAt)}` : ''}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
+
+            <section>
+              <h2 className="font-display text-3xl text-ink">Events</h2>
+              <p className="mt-2 text-sm text-muted">Last 20</p>
+              {events.length === 0 ? (
+                <p className="mt-6 text-sm text-muted">No events yet</p>
+              ) : (
+                <ol className="mt-6 divide-y divide-line border-y border-line">
+                  {events.map((event) => (
+                    <li key={event.id} className="py-5">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <p className="min-w-0 break-words text-sm text-muted">{eventLabel(event.type)}</p>
+                        <p className="shrink-0 font-mono text-sm text-faint">{ago(event.createdAt)}</p>
+                      </div>
+                      <p className="mt-2 break-words text-[15px] text-ink">{[event.label, event.area].filter(Boolean).join(' · ')}</p>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </section>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
