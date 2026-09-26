@@ -216,7 +216,7 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onU
       {c.web && c.web.length > 0 && (
         <div className="mt-4 border-t border-line pt-3">
           <div className="flex flex-wrap items-baseline justify-between gap-2 text-[12px] text-muted">
-            <span>{c.options?.some((x) => x.tag === 'Local' || x.tag === 'Parts' || x.tag === 'New') ? 'Also online' : 'No shop on Assemble stocks this. Found online'} <span className="text-faint">· no affiliate links</span></span>
+            <span>{o ? 'Also online' : 'Best found online'} <span className="text-faint">· no affiliate links</span></span>
             {o && (() => { const cheapest = Math.min(...c.web!.filter((w) => w.pricePence).map((w) => w.pricePence!)); return Number.isFinite(cheapest) && o.pricePence < cheapest
               ? <span className="font-medium text-own">Our pick is {pounds(cheapest - o.pricePence)} less than the cheapest online</span>
               : Number.isFinite(cheapest) ? <span>Cheapest online {pounds(cheapest)}</span> : null; })()}
@@ -225,7 +225,7 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onU
             {c.web.map((w) => (
               <li key={w.url}>
                 <a href={w.url} target="_blank" rel="noreferrer" className="group flex items-baseline justify-between gap-3 text-[14px]">
-                  <span className="min-w-0 truncate text-ink group-hover:underline">{w.title}</span>
+                  <span className={`min-w-0 truncate text-ink group-hover:underline ${!o && w === c.web![0] ? 'font-medium text-[15px]' : ''}`}>{w.title}</span>
                   <span className="shrink-0 text-[12px] text-muted">{w.pricePence ? `${pounds(w.pricePence)} · ` : ''}{w.domain}{w.match != null ? <span className={w.match >= 70 ? 'text-own' : ''}> · {w.match}% match</span> : ''} ↗</span>
                 </a>
               </li>
@@ -233,8 +233,8 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onU
           </ul>
         </div>
       )}
-      {c.briefOpen && !offer && (
-        <div className="mt-3 rounded-xl bg-accent-soft/60 px-3 py-2 text-[13px] text-accent">No neighbour or local shop has this yet. We've posted a brief to shops near you.</div>
+      {c.briefOpen && !offer && !(c.web && c.web.length) && !o && (
+        <div className="mt-3 text-[13px] text-muted">Nothing nearby or online yet. Shops near you have been asked, and offers will show up here.</div>
       )}
     </div>
   );

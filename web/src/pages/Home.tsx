@@ -11,12 +11,12 @@ import {
 } from '../components/genui/Blocks';
 
 const PROMPTS = [
+  { label: 'A robot with my phone as its brain', text: 'I want to build a robot on wheels with my Pixel 8 Pro as its brain' },
   { label: 'Be Superman for Halloween', text: 'I want to be Superman for Halloween, £40, by Friday' },
+  { label: "My washing machine won't drain", text: "My washing machine won't drain" },
   { label: 'Prototype a self-watering pot', text: 'Prototype a self-watering plant pot' },
-  { label: 'A witch costume by tomorrow', text: 'A witch costume for my daughter by tomorrow, under £20' },
-  { label: 'Tidy my messy shelf', text: 'Find me shelf organisers for this mess, DIY is fine, under £30' },
 ];
-const PLACEHOLDERS = ['Superman for Halloween, £40, by Friday…', 'A self-watering plant pot prototype…', 'Shelf organisers for my messy desk…', 'Or attach a photo of what you already have…'];
+const PLACEHOLDERS = ['A robot on wheels, my old phone as the brain…', 'Superman for Halloween, £40, by Friday…', 'My lamp stopped working…', 'A self-watering plant pot prototype…', 'Shelf organisers for my messy desk…', 'Or attach a photo of what you already have…'];
 
 type Phase = 'idle' | 'intake' | 'clarify' | 'planning' | 'planned';
 const of = <T extends Block['type']>(bs: Block[], t: T) => bs.filter((b) => b.type === t) as BlockOf<T>[];

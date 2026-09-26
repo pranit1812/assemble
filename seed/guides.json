@@ -639,5 +639,72 @@
       "Follow the grey hose from the back to the drain.",
       "Straighten any kinks and check it is not pushed too far into the pipe."
     ]
+  },
+  {
+    "id": "g_chassis",
+    "merchant_id": null,
+    "title": "Cardboard or plywood chassis in 30 minutes",
+    "tags": [
+      "chassis",
+      "robot"
+    ],
+    "difficulty": "easy",
+    "minutes": 30,
+    "cost_pence": 0,
+    "materials": [
+      "Stiff cardboard or thin plywood",
+      "Craft knife",
+      "Hot glue"
+    ],
+    "steps": [
+      "Cut a 20 × 12 cm base.",
+      "Mark where the two motors sit at the back.",
+      "Glue the motors on, wheels outward.",
+      "Add a caster or a smooth bead at the front.",
+      "Leave space on top for the phone mount."
+    ]
+  },
+  {
+    "id": "g_phone_mount",
+    "merchant_id": null,
+    "title": "Binder-clip phone mount",
+    "tags": [
+      "phone-mount",
+      "robot"
+    ],
+    "difficulty": "easy",
+    "minutes": 10,
+    "cost_pence": 100,
+    "materials": [
+      "2 large binder clips",
+      "Hot glue or cable ties"
+    ],
+    "steps": [
+      "Glue two binder clips upright on the chassis, a phone-width apart.",
+      "Slide the phone in, camera facing forward.",
+      "Tilt the clips slightly back so the camera sees the floor ahead."
+    ]
+  },
+  {
+    "id": "g_phone_brain",
+    "merchant_id": null,
+    "title": "Make your phone the brain",
+    "tags": [
+      "phone",
+      "robot"
+    ],
+    "difficulty": "easy",
+    "minutes": 20,
+    "cost_pence": 0,
+    "materials": [
+      "Your phone",
+      "The free Arduino Bluetooth controller app"
+    ],
+    "steps": [
+      "Install a Bluetooth controller app on the phone.",
+      "Pair it with the ESP32 on the motor driver.",
+      "Map the arrow buttons to forward, back, left, right.",
+      "Later: use the camera to follow a line or a face."
+    ]
   }
 ]

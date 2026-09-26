@@ -1862,5 +1862,143 @@
     "kind": "complete",
     "stock": 10,
     "eta_days": 3
+  },
+  {
+    "id": "p212",
+    "merchant_id": "m_makers",
+    "title": "TT gear motors + wheels, pair",
+    "description": "The classic yellow hobby motors. Tested before you leave.",
+    "price_pence": 700,
+    "tags": [
+      "motor",
+      "wheels",
+      "robot"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 0
+  },
+  {
+    "id": "p213",
+    "merchant_id": "m_makers",
+    "title": "Laser-cut acrylic chassis, cut while you wait",
+    "description": "Bring a sketch or use our 2WD template. 15 minutes.",
+    "price_pence": 600,
+    "tags": [
+      "chassis",
+      "robot"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 0
+  },
+  {
+    "id": "p214",
+    "merchant_id": "m_makers",
+    "title": "ESP32 + L298N motor driver, pre-wired",
+    "description": "Talks to your phone over Bluetooth. We flash it for you.",
+    "price_pence": 900,
+    "tags": [
+      "motor-driver",
+      "esp32",
+      "microcontroller",
+      "robot"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 0
+  },
+  {
+    "id": "p215",
+    "merchant_id": "m_hardware",
+    "title": "4×AA battery holder with batteries",
+    "description": "Switch and leads included.",
+    "price_pence": 400,
+    "tags": [
+      "battery"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 0
+  },
+  {
+    "id": "p216",
+    "merchant_id": "m_pin",
+    "title": "Smart robot car kit, 2WD",
+    "description": "Chassis, motors, wheels, driver and battery box. Delivered in 2 days.",
+    "price_pence": 3999,
+    "tags": [
+      "robot-kit",
+      "robot"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 2
+  },
+  {
+    "id": "p217",
+    "merchant_id": "m_pin",
+    "title": "2WD motors + wheels set",
+    "description": "Delivered in 2 days.",
+    "price_pence": 999,
+    "tags": [
+      "motor",
+      "wheels"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 2
+  },
+  {
+    "id": "p218",
+    "merchant_id": "m_pin",
+    "title": "L298N motor driver board",
+    "description": "Delivered in 2 days.",
+    "price_pence": 499,
+    "tags": [
+      "motor-driver"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 2
+  },
+  {
+    "id": "p219",
+    "merchant_id": "m_pin",
+    "title": "Universal phone holder clamp",
+    "description": "Fits phones up to 7 inches.",
+    "price_pence": 699,
+    "tags": [
+      "phone-mount"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 2
+  },
+  {
+    "id": "p220",
+    "merchant_id": "m_pin",
+    "title": "Acrylic 2WD chassis plate",
+    "description": "Pre-drilled.",
+    "price_pence": 899,
+    "tags": [
+      "chassis"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 2
+  },
+  {
+    "id": "p221",
+    "merchant_id": "m_pin",
+    "title": "Rechargeable 7.4V battery pack",
+    "description": "With USB charger.",
+    "price_pence": 1299,
+    "tags": [
+      "battery"
+    ],
+    "kind": "complete",
+    "stock": 8,
+    "eta_days": 2
   }
 ]

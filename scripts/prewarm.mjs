@@ -2,6 +2,8 @@
 // Usage: BASE=https://your-vm node scripts/prewarm.mjs   (default http://localhost:3000)
 const BASE = process.env.BASE || `http://localhost:${process.env.PORT || 3000}`;
 const RUNS = [
+  ['I want to build a robot on wheels with my Pixel 8 Pro as its brain', { budget: '4000', deadline: '1w', owned: ['brain'], skill: 'crafty' }],
+  ["My washing machine won't drain", { budget: 'any', deadline: '1w', owned: [], skill: 'some' }],
   ['I want to be Superman for Halloween, £40, by Friday', { owned: ['suit'], skill: 'some' }],
   ['Prototype a self-watering plant pot', { budget: '4000', deadline: '1w', owned: ['none'], skill: 'crafty' }],
   ['Find me shelf organisers for this mess, DIY is fine, under £30', { deadline: '1w', owned: ['none'], skill: 'some' }],
