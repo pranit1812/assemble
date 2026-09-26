@@ -10,6 +10,7 @@ import { SCOUTS, wholeProduct, type ScoutCtx } from '../agents/scouts';
 import { score, rank, pickPlan, judgeWhys } from '../agents/judge';
 import { compose, guidesFor, type GoalRow } from '../agents/composer';
 import { queueRecipe } from './recipes';
+import { queueVision } from './vision';
 import { webScout, hasWeb } from '../agents/web';
 import { advise } from '../agents/advisor';
 import { offersForGoal } from './bridge';
@@ -48,6 +49,7 @@ shopRouter.post('/goals', async (req, res) => {
     gid, userName ?? null, text, r.title, r.recipeId, area.name, area.lat, area.lng, r.budgetPence, r.deadline);
   for (const c of r.components) run('INSERT INTO components (id, goal_id, name, tag, tags) VALUES (?,?,?,?,?)', c.id, gid, c.name, c.tag, JSON.stringify(c.tags));
   logEvent('goal.created', r.title, area.name);
+  if (image) queueVision(gid, image, String(text).trim(), r.components.map(({ id, name }) => ({ id, name })));
   if (!r.recipeId && r.by !== 'grok') queueRecipe(String(text).trim(), area.name);
   track('Orchestrator', `Understood "${r.title}"`, `${r.components.length} parts · ${r.by === 'grok' ? 'Grok' : 'house recipe'} · ${area.name}`);
   res.json({

@@ -70,6 +70,8 @@ export default function Home() {
   const [guides, setGuides] = useState<Block[]>([]);
   const [err, setErr] = useState('');
   const [offers, setOffers] = useState<Record<string, Offer>>({});
+  const [vision, setVision] = useState<{ status: string; seen?: string; owned?: string[] } | null>(null);
+  const lastAnswers = useRef<Record<string, string | string[]>>({});
   const [asks, setAsks] = useState<{ q: string; b: BlockOf<'AdviceCard'> | null }[]>([]);
   const askRef = useRef<HTMLDivElement>(null);
   const planRef = useRef<HTMLDivElement>(null);
@@ -81,6 +83,29 @@ export default function Home() {
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
   }, []);
+
+  // A Grok bot on the VM looks at the shopper's photo; its answer lands here whenever it's ready.
+  useEffect(() => {
+    if (!goal || !goalImage) return;
+    let stop = false;
+    const t0 = Date.now();
+    setVision({ status: 'queued' });
+    (async function poll() {
+      while (!stop && Date.now() - t0 < 240_000) {
+        const v = await api.vision(goal.id).catch(() => null);
+        if (v && v.status === 'done') { setVision(v); return; }
+        if (v) setVision(v);
+        await new Promise((r) => setTimeout(r, 2500));
+      }
+    })();
+    return () => { stop = true; };
+  }, [goal?.id, goalImage]);
+
+  // Fold what Grok saw into the owned chips (while clarifying).
+  useEffect(() => {
+    if (vision?.status !== 'done' || !vision.owned?.length) return;
+    setIntake((bs) => bs.map((b) => (b.type === 'ClarifyCard' && b.key === 'owned' ? { ...b, selected: [...new Set([...(b.selected ?? []).filter((x) => x !== 'none'), ...vision.owned!])] } : b)));
+  }, [vision?.status]);
 
   // Shops answering this shopper's briefs show up live.
   useEffect(() => {
@@ -102,7 +127,7 @@ export default function Home() {
   async function start(text: string, image?: string) {
     if (!text && !image) return;
     setErr(''); setGoalText(text || 'Here’s what I have.'); setGoalImage(image);
-    setPhase('intake'); setOffers({}); setAsks([]); setBlocks([]); setGuides([]); setStatus([]); setScouts({}); setComps([]); setIntake([]);
+    setPhase('intake'); setOffers({}); setAsks([]); setVision(null); setBlocks([]); setGuides([]); setStatus([]); setScouts({}); setComps([]); setIntake([]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     try {
       const r = await api.intake(text, area.id, image, name || undefined);
@@ -112,6 +137,7 @@ export default function Home() {
 
   async function plan(answers: Record<string, string | string[]>) {
     if (!goal) return;
+    lastAnswers.current = answers;
     setPhase('planning'); setComps(goal.components);
     setTimeout(() => planRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
     try {
@@ -220,7 +246,20 @@ export default function Home() {
             </div>
           )}
           {of(intake, 'AgentNote').map((b, i) => <AgentNoteView key={i} b={b} />)}
-          {phase === 'clarify' && <ClarifyGroup cards={cards} onSubmit={plan} busy={false} />}
+          {goalImage && vision && vision.status !== 'done' && vision.status !== 'none' && (
+            <div className="rise flex items-center gap-3 text-[14px] text-muted">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-ink text-[11px] text-paper">G</span>
+              <span className="pulse-dot">A Grok bot on our server is looking at your photo…</span>
+            </div>
+          )}
+          {vision?.status === 'done' && vision.seen && (
+            <AgentNoteView b={{ type: 'AgentNote', agent: 'Grok bot · looked at your photo', text: vision.seen }} />
+          )}
+          {vision?.status === 'done' && !!vision.owned?.length && phase === 'planned' && goal && (
+            <button onClick={() => { const owned = [...new Set([...([] as string[]).concat(lastAnswers.current.owned ?? []).filter((x) => x !== 'none'), ...vision.owned!])]; plan({ ...lastAnswers.current, owned }); }}
+              className="rise rounded-full bg-own px-4 py-2 text-sm font-medium text-white">Update my plan with what Grok saw</button>
+          )}
+          {phase === 'clarify' && <ClarifyGroup key={JSON.stringify(cards.map((c) => c.selected ?? []))} cards={cards} onSubmit={plan} busy={false} />}
         </div>
 
         {(phase === 'planning' || phase === 'planned') && (
