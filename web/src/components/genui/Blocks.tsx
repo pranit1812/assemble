@@ -176,7 +176,12 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onU
       )}
       {c.web && c.web.length > 0 && (
         <div className="mt-4 border-t border-line pt-3">
-          <div className="text-[12px] text-muted">No shop on Assemble stocks this. Found on the web <span className="text-faint">· no affiliate links, check the price there</span></div>
+          <div className="flex flex-wrap items-baseline justify-between gap-2 text-[12px] text-muted">
+            <span>{c.options?.some((x) => x.tag === 'Local' || x.tag === 'Parts' || x.tag === 'New') ? 'Also online' : 'No shop on Assemble stocks this. Found online'} <span className="text-faint">· no affiliate links</span></span>
+            {o && (() => { const cheapest = Math.min(...c.web!.filter((w) => w.pricePence).map((w) => w.pricePence!)); return Number.isFinite(cheapest) && o.pricePence < cheapest
+              ? <span className="font-medium text-own">Our pick is {pounds(cheapest - o.pricePence)} less than the cheapest online</span>
+              : Number.isFinite(cheapest) ? <span>Cheapest online {pounds(cheapest)}</span> : null; })()}
+          </div>
           <ul className="mt-2 space-y-1.5">
             {c.web.map((w) => (
               <li key={w.url}>

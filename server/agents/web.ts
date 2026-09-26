@@ -39,10 +39,11 @@ export async function tavily(query: string, opts: { domains?: string[]; max?: nu
 const price = (s: string) => { const m = s.match(/£\s?(\d{1,4}(?:\.\d{2})?)/); return m ? Math.round(parseFloat(m[1]) * 100) : undefined; };
 
 export async function webScout(part: string, goal: string): Promise<WebLink[]> {
-  const rs = await tavily(`buy ${part} for ${goal} UK`, { domains: SHOPS, max: 6 });
+  const rs = await tavily(`buy ${part} ${goal} UK price`, { domains: SHOPS, max: 8 });
   const seen = new Set<string>();
   return rs
     .map((r) => { const domain = new URL(r.url).hostname.replace(/^www\./, ''); return { title: r.title.replace(/\s*[|:-]\s*(Amazon|eBay|Argos|Etsy).*$/i, '').slice(0, 90), url: r.url, domain, pricePence: price(`${r.title} ${r.content}`) }; })
     .filter((l) => (seen.has(l.domain) ? false : (seen.add(l.domain), true)))
+    .sort((a, b) => Number(!!b.pricePence) - Number(!!a.pricePence))
     .slice(0, 3);
 }

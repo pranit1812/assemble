@@ -117,9 +117,9 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
 
     const pickOpt = (cid: string) => bd.components.find((c) => c.id === cid)!.options.find((o) => o.id === picks[cid]) ?? null;
     const allNew = bd.components.reduce((s, c) => s + (c.options.find((o) => o.tag === 'New')?.pricePence ?? c.options.find((o) => o.tag === 'Parts')?.pricePence ?? 0), 0);
-    // No shop on Assemble sells it (no local, parts or new option): look on the public web.
-    const bare = bd.components.filter((c) => !c.options.some((o) => o.tag === 'Local' || o.tag === 'Parts' || o.tag === 'New'));
-    if (bare.length && hasWeb()) send({ t: 'status', agent: 'Web scout', text: `No shop here stocks ${bare.map((c) => c.name.toLowerCase()).join(', ')}. Checking public listings.` });
+    // Web scout: public listings (Amazon, eBay, Argos…) for every part, so shoppers can compare. Never ranked above local routes.
+    const bare = bd.components;
+    if (hasWeb()) send({ t: 'status', agent: 'Web scout', text: `Comparing with Amazon, eBay, Argos and others for ${bare.length} part${bare.length > 1 ? 's' : ''}.` });
     send({ t: 'status', agent: 'Advisor', text: 'Checking whether to buy now or wait.' });
     const [judged, webs, advice] = await Promise.all([
       judgeWhys({ title: goal.title, budgetPence: budget, deadline }, bd.components.map((c) => ({ id: c.id, name: c.name, pick: pickOpt(c.id) })), skill, whole?.price_pence ?? allNew),
