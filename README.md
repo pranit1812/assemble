@@ -1,28 +1,30 @@
 # Assemble
 
+### ▶ Try it live: **[sussex-placing-piano-suggestion.trycloudflare.com](https://sussex-placing-piano-suggestion.trycloudflare.com)**
+
 **Say what you want to do, not what to buy.** Assemble turns a goal into a mindful plan. For each part it checks, in order, what you already **own**, what you could **make**, what a **neighbour** is selling, what a **local walk-in shop** has, and only then what's **new**. No shop can pay to rank higher.
 
 The whole platform lives inside a **Grok Bot VM**: the site is served live from that VM, Grok answers shoppers, and Grok bots run the business.
 
-**Live:** https://sussex-placing-piano-suggestion.trycloudflare.com · Built at the Grok Bot Commerce Hackathon, London, 26 Sep 2026.
+Built at the Grok Bot Commerce Hackathon, London, 26 Sep 2026.
 
 ![Homepage](docs/screenshots/storefront.png)
 
 ## What a shopper sees
 
-"I want to be Superman for Halloween, £40, by Friday." Assemble asks two quick questions, splits the goal into parts and sends 30 scouts around Hackney. The plan: your own blue suit, a DIY cape, a neighbour's boot covers. **£13.50 against £34.99 for the boxed costume**, which is still one tap away.
+*"I want to build a robot on wheels with my Pixel 8 Pro as its brain."* Assemble asks two quick questions, splits the robot into six parts and sends scouts around Hackney. Your phone is the brain. A neighbour's old RC car gives the motors and wheels. Mare Street Makers has the motor driver pre-wired. The chassis is cardboard. **£19 in total, against £39.99 for a boxed robot kit.**
 
-![Plan](docs/screenshots/plan.png)
+![Robot plan](docs/screenshots/robot-plan.png)
 
-Nobody nearby had a red cape, so local shops were asked. Dalston Party Store, a walk-in shop with no website, answered £8, and the offer lands on the shopper's plan within seconds.
+The boxed kit is still one tap away. We don't hide the easy option; we show what you already have.
 
-![Offer](docs/screenshots/offer.png)
+![Three ways to do it](docs/screenshots/robot-compare.png)
 
-Once every part is gathered, it shows how it goes together.
+Nobody nearby had a ready-made phone mount, so local shops were asked. Broadway Market Hardware, 1.1 km away, answered £5, and the offer landed on the plan within seconds.
 
-![Assembly](docs/screenshots/assembly.png)
+![Local shop offer](docs/screenshots/robot-offer.png)
 
-Other goals to try: *a robot on wheels with my Pixel 8 Pro as its brain* (£19 vs a £39.99 kit), *my washing machine won't drain* (free checks, then a repair café), *prototype a self-watering plant pot*. Any goal works: parts nobody nearby stocks show the best online links (Amazon, eBay, Etsy, Temu and more) with a match score, and never affiliate links.
+Other goals to try: *be Superman for Halloween* (with a 3D build at the end), *my washing machine won't drain* (free checks, then a repair café), *prototype a self-watering plant pot*. Any goal works: parts nobody nearby stocks show the best online links (Amazon, eBay, Etsy, Temu and more) with a match score, and never affiliate links.
 
 ## For local shops
 
