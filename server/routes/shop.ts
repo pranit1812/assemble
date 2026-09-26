@@ -1,4 +1,7 @@
 import { Router } from 'express';
+import { z } from 'zod';
+import { TAGS } from '../../shared/tags';
+import { llmJSON } from '../llm';
 import { all, get, run, J, id, logEvent } from '../db';
 import { AREAS, DEFAULT_AREA, km } from '../../shared/areas';
 import { ROUTE_ORDER, pounds, type BlockOf, type Option, type PlanEvent } from '../../shared/genui';
@@ -174,4 +177,46 @@ shopRouter.get('/nearby', (req, res) => {
   const shops = all<any>("SELECT lat, lng FROM merchants WHERE kind = 'local' AND walk_in = 1 AND lat IS NOT NULL").filter((m) => km(a, m) <= 5).length;
   const listings = all<any>('SELECT lat, lng FROM listings').filter((l) => km(a, l) <= 5).length;
   res.json({ area: a.name, shops, listings });
+});
+
+// ---- Neighbours selling: list something, and see what people nearby are looking for.
+
+const TagOut = z.object({ tags: z.array(z.string()).max(6) });
+export async function autoTag(title: string, description = '') {
+  const s = `${title} ${description}`.toLowerCase().replace(/[^a-z0-9 -]/g, ' ');
+  const words = new Set(s.split(/\s+/).flatMap((w) => [w, w.replace(/s$/, '')]));
+  const rule = TAGS.filter((t) => words.has(t) || (t.includes('-') && s.includes(t.replace('-', ' '))));
+  const ai = await llmJSON({
+    messages: [
+      { role: 'system', content: `Tag a secondhand item for a local marketplace. Return JSON {"tags": [...]} with 2-6 tags ONLY from: ${TAGS.join(', ')}. Include the tag for what the item IS (e.g. cape, boots, planter) first.` },
+      { role: 'user', content: `${title}. ${description}` },
+    ],
+    schema: TagOut,
+    timeoutMs: 6000,
+  });
+  const tags = [...new Set([...(ai?.tags ?? []).filter((t) => (TAGS as readonly string[]).includes(t)), ...rule])];
+  return { tags: tags.length ? tags : ['craft'], by: ai ? 'grok' : 'rules' };
+}
+
+shopRouter.get('/wanted', (req, res) => {
+  const a = AREAS.find((x) => x.id === req.query.area) ?? DEFAULT_AREA;
+  const near = (area: string | null) => { const x = AREAS.find((z) => z.name === area); return !!x && km(a, x) <= 4; };
+  const ev = all<any>("SELECT type, label, area FROM events WHERE type IN ('component.unmet','goal.created') AND created_at > datetime('now','-7 days')").filter((e) => near(e.area));
+  const count = (type: string) => Object.entries(ev.filter((e) => e.type === type).reduce<Record<string, number>>((m, e) => ((m[e.label] = (m[e.label] ?? 0) + 1), m), {}))
+    .sort((x, y) => y[1] - x[1]).slice(0, 6).map(([label, n]) => ({ label, count: n }));
+  res.json({ area: a.name, unmet: count('component.unmet'), goals: count('goal.created') });
+});
+
+shopRouter.post('/listings', async (req, res) => {
+  const { title, pricePence, areaId, seller, condition, description } = req.body ?? {};
+  if (!title || typeof title !== 'string') return void res.status(400).json({ error: 'What are you selling?' });
+  const a = AREAS.find((x) => x.id === areaId) ?? DEFAULT_AREA;
+  const { tags, by } = await autoTag(title, description ?? '');
+  const lid = id('s');
+  const r = 0.004 * Math.sqrt(Math.random()), t = Math.random() * 2 * Math.PI;
+  run('INSERT INTO listings (id, title, description, price_pence, tags, condition, seller, area, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?)',
+    lid, title.slice(0, 80), description ?? '', Math.max(0, Math.round(Number(pricePence) || 0)), JSON.stringify(tags), condition || 'good', seller || 'A neighbour', a.name, a.lat + r * Math.cos(t), a.lng + r * Math.sin(t) * 1.6);
+  logEvent('listing.created', title, a.name, null, { tags });
+  track('Listing agent', `Listed "${title}" in ${a.name}`, `tags: ${tags.join(', ')} · ${by === 'grok' ? 'Grok' : 'rules'}`);
+  res.json({ id: lid, tags, area: a.name });
 });

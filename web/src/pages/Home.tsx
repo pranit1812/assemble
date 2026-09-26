@@ -102,6 +102,7 @@ export default function Home() {
         </button>
         <div className="flex items-center gap-2 sm:gap-4">
           <LocationPicker value={area} onChange={setArea} />
+          <a href="/sell" className="hidden text-sm text-muted hover:text-ink sm:inline">Sell or lend</a>
           <a href="/admin" className="hidden text-sm text-muted hover:text-ink sm:inline">For shops →</a>
         </div>
       </header>
@@ -149,6 +150,7 @@ export default function Home() {
               {nearby ? <><b className="font-medium text-ink">{nearby.shops} local shops</b> and <b className="font-medium text-ink">{nearby.listings} neighbours</b> within 5 km of {area.name}. </> : null}
               Shops never pay to rank. They pay to hear what people nearby need.
             </p>
+            <a href="/sell" className="mt-3 inline-block text-[13px] text-secondhand underline decoration-secondhand/30 underline-offset-4 hover:decoration-secondhand">Got something a neighbour could use? Sell or lend it →</a>
           </div>
         </main>
       )}
