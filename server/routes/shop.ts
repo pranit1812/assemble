@@ -10,11 +10,20 @@ import { SCOUTS, wholeProduct, type ScoutCtx } from '../agents/scouts';
 import { score, rank, pickPlan, judgeWhys } from '../agents/judge';
 import { compose, guidesFor, type GoalRow } from '../agents/composer';
 import { queueRecipe } from './recipes';
+import { webScout, hasWeb } from '../agents/web';
+import { advise } from '../agents/advisor';
 import { offersForGoal } from './bridge';
 
 export const shopRouter = Router();
 
-type State = { bd: BlockOf<'Breakdown'>; note: BlockOf<'AgentNote'> | null; wholeNewPence: number | null };
+type State = { bd: BlockOf<'Breakdown'>; note: BlockOf<'AgentNote'> | null; wholeNewPence: number | null; advice?: BlockOf<'AdviceCard'> | null };
+
+// Compose the plan and slot the Advisor's card in after the cost comparison.
+function render(goal: GoalRow, st: State, acquired: Record<string, boolean>) {
+  const blocks = compose(goal, st.bd, acquired, st.note, st.wholeNewPence);
+  if (st.advice) blocks.splice(blocks.findIndex((b) => b.type === 'CostCompare') + 1, 0, st.advice);
+  return blocks;
+}
 
 export function track(agent: string, title: string, detail = '', status = 'done') {
   run('INSERT INTO tasks (id, agent, title, status, detail) VALUES (?,?,?,?,?)', id('t'), agent, title, status, detail);
@@ -25,7 +34,7 @@ const acquiredMap = (gid: string) => Object.fromEntries(all<any>('SELECT id, acq
 
 function composed(goal: GoalRow & { blocks: string | null }) {
   const st = J<State | null>(goal.blocks, null);
-  return st ? compose(goal, st.bd, acquiredMap(goal.id), st.note, st.wholeNewPence) : [];
+  return st ? render(goal, st, acquiredMap(goal.id)) : [];
 }
 
 shopRouter.post('/goals', async (req, res) => {
@@ -106,7 +115,17 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
 
     const pickOpt = (cid: string) => bd.components.find((c) => c.id === cid)!.options.find((o) => o.id === picks[cid]) ?? null;
     const allNew = bd.components.reduce((s, c) => s + (c.options.find((o) => o.tag === 'New')?.pricePence ?? c.options.find((o) => o.tag === 'Parts')?.pricePence ?? 0), 0);
-    const judged = await judgeWhys({ title: goal.title, budgetPence: budget, deadline }, bd.components.map((c) => ({ id: c.id, name: c.name, pick: pickOpt(c.id) })), skill, whole?.price_pence ?? allNew);
+    // No shop on Assemble sells it (no local, parts or new option): look on the public web.
+    const bare = bd.components.filter((c) => !c.options.some((o) => o.tag === 'Local' || o.tag === 'Parts' || o.tag === 'New'));
+    if (bare.length && hasWeb()) send({ t: 'status', agent: 'Web scout', text: `No shop here stocks ${bare.map((c) => c.name.toLowerCase()).join(', ')}. Checking public listings.` });
+    send({ t: 'status', agent: 'Advisor', text: 'Checking whether to buy now or wait.' });
+    const [judged, webs, advice] = await Promise.all([
+      judgeWhys({ title: goal.title, budgetPence: budget, deadline }, bd.components.map((c) => ({ id: c.id, name: c.name, pick: pickOpt(c.id) })), skill, whole?.price_pence ?? allNew),
+      Promise.all(bare.map((c) => webScout(c.name, goal.title))),
+      advise({ question: 'Should I buy this now or wait?', goalTitle: goal.title, deadline, budgetPence: budget,
+        picks: bd.components.map((c) => ({ component: c.name, pick: pickOpt(c.id) })), tags: comps.flatMap((c) => [c.tag, ...c.tags]) }).catch(() => null),
+    ]);
+    bare.forEach((c, i) => { if (webs[i].length) c.web = webs[i]; });
     if (judged) for (const c of bd.components) {
       const w = judged.whys[c.id];
       const o = c.options.find((o) => o.id === c.pickId);
@@ -119,12 +138,12 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
     const summary = judged?.summary ?? `${notNew} of ${chosen.length} parts come from what you own, can make, or a neighbour already has. ${pounds(total)} all in, against ${pounds(newRef)} ${whole ? 'for a boxed one' : 'to buy it all new'}${budget ? `, and well inside your ${pounds(budget)}` : ''}.`;
     const note: BlockOf<'AgentNote'> = { type: 'AgentNote', agent: 'Judge', text: summary };
 
-    const state: State = { bd, note, wholeNewPence: whole?.price_pence ?? null };
+    const state: State = { bd, note, wholeNewPence: whole?.price_pence ?? null, advice };
     run("UPDATE goals SET blocks = ?, status = 'planned' WHERE id = ?", JSON.stringify(state), goal.id);
     for (const c of bd.components) run('UPDATE components SET pick = ?, unmet = ? WHERE goal_id = ? AND id = ?', JSON.stringify(pickOpt(c.id)), c.briefOpen ? 1 : 0, goal.id, c.id);
     track('Scouts', `${n} routes for "${goal.title}"`, `${comps.length} parts × ${ROUTE_ORDER.length} routes near ${goal.area}`);
     track('Judge', `Planned "${goal.title}": ${pounds(total)}`, `${notNew}/${chosen.length} without buying new${judged ? ' · Grok whys' : ''}`);
-    send({ t: 'blocks', blocks: compose(goal, bd, {}, note, state.wholeNewPence) });
+    send({ t: 'blocks', blocks: render(goal, state, {}) });
   } catch (e: any) {
     console.error(e);
     send({ t: 'error', message: e?.message ?? 'Planning failed' });
@@ -149,7 +168,7 @@ shopRouter.post('/goals/:id/pick', (req, res) => {
   c.pickId = o.id;
   run('UPDATE goals SET blocks = ? WHERE id = ?', JSON.stringify(st), goal.id);
   run('UPDATE components SET pick = ? WHERE goal_id = ? AND id = ?', JSON.stringify(o), goal.id, c.id);
-  res.json({ blocks: compose(goal, st.bd, acquiredMap(goal.id), st.note, st.wholeNewPence) });
+  res.json({ blocks: render(goal, st, acquiredMap(goal.id)) });
 });
 
 shopRouter.post('/goals/:id/acquire', (req, res) => {
@@ -169,7 +188,21 @@ shopRouter.post('/goals/:id/acquire', (req, res) => {
   const acq = acquiredMap(goal.id);
   const allAcquired = st.bd.components.every((c) => acq[c.id]);
   if (allAcquired) run("UPDATE goals SET status = 'assembled' WHERE id = ?", goal.id);
-  res.json({ blocks: compose(goal, st.bd, acq, st.note, st.wholeNewPence), allAcquired });
+  res.json({ blocks: render(goal, st, acq), allAcquired });
+});
+
+// Follow-up buying questions about a plan: "should I wait?", "does it matter which one?".
+shopRouter.post('/goals/:id/ask', async (req, res) => {
+  const goal = loadGoal(req.params.id);
+  const st = J<State | null>(goal?.blocks, null);
+  const question = String(req.body?.question ?? '').trim().slice(0, 300);
+  if (!goal || !st || !question) return void res.status(400).json({ error: 'Ask about a plan' });
+  const comps = all<any>('SELECT tag, tags FROM components WHERE goal_id = ?', goal.id);
+  const block = await advise({ question, goalTitle: goal.title, deadline: goal.deadline, budgetPence: goal.budget_pence,
+    picks: st.bd.components.map((c) => ({ component: c.name, pick: c.options.find((o) => o.id === c.pickId) ?? null })),
+    tags: comps.flatMap((c) => [c.tag, ...J<string[]>(c.tags, [])]) });
+  track('Advisor', `"${question.slice(0, 60)}"`, `${block.verdict} · ${block.by === 'grok' ? 'Grok' : 'rules'}${block.sources.length ? ` · ${block.sources.length} web sources` : ''}`);
+  res.json({ block });
 });
 
 // Live offers from shops answering this shopper's briefs.
@@ -194,7 +227,7 @@ shopRouter.post('/goals/:id/rescout', (req, res) => {
   else if (!c.options.some((o) => o.id === c.pickId)) c.pickId = c.options[0]?.id ?? null;
   c.briefOpen = false;
   run('UPDATE goals SET blocks = ? WHERE id = ?', JSON.stringify(st), goal.id);
-  res.json({ blocks: compose(goal, st.bd, acquiredMap(goal.id), st.note, st.wholeNewPence) });
+  res.json({ blocks: render(goal, st, acquiredMap(goal.id)) });
 });
 
 shopRouter.get('/goals/:id/assembly', (req, res) => {

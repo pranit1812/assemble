@@ -1,7 +1,7 @@
 // Renderers for the fixed gen-UI component set (shared/genui.ts).
 // The server only ever sends zod-validated JSON; each block type maps to one component here.
 import { useState } from 'react';
-import { ROUTE_ORDER, pounds, type BlockOf, type Option, type RouteTag } from '@shared/genui';
+import { ROUTE_ORDER, pounds, type BlockOf, type Option, type RouteTag, type WebLink } from '@shared/genui';
 import type { Offer } from '../../lib/api';
 
 export const ROUTE_STYLE: Record<RouteTag, { bg: string; text: string; ring: string; soft: string; label: string; short?: string; hint: string }> = {
@@ -134,7 +134,7 @@ function MindfulRing({ v }: { v: number }) {
   );
 }
 
-export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onUseOffer }: { c: { id: string; name: string; note?: string; options?: Option[]; pickId?: string | null; briefOpen?: boolean }; scouts?: ScoutState[string]; onPick?: (o: Option) => void; idx?: number; ownImage?: string; offer?: Offer; onUseOffer?: (o: Offer) => void }) {
+export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onUseOffer }: { c: { id: string; name: string; note?: string; options?: Option[]; pickId?: string | null; briefOpen?: boolean; web?: WebLink[] }; scouts?: ScoutState[string]; onPick?: (o: Option) => void; idx?: number; ownImage?: string; offer?: Offer; onUseOffer?: (o: Offer) => void }) {
   const o = c.options?.find((x) => x.id === c.pickId);
   return (
     <div className="rise rounded-2xl border border-line bg-card p-4 shadow-[var(--shadow-soft)] sm:p-5" style={{ animationDelay: `${idx * 70}ms` }}>
@@ -172,6 +172,21 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onU
             <p className="mt-2 text-[14px] leading-relaxed text-ink/80"><span className="mr-1.5 text-[11px] font-medium uppercase tracking-wide text-muted">Why</span>{o.why}</p>
           </div>
           <MindfulRing v={o.mindful} />
+        </div>
+      )}
+      {c.web && c.web.length > 0 && (
+        <div className="mt-4 border-t border-line pt-3">
+          <div className="text-[12px] text-muted">No shop on Assemble stocks this. Found on the web <span className="text-faint">· no affiliate links, check the price there</span></div>
+          <ul className="mt-2 space-y-1.5">
+            {c.web.map((w) => (
+              <li key={w.url}>
+                <a href={w.url} target="_blank" rel="noreferrer" className="group flex items-baseline justify-between gap-3 text-[14px]">
+                  <span className="min-w-0 truncate text-ink group-hover:underline">{w.title}</span>
+                  <span className="shrink-0 text-[12px] text-muted">{w.pricePence ? `${pounds(w.pricePence)} · ` : ''}{w.domain} ↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
       {c.briefOpen && !offer && (
@@ -291,6 +306,31 @@ export function GuideCardView({ b, idx = 0 }: { b: BlockOf<'GuideCard'>; idx?: n
           </li>
         ))}
       </ol>
+    </div>
+  );
+}
+
+const VERDICT: Record<BlockOf<'AdviceCard'>['verdict'], string> = {
+  'Buy now': 'bg-own text-white', Wait: 'bg-accent text-white', 'Either is fine': 'bg-parts text-white', 'Buy used': 'bg-secondhand text-white',
+};
+
+export function AdviceCardView({ b }: { b: BlockOf<'AdviceCard'> }) {
+  return (
+    <div className="rise rounded-2xl border border-line bg-card p-5 shadow-[var(--shadow-soft)]">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted">Advisor · {b.question}</span>
+        <span className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-medium ${VERDICT[b.verdict]}`}>{b.verdict}</span>
+      </div>
+      <h3 className="mt-2 font-display text-[24px] leading-snug text-ink">{b.headline}</h3>
+      <ul className="mt-3 space-y-1.5">
+        {b.reasons.map((r, i) => <li key={i} className="flex gap-2.5 text-[14px] leading-relaxed text-ink/85"><span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink/40" />{r}</li>)}
+      </ul>
+      {b.upcoming && <p className="mt-3 rounded-xl bg-accent-soft/60 px-3 py-2 text-[13px] text-accent">Coming up: {b.upcoming}</p>}
+      {b.sources.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-muted">
+          {b.sources.map((s) => <a key={s.url} href={s.url} target="_blank" rel="noreferrer" className="underline decoration-line underline-offset-2 hover:text-ink">{s.title.slice(0, 50)}</a>)}
+        </div>
+      )}
     </div>
   );
 }

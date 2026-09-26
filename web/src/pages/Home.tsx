@@ -7,7 +7,7 @@ import { NearbyMap } from '../components/map/NearbyMap';
 import { Composer } from '../components/Composer';
 import { AssemblyView } from '../components/assembly/AssemblyView';
 import {
-  AgentNoteView, ClarifyGroup, ComponentCard, CostCompareView, GuideCardView, LocalShopCardView, PlanSummaryView, type ScoutState,
+  AdviceCardView, AgentNoteView, ClarifyGroup, ComponentCard, CostCompareView, GuideCardView, LocalShopCardView, PlanSummaryView, type ScoutState,
 } from '../components/genui/Blocks';
 
 const PROMPTS = [
@@ -70,6 +70,8 @@ export default function Home() {
   const [guides, setGuides] = useState<Block[]>([]);
   const [err, setErr] = useState('');
   const [offers, setOffers] = useState<Record<string, Offer>>({});
+  const [asks, setAsks] = useState<{ q: string; b: BlockOf<'AdviceCard'> | null }[]>([]);
+  const askRef = useRef<HTMLDivElement>(null);
   const planRef = useRef<HTMLDivElement>(null);
   const guidesRef = useRef<HTMLDivElement>(null);
   const [lg, setLg] = useState(() => window.matchMedia('(min-width: 1024px)').matches);
@@ -100,7 +102,7 @@ export default function Home() {
   async function start(text: string, image?: string) {
     if (!text && !image) return;
     setErr(''); setGoalText(text || 'Here’s what I have.'); setGoalImage(image);
-    setPhase('intake'); setOffers({}); setBlocks([]); setGuides([]); setStatus([]); setScouts({}); setComps([]); setIntake([]);
+    setPhase('intake'); setOffers({}); setAsks([]); setBlocks([]); setGuides([]); setStatus([]); setScouts({}); setComps([]); setIntake([]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
     try {
       const r = await api.intake(text, area.id, image, name || undefined);
@@ -121,6 +123,16 @@ export default function Home() {
         else if (e.t === 'error') setErr(e.message);
       });
     } catch (e: any) { setErr(e.message); }
+  }
+
+  // Follow-up buying questions go to the Advisor; anything else starts a new goal.
+  async function onDock(text: string, image?: string) {
+    const isQ = /\?\s*$|^(should|is|are|will|would|do|does|can|which|what if|how long)\b|\b(wait|worth it|better|newer|upgrade|does it matter)\b/i.test(text);
+    if (!(phase === 'planned' && goal && text && !image && isQ)) return start(text, image);
+    setAsks((a) => [...a, { q: text, b: null }]);
+    setTimeout(() => askRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }), 60);
+    const r = await api.ask(goal.id, text).catch(() => null);
+    setAsks((a) => a.map((x) => (x.q === text && !x.b ? { ...x, b: (r?.block as BlockOf<'AdviceCard'>) ?? null } : x)));
   }
 
   async function pick(cid: string, o: Option) {
@@ -230,6 +242,7 @@ export default function Home() {
                     offer={offers[c.id]} onUseOffer={async (o) => goal && setBlocks((await api.rescout(goal.id, c.id, `product:${o.productId}`)).blocks)} />
                 ))}
                 {of(blocks, 'CostCompare').map((b, i) => <CostCompareView key={i} b={b} />)}
+                {of(blocks, 'AdviceCard').map((b, i) => <AdviceCardView key={i} b={b} />)}
                 {of(blocks, 'LocalShopCard').map((b) => <LocalShopCardView key={b.shop.id} b={b} />)}
               </div>
               <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
@@ -237,6 +250,17 @@ export default function Home() {
                 {summary && <PlanSummaryView b={summary} onToggle={toggle} ownImage={goalImage} />}
               </aside>
             </div>
+
+            {asks.length > 0 && (
+              <div ref={askRef} className="mx-auto mt-10 max-w-3xl space-y-4">
+                {asks.map((a, i) => (
+                  <div key={i} className="space-y-3">
+                    <div className="rise flex justify-end"><div className="max-w-[85%] rounded-3xl rounded-br-md bg-ink px-5 py-3 text-[16px] text-paper">{a.q}</div></div>
+                    {a.b ? <AdviceCardView b={a.b} /> : <div className="pulse-dot text-[14px] text-muted">Advisor is checking…</div>}
+                  </div>
+                ))}
+              </div>
+            )}
 
             {guides.length > 0 && (
               <section ref={guidesRef} className="scroll-mt-20 pt-14">
@@ -253,7 +277,7 @@ export default function Home() {
 
       <div className="dock-in fixed inset-x-0 bottom-0 z-20 bg-gradient-to-t from-paper via-paper/85 to-transparent px-4 pb-4 pt-10">
         <div className="mx-auto max-w-2xl">
-          <Composer size="dock" onSubmit={start} busy={phase === 'intake' || phase === 'planning'} placeholders={['Start another goal…', 'Or attach a photo of what you have…']} />
+          <Composer size="dock" onSubmit={onDock} busy={phase === 'intake' || phase === 'planning'} placeholders={phase === 'planned' ? ['Should I buy now or wait?', 'Is something better coming?', 'Does it matter which one I get?', 'Or start another goal…'] : ['Start another goal…', 'Or attach a photo of what you have…']} />
         </div>
       </div>
     </div>

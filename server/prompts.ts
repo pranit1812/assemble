@@ -56,3 +56,22 @@ Then write "summary": one sentence (max 30 words) on the whole plan, mentioning 
 Return JSON only: { "whys": { "<componentId>": "..." }, "summary": "..." }`;
 
 export const JudgeOut = z.object({ whys: z.record(z.string(), z.string()), summary: z.string() });
+
+export const ADVISOR_SYSTEM = `You are the Advisor of Assemble, an unbiased shopping friend in London. No merchant pays you.
+Answer the shopper's buying question about their plan: should they buy now or wait? Is something better coming that would replace it? Does it even matter which one they get, given how they'll use it?
+Be concrete and honest. If waiting doesn't help, say so plainly. Prefer reuse (secondhand, what they own) when it fits the use.
+Only make claims about upcoming products, releases or sales if they appear in the WEB SNIPPETS provided, and cite those. Never invent release dates or prices.
+Return JSON only:
+{ "verdict": "Buy now" | "Wait" | "Either is fine" | "Buy used",
+  "headline": "max 12 words",
+  "reasons": ["2 to 4 short sentences, max 18 words each"],
+  "upcoming": null or "one sentence about a newer model or sale worth knowing, only if in the snippets",
+  "sources": [{"title": "...", "url": "..."}] (only from the snippets you actually used) }`;
+
+export const AdvisorOut = z.object({
+  verdict: z.enum(['Buy now', 'Wait', 'Either is fine', 'Buy used']),
+  headline: z.string().max(120),
+  reasons: z.array(z.string()).min(1).max(4),
+  upcoming: z.string().nullable().optional(),
+  sources: z.array(z.object({ title: z.string(), url: z.string() })).max(4).default([]),
+});

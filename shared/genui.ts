@@ -35,6 +35,23 @@ export const Option = z.object({
 });
 export type Option = z.infer<typeof Option>;
 
+// Public web listings (Tavily) for parts no shop on Assemble stocks. Not ranked, no affiliate tags.
+export const WebLink = z.object({ title: z.string(), url: z.string(), domain: z.string(), pricePence: z.number().int().optional() });
+export type WebLink = z.infer<typeof WebLink>;
+
+// "Should I buy now or wait? Does it matter which one?" — the Advisor's answer.
+export const AdviceCard = z.object({
+  type: z.literal('AdviceCard'),
+  question: z.string(),
+  verdict: z.enum(['Buy now', 'Wait', 'Either is fine', 'Buy used']),
+  headline: z.string(),
+  reasons: z.array(z.string()).max(4),
+  upcoming: z.string().nullable().optional(), // a newer model / sale worth waiting for, if any
+  sources: z.array(z.object({ title: z.string(), url: z.string() })).max(4).default([]),
+  by: z.string().optional(), // 'grok' | 'rules'
+});
+
+
 export const ClarifyCard = z.object({
   type: z.literal('ClarifyCard'),
   key: z.string(), // 'budget' | 'deadline' | 'skill' | 'owned' | custom
@@ -61,6 +78,7 @@ export const Breakdown = z.object({
       options: z.array(Option), // sorted best first
       pickId: z.string().nullable(),
       briefOpen: z.boolean().optional(), // no local/secondhand stock -> brief sent to merchants
+      web: z.array(WebLink).optional(), // only when no shop on Assemble sells it
     }),
   ),
 });
@@ -175,6 +193,7 @@ export const NearbyMap = z.object({
 });
 
 export const Block = z.discriminatedUnion('type', [
+  AdviceCard,
   NearbyMap,
   ClarifyCard,
   AgentNote,
