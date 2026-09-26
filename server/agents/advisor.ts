@@ -40,7 +40,7 @@ export async function advise(o: {
   const dl = deadlineDays(o.deadline);
   const label = deadlineLabel(o.deadline);
   const reused = chosen.length - newish.length;
-  const sources = snippets.slice(0, 2).map((s) => ({ title: s.title, url: s.url }));
+  const sources: { title: string; url: string }[] = []; // rules don't read the web, so they cite nothing
   if (dl <= 14)
     return { type: 'AdviceCard', question: o.question, verdict: 'Buy now', headline: `Buy now: you need it ${label === 'today' || label === 'tomorrow' ? label : `by ${label}`}.`, by: 'rules', upcoming: null, sources,
       reasons: [`Waiting risks missing ${label === 'today' || label === 'tomorrow' ? label : label}.`, `${reused} of ${chosen.length} parts are yours, made or secondhand, so newer versions don't change them.`, newish.length ? `Only ${newish.length} part${newish.length > 1 ? 's are' : ' is'} bought new, and nothing about ${newish.length > 1 ? 'them' : 'it'} improves by waiting.` : 'Nothing here is bought new.'] };
