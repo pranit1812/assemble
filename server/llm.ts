@@ -23,13 +23,16 @@ export async function llmJSON<T>(o: { messages: Msg[]; schema: ZodType<T>; timeo
     if (p.success) return p.data;
   }
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), o.timeoutMs ?? 9000);
+  // Slower, smarter models (e.g. Grok via OpenRouter) can be given more time with LLM_TIMEOUT_MS.
+  const timer = setTimeout(() => ctrl.abort(), Math.max(o.timeoutMs ?? 9000, Number(process.env.LLM_TIMEOUT_MS) || 0));
   const t0 = Date.now();
   try {
     const res = await fetch(`${process.env.LLM_BASE_URL || 'https://api.x.ai/v1'}/chat/completions`, {
       method: 'POST',
       headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.LLM_API_KEY}` },
-      body: JSON.stringify({ model, messages: o.messages, temperature: 0.3, response_format: { type: 'json_object' } }),
+      // max_tokens keeps OpenRouter from reserving a huge reply; LLM_REASONING (low/medium/high) is OpenRouter-only.
+      body: JSON.stringify({ model, messages: o.messages, temperature: 0.3, max_tokens: 1500, response_format: { type: 'json_object' },
+        ...(process.env.LLM_REASONING ? { reasoning: { effort: process.env.LLM_REASONING } } : {}) }),
       signal: ctrl.signal,
     });
     if (!res.ok) {
@@ -58,3 +61,6 @@ export async function llmJSON<T>(o: { messages: Msg[]; schema: ZodType<T>; timeo
     clearTimeout(timer);
   }
 }
+
+// Honest label for the task board: say which model actually answered.
+export const aiName = () => /grok/i.test(process.env.LLM_MODEL || 'grok') ? 'Grok' : (process.env.LLM_MODEL || '').split('/').pop()!;
