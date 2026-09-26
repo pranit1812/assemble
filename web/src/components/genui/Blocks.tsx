@@ -226,7 +226,7 @@ export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage, offer, onU
               <li key={w.url}>
                 <a href={w.url} target="_blank" rel="noreferrer" className="group flex items-baseline justify-between gap-3 text-[14px]">
                   <span className="min-w-0 truncate text-ink group-hover:underline">{w.title}</span>
-                  <span className="shrink-0 text-[12px] text-muted">{w.pricePence ? `${pounds(w.pricePence)} · ` : ''}{w.domain} ↗</span>
+                  <span className="shrink-0 text-[12px] text-muted">{w.pricePence ? `${pounds(w.pricePence)} · ` : ''}{w.domain}{w.match != null ? <span className={w.match >= 70 ? 'text-own' : ''}> · {w.match}% match</span> : ''} ↗</span>
                 </a>
               </li>
             ))}
