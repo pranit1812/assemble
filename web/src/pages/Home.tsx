@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ROUTE_ORDER, type Block, type BlockOf, type Option, type PlanEvent } from '@shared/genui';
+import { type Block, type BlockOf, type Option, type PlanEvent } from '@shared/genui';
 import type { Area } from '@shared/areas';
 import { api, type GoalInfo, type Offer } from '../lib/api';
 import { LocationPicker, loadArea } from '../components/map/LocationPicker';
@@ -7,7 +7,7 @@ import { NearbyMap } from '../components/map/NearbyMap';
 import { Composer } from '../components/Composer';
 import { AssemblyView } from '../components/assembly/AssemblyView';
 import {
-  AgentNoteView, ClarifyGroup, ComponentCard, CostCompareView, GuideCardView, LocalShopCardView, PlanSummaryView, ROUTE_STYLE, type ScoutState,
+  AgentNoteView, ClarifyGroup, ComponentCard, CostCompareView, GuideCardView, LocalShopCardView, PlanSummaryView, type ScoutState,
 } from '../components/genui/Blocks';
 
 const PROMPTS = [
@@ -69,7 +69,6 @@ export default function Home() {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [guides, setGuides] = useState<Block[]>([]);
   const [err, setErr] = useState('');
-  const [nearby, setNearby] = useState<{ shops: number; listings: number } | null>(null);
   const [offers, setOffers] = useState<Record<string, Offer>>({});
   const planRef = useRef<HTMLDivElement>(null);
   const guidesRef = useRef<HTMLDivElement>(null);
@@ -80,7 +79,6 @@ export default function Home() {
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
   }, []);
-  useEffect(() => { api.nearby(area.id).then(setNearby).catch(() => {}); }, [area.id]);
 
   // Shops answering this shopper's briefs show up live.
   useEffect(() => {
@@ -176,32 +174,18 @@ export default function Home() {
               <br />
               <Words text="what are we thinking today?" delay={260} />
             </h1>
-            <p className="rise mt-5 max-w-lg text-[15px] leading-relaxed text-muted" style={{ animationDelay: '700ms' }}>
-              Tell me the goal, not the product. I'll check what you own, what neighbours have and the shops down the road before anything new.
-            </p>
-            <div className="rise mt-10 w-full max-w-2xl text-left" style={{ animationDelay: '850ms' }}>
+            <div className="rise mt-12 w-full max-w-2xl text-left" style={{ animationDelay: '750ms' }}>
               <Composer onSubmit={start} placeholders={PLACEHOLDERS} autoFocus />
             </div>
             <div className="mt-5 flex max-w-2xl flex-wrap justify-center gap-2">
               {PROMPTS.map((p, i) => (
-                <button key={p.label} onClick={() => start(p.text)} className="rise rounded-full border border-line bg-card/60 px-4 py-2 text-[13px] text-muted backdrop-blur transition hover:border-ink/25 hover:text-ink" style={{ animationDelay: `${1000 + i * 80}ms` }}>
+                <button key={p.label} onClick={() => start(p.text)} className="rise rounded-full border border-line bg-card/60 px-4 py-2 text-[13px] text-muted backdrop-blur transition hover:border-ink/25 hover:text-ink" style={{ animationDelay: `${900 + i * 80}ms` }}>
                   {p.label}
                 </button>
               ))}
             </div>
             {err && <p className="mt-4 text-sm text-accent">{err}</p>}
           </main>
-          <footer className="rise relative z-10 mx-auto flex w-full max-w-6xl flex-wrap items-center justify-center gap-x-4 gap-y-2 px-4 pb-6 text-[12px] text-muted sm:justify-between sm:px-6" style={{ animationDelay: '1300ms' }}>
-            <span className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
-              {ROUTE_ORDER.map((r, i) => (
-                <span key={r} className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5"><span className={`h-1.5 w-1.5 rounded-full ${ROUTE_STYLE[r].bg}`} />{ROUTE_STYLE[r].hint}</span>
-                  {i < ROUTE_ORDER.length - 1 && <span className="text-faint">→</span>}
-                </span>
-              ))}
-            </span>
-            <span>{nearby ? `${nearby.shops} shops and ${nearby.listings} neighbours near ${area.name}. ` : ''}Shops never pay to rank.</span>
-          </footer>
         </div>
       </div>
     );
