@@ -24,7 +24,9 @@ export function queueVision(goalId: string, dataUrl: string, goalText: string, c
 // Bot: claim the next photo (returns null when there is none).
 visionRouter.get('/next', (req, res) => {
   if (!authed(req.get('authorization'))) return void res.status(401).json({ error: 'Authorization: Bearer <OPS_KEY>' });
-  const t = get<any>("SELECT * FROM tasks WHERE agent = 'Vision' AND status = 'queued' ORDER BY created_at LIMIT 1");
+  // queued first; a photo claimed but not answered within 45 s goes back in the queue (bots stop between turns)
+  const t = get<any>(`SELECT * FROM tasks WHERE agent = 'Vision' AND (status = 'queued' OR (status = 'running' AND updated_at < datetime('now', '-45 seconds')))
+    ORDER BY created_at DESC LIMIT 1`);
   if (!t) return void res.json(null);
   run("UPDATE tasks SET status = 'running', updated_at = datetime('now') WHERE id = ?", t.id);
   res.json({ taskId: t.id, ...J<any>(t.detail, {}) });
