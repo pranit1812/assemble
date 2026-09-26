@@ -3,6 +3,18 @@
 import { all, get, J } from '../db';
 import { Block, pounds, type BlockOf, type Option } from '../../shared/genui';
 import { deadlineLabel, deadlineDays } from './orchestrator';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ASSEMBLY_FILE = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'seed', 'assembly.json');
+function assemblyFor(recipeId: string | null): Block | null {
+  if (!recipeId) return null;
+  try {
+    const spec = JSON.parse(readFileSync(ASSEMBLY_FILE, 'utf8'))[recipeId];
+    return spec ? Block.parse({ type: 'AssemblyView', ...spec }) : null;
+  } catch (e) { console.warn('[assembly]', (e as Error).message); return null; }
+}
 
 type Breakdown = BlockOf<'Breakdown'>;
 export type GoalRow = { id: string; title: string; user_name: string | null; area: string; lat: number; lng: number; budget_pence: number | null; deadline: string | null; recipe_id: string | null };
@@ -70,6 +82,8 @@ export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, b
 
 export function guidesFor(goal: GoalRow, bd: Breakdown): Block[] {
   const out: Block[] = [];
+  const asm = assemblyFor(goal.recipe_id);
+  if (asm) out.push(asm);
   const seen = new Set<string>();
   for (const c of bd.components) {
     const o = pickOf(c);

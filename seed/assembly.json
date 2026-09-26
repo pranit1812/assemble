@@ -2,67 +2,61 @@
   "superman": {
     "title": "Superman costume",
     "parts": [
-      { "id": "suit-torso", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.26, 0.72, 0.2], "pos": [0, 1.36, 0], "explode": [0, 0.3, 0], "color": "#3f5f8c", "step": 1 },
-      { "id": "suit-arm-l", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.07, 0.66, 0.06], "pos": [-0.33, 1.33, 0], "rot": [0, 0, -0.1], "explode": [-0.45, 0.3, 0], "color": "#3f5f8c", "step": 1 },
-      { "id": "suit-arm-r", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.07, 0.66, 0.06], "pos": [0.33, 1.33, 0], "rot": [0, 0, 0.1], "explode": [0.45, 0.3, 0], "color": "#3f5f8c", "step": 1 },
-      { "id": "suit-leg-l", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.1, 0.9, 0.085], "pos": [-0.11, 0.55, 0], "explode": [-0.3, 0.12, 0], "color": "#3f5f8c", "step": 1 },
-      { "id": "suit-leg-r", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.1, 0.9, 0.085], "pos": [0.11, 0.55, 0], "explode": [0.3, 0.12, 0], "color": "#3f5f8c", "step": 1 },
-      { "id": "suit-hand-l", "label": "Blue suit", "componentId": "suit", "shape": "sphere", "size": [0.065, 0, 0], "pos": [-0.37, 0.96, 0], "explode": [-0.55, 0.28, 0], "color": "#e2c2a4", "step": 1 },
-      { "id": "suit-hand-r", "label": "Blue suit", "componentId": "suit", "shape": "sphere", "size": [0.065, 0, 0], "pos": [0.37, 0.96, 0], "explode": [0.55, 0.28, 0], "color": "#e2c2a4", "step": 1 },
-      { "id": "suit-neck", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.06, 0.12, 0.07], "pos": [0, 1.77, 0], "explode": [0, 0.4, 0], "color": "#e2c2a4", "step": 1 },
-      { "id": "suit-head", "label": "Blue suit", "componentId": "suit", "shape": "sphere", "size": [0.15, 0, 0], "pos": [0, 1.96, 0], "explode": [0, 0.5, 0], "color": "#e2c2a4", "step": 1 },
-
-      { "id": "boot-l", "label": "Boot covers", "componentId": "boots", "shape": "cylinder", "size": [0.11, 0.36, 0.125], "pos": [-0.11, 0.18, 0], "explode": [-0.35, 0, 0.5], "color": "#a8403a", "step": 2 },
-      { "id": "boot-r", "label": "Boot covers", "componentId": "boots", "shape": "cylinder", "size": [0.11, 0.36, 0.125], "pos": [0.11, 0.18, 0], "explode": [0.35, 0, 0.5], "color": "#a8403a", "step": 2 },
-      { "id": "boot-toe-l", "label": "Boot covers", "componentId": "boots", "shape": "box", "size": [0.2, 0.1, 0.16], "pos": [-0.11, 0.05, 0.09], "explode": [-0.35, 0, 0.5], "color": "#a8403a", "step": 2 },
-      { "id": "boot-toe-r", "label": "Boot covers", "componentId": "boots", "shape": "box", "size": [0.2, 0.1, 0.16], "pos": [0.11, 0.05, 0.09], "explode": [0.35, 0, 0.5], "color": "#a8403a", "step": 2 },
-
-      { "id": "belt", "label": "Yellow belt", "componentId": "belt", "shape": "torus", "size": [0.212, 0.036, 0], "pos": [0, 1.05, 0], "rot": [1.5708, 0, 0], "explode": [0, 0.15, 0.7], "color": "#d4a33c", "step": 3 },
-      { "id": "belt-buckle", "label": "Yellow belt", "componentId": "belt", "shape": "box", "size": [0.09, 0.075, 0.03], "pos": [0, 1.05, 0.24], "explode": [0, 0.15, 0.7], "color": "#b8862a", "step": 3 },
-
-      { "id": "emblem-shield", "label": "Chest emblem", "componentId": "emblem", "shape": "box", "size": [0.15, 0.15, 0.025], "pos": [0, 1.5, 0.245], "rot": [0.083, 0, 0.785], "explode": [0, 0.25, 0.85], "color": "#dcae45", "step": 4 },
-      { "id": "emblem-core", "label": "Chest emblem", "componentId": "emblem", "shape": "box", "size": [0.085, 0.085, 0.02], "pos": [0, 1.5, 0.262], "rot": [0.083, 0, 0.785], "explode": [0, 0.25, 0.85], "color": "#a8403a", "step": 4 },
-
-      { "id": "cape", "label": "Red cape", "componentId": "cape", "shape": "box", "size": [0.58, 1.25, 0.025], "pos": [0, 1.08, -0.33], "rot": [0.12, 0, 0], "explode": [0, 0.35, -0.8], "color": "#a8403a", "step": 5 }
+      {"id": "suit", "label": "Blue suit", "componentId": "suit", "model": "superman.suit", "shape": "box", "size": [0, 0, 0], "pos": [0, 0, 0], "explode": [0, 0.25, 0], "color": "#3f5f8c", "step": 1},
+      {"id": "suit-torso", "label": "Blue suit", "componentId": "suit", "shape": "box", "size": [0.38, 0.56, 0.24], "pos": [0, 1.2, 0], "explode": [0, 0.25, 0], "color": "#3f5f8c", "step": 1},
+      {"id": "suit-arm-l", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.05, 0.58, 0.042], "pos": [-0.24, 1.18, 0], "rot": [0, 0, -0.08], "explode": [-0.35, 0.25, 0], "color": "#3f5f8c", "step": 1},
+      {"id": "suit-arm-r", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.05, 0.58, 0.042], "pos": [0.24, 1.18, 0], "rot": [0, 0, 0.08], "explode": [0.35, 0.25, 0], "color": "#3f5f8c", "step": 1},
+      {"id": "suit-leg-l", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.075, 0.84, 0.06], "pos": [-0.09, 0.5, 0], "explode": [-0.22, 0.1, 0], "color": "#3f5f8c", "step": 1},
+      {"id": "suit-leg-r", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.075, 0.84, 0.06], "pos": [0.09, 0.5, 0], "explode": [0.22, 0.1, 0], "color": "#3f5f8c", "step": 1},
+      {"id": "suit-hand-l", "label": "Blue suit", "componentId": "suit", "shape": "sphere", "size": [0.045, 0, 0], "pos": [-0.27, 0.86, 0], "explode": [-0.45, 0.22, 0], "color": "#e2c2a4", "step": 1},
+      {"id": "suit-hand-r", "label": "Blue suit", "componentId": "suit", "shape": "sphere", "size": [0.045, 0, 0], "pos": [0.27, 0.86, 0], "explode": [0.45, 0.22, 0], "color": "#e2c2a4", "step": 1},
+      {"id": "suit-neck", "label": "Blue suit", "componentId": "suit", "shape": "cylinder", "size": [0.05, 0.1, 0.055], "pos": [0, 1.52, 0], "explode": [0, 0.32, 0], "color": "#e2c2a4", "step": 1},
+      {"id": "suit-head", "label": "Blue suit", "componentId": "suit", "shape": "sphere", "size": [0.11, 0, 0], "pos": [0, 1.68, 0], "explode": [0, 0.42, 0], "color": "#e2c2a4", "step": 1},
+      {"id": "boots", "label": "Boot covers", "componentId": "boots", "model": "superman.boots", "shape": "box", "size": [0, 0, 0], "pos": [0, 0, 0], "explode": [0, 0, 0.5], "color": "#a8403a", "step": 2},
+      {"id": "boot-l", "label": "Boot covers", "componentId": "boots", "shape": "cylinder", "size": [0.08, 0.3, 0.088], "pos": [-0.09, 0.15, 0], "explode": [0, 0, 0.5], "color": "#a8403a", "step": 2},
+      {"id": "boot-r", "label": "Boot covers", "componentId": "boots", "shape": "cylinder", "size": [0.08, 0.3, 0.088], "pos": [0.09, 0.15, 0], "explode": [0, 0, 0.5], "color": "#a8403a", "step": 2},
+      {"id": "boot-toe-l", "label": "Boot covers", "componentId": "boots", "shape": "box", "size": [0.14, 0.08, 0.13], "pos": [-0.09, 0.04, 0.06], "explode": [0, 0, 0.5], "color": "#a8403a", "step": 2},
+      {"id": "boot-toe-r", "label": "Boot covers", "componentId": "boots", "shape": "box", "size": [0.14, 0.08, 0.13], "pos": [0.09, 0.04, 0.06], "explode": [0, 0, 0.5], "color": "#a8403a", "step": 2},
+      {"id": "belt", "label": "Yellow belt", "componentId": "belt", "model": "superman.belt", "shape": "box", "size": [0.41, 0.07, 0.265], "pos": [0, 1.0, 0], "explode": [0, 0.12, 0.6], "color": "#d4a33c", "step": 3},
+      {"id": "belt-buckle", "label": "Yellow belt", "componentId": "belt", "shape": "box", "size": [0.08, 0.065, 0.02], "pos": [0, 1.0, 0.138], "explode": [0, 0.12, 0.6], "color": "#b8862a", "step": 3},
+      {"id": "emblem", "label": "Chest emblem", "componentId": "emblem", "model": "superman.emblem", "shape": "box", "size": [0.13, 0.11, 0.02], "pos": [0, 1.3, 0.13], "explode": [0, 0.2, 0.75], "color": "#dcae45", "step": 4},
+      {"id": "emblem-core", "label": "Chest emblem", "componentId": "emblem", "shape": "box", "size": [0.06, 0.06, 0.02], "pos": [0, 1.3, 0.142], "rot": [0, 0, 0.785], "explode": [0, 0.2, 0.75], "color": "#a8403a", "step": 4},
+      {"id": "cape", "label": "Red cape", "componentId": "cape", "model": "superman.cape", "shape": "box", "size": [0, 0, 0], "pos": [0, 1.5, -0.1], "explode": [0, 0.3, -0.7], "color": "#a8403a", "step": 5},
+      {"id": "cape-drape", "label": "Red cape", "componentId": "cape", "shape": "box", "size": [0.46, 1.05, 0.02], "pos": [0, 0.96, -0.18], "rot": [0.1, 0, 0], "explode": [0, 0.3, -0.7], "color": "#a8403a", "step": 5}
     ],
     "steps": [
-      { "n": 1, "title": "Start with the suit", "text": "Pull on the blue top and leggings so the suit sits smooth from neck to ankle." },
-      { "n": 2, "title": "Pull on boot covers", "text": "Slip the red covers over your trainers and tuck the leggings inside." },
-      { "n": 3, "title": "Tie the yellow belt", "text": "Wrap the wide yellow ribbon round the waist and knot it at the back." },
-      { "n": 4, "title": "Fix the chest emblem", "text": "Centre the shield on the chest, then iron or stitch it flat." },
-      { "n": 5, "title": "Hang the cape", "text": "Pin the red cape at both shoulders so it falls clear behind you." }
+      {"n": 1, "title": "Start with the suit", "text": "Pull on the blue top and leggings so the suit sits smooth from neck to ankle."},
+      {"n": 2, "title": "Pull on boot covers", "text": "Slip the red covers over your trainers and tuck the leggings inside."},
+      {"n": 3, "title": "Tie the yellow belt", "text": "Wrap the wide yellow ribbon round the waist and knot it at the back."},
+      {"n": 4, "title": "Fix the chest emblem", "text": "Centre the shield on the chest, then iron or stitch it flat."},
+      {"n": 5, "title": "Hang the cape", "text": "Pin the red cape at both shoulders so it falls clear behind you."}
     ]
   },
   "plantpot": {
     "title": "Self-watering plant pot",
     "parts": [
-      { "id": "reservoir", "label": "Water reservoir", "componentId": "reservoir", "shape": "cylinder", "size": [0.6, 0.62, 0.52], "pos": [0, 0.31, 0], "explode": [0, 0, 0.3], "color": "#9fb8ad", "step": 1 },
-      { "id": "water", "label": "Water", "shape": "cylinder", "size": [0.5, 0.22, 0.49], "pos": [0, 0.13, 0], "explode": [0, 0.5, 0.3], "color": "#9cc0cc", "step": 1 },
-
-      { "id": "wick", "label": "Wick", "componentId": "wick", "shape": "cylinder", "size": [0.022, 0.56, 0.022], "pos": [-0.06, 0.3, 0], "explode": [-0.8, 0.55, 0.1], "color": "#efe6d2", "step": 2 },
-
-      { "id": "inner", "label": "Inner pot", "componentId": "inner", "shape": "cylinder", "size": [0.42, 0.5, 0.32], "pos": [-0.06, 0.57, 0], "explode": [0, 0.8, 0], "color": "#b86a4b", "step": 3 },
-
-      { "id": "mix", "label": "Potting mix", "componentId": "mix", "shape": "cylinder", "size": [0.385, 0.4, 0.315], "pos": [-0.06, 0.54, 0], "explode": [0, 1.05, 0], "color": "#6b4a35", "step": 4 },
-      { "id": "plant-stem", "label": "Your plant", "shape": "cylinder", "size": [0.016, 0.3, 0.022], "pos": [-0.06, 0.88, 0], "explode": [0.7, 0.75, -0.3], "color": "#5d7a3a", "step": 4 },
-      { "id": "plant-crown", "label": "Your plant", "shape": "sphere", "size": [0.19, 0, 0], "pos": [-0.06, 1.13, 0], "explode": [0.7, 0.75, -0.3], "color": "#6f8f4f", "step": 4 },
-      { "id": "plant-leaf-a", "label": "Your plant", "shape": "sphere", "size": [0.12, 0, 0], "pos": [0.1, 1.04, -0.06], "explode": [0.7, 0.75, -0.3], "color": "#7f9d5c", "step": 4 },
-      { "id": "plant-leaf-b", "label": "Your plant", "shape": "sphere", "size": [0.1, 0, 0], "pos": [-0.2, 1.0, -0.05], "explode": [0.7, 0.75, -0.3], "color": "#688a48", "step": 4 },
-
-      { "id": "float", "label": "Water-level float", "componentId": "float", "shape": "cylinder", "size": [0.065, 0.07, 0.065], "pos": [0.46, 0.26, 0], "explode": [0.6, 0.6, 0.3], "color": "#d9894a", "step": 5 },
-      { "id": "float-skewer", "label": "Water-level float", "componentId": "float", "shape": "cylinder", "size": [0.01, 0.62, 0.01], "pos": [0.46, 0.58, 0], "explode": [0.6, 0.6, 0.3], "color": "#c8a47a", "step": 5 },
-      { "id": "float-marker", "label": "Water-level float", "componentId": "float", "shape": "sphere", "size": [0.022, 0, 0], "pos": [0.46, 0.9, 0], "explode": [0.6, 0.6, 0.3], "color": "#c2410c", "step": 5 },
-
-      { "id": "sensor-probe", "label": "Moisture sensor", "componentId": "sensor", "shape": "box", "size": [0.07, 0.3, 0.014], "pos": [0.12, 0.76, 0.12], "rot": [0, 0.6, 0], "explode": [0.35, 0.75, 0.5], "color": "#4a7a5c", "step": 6 },
-      { "id": "sensor-esp32", "label": "ESP32", "componentId": "sensor", "shape": "box", "size": [0.2, 0.05, 0.13], "pos": [0.8, 0.025, 0.3], "explode": [0.35, 0.4, 0.35], "color": "#2e2c29", "step": 6 }
+      {"id": "reservoir", "label": "Water reservoir", "componentId": "reservoir", "shape": "cylinder", "size": [0.6, 0.62, 0.52], "pos": [0, 0.31, 0], "explode": [0, 0, 0.3], "color": "#9fb8ad", "step": 1},
+      {"id": "water", "label": "Water", "shape": "cylinder", "size": [0.5, 0.22, 0.49], "pos": [0, 0.13, 0], "explode": [0, 0.5, 0.3], "color": "#9cc0cc", "step": 1},
+      {"id": "wick", "label": "Wick", "componentId": "wick", "shape": "cylinder", "size": [0.022, 0.56, 0.022], "pos": [-0.06, 0.3, 0], "explode": [-0.8, 0.55, 0.1], "color": "#efe6d2", "step": 2},
+      {"id": "inner", "label": "Inner pot", "componentId": "inner", "shape": "cylinder", "size": [0.42, 0.5, 0.32], "pos": [-0.06, 0.57, 0], "explode": [0, 0.8, 0], "color": "#b86a4b", "step": 3},
+      {"id": "mix", "label": "Potting mix", "componentId": "mix", "shape": "cylinder", "size": [0.385, 0.4, 0.315], "pos": [-0.06, 0.54, 0], "explode": [0, 1.05, 0], "color": "#6b4a35", "step": 4},
+      {"id": "plant-stem", "label": "Your plant", "shape": "cylinder", "size": [0.016, 0.3, 0.022], "pos": [-0.06, 0.88, 0], "explode": [0.7, 0.75, -0.3], "color": "#5d7a3a", "step": 4},
+      {"id": "plant-crown", "label": "Your plant", "shape": "sphere", "size": [0.19, 0, 0], "pos": [-0.06, 1.13, 0], "explode": [0.7, 0.75, -0.3], "color": "#6f8f4f", "step": 4},
+      {"id": "plant-leaf-a", "label": "Your plant", "shape": "sphere", "size": [0.12, 0, 0], "pos": [0.1, 1.04, -0.06], "explode": [0.7, 0.75, -0.3], "color": "#7f9d5c", "step": 4},
+      {"id": "plant-leaf-b", "label": "Your plant", "shape": "sphere", "size": [0.1, 0, 0], "pos": [-0.2, 1.0, -0.05], "explode": [0.7, 0.75, -0.3], "color": "#688a48", "step": 4},
+      {"id": "float", "label": "Water-level float", "componentId": "float", "shape": "cylinder", "size": [0.065, 0.07, 0.065], "pos": [0.46, 0.26, 0], "explode": [0.6, 0.6, 0.3], "color": "#d9894a", "step": 5},
+      {"id": "float-skewer", "label": "Water-level float", "componentId": "float", "shape": "cylinder", "size": [0.01, 0.62, 0.01], "pos": [0.46, 0.58, 0], "explode": [0.6, 0.6, 0.3], "color": "#c8a47a", "step": 5},
+      {"id": "float-marker", "label": "Water-level float", "componentId": "float", "shape": "sphere", "size": [0.022, 0, 0], "pos": [0.46, 0.9, 0], "explode": [0.6, 0.6, 0.3], "color": "#c2410c", "step": 5},
+      {"id": "sensor-probe", "label": "Moisture sensor", "componentId": "sensor", "shape": "box", "size": [0.07, 0.3, 0.014], "pos": [0.12, 0.76, 0.12], "rot": [0, 0.6, 0], "explode": [0.35, 0.75, 0.5], "color": "#4a7a5c", "step": 6},
+      {"id": "sensor-esp32", "label": "ESP32", "componentId": "sensor", "shape": "box", "size": [0.2, 0.05, 0.13], "pos": [0.8, 0.025, 0.3], "explode": [0.35, 0.4, 0.35], "color": "#2e2c29", "step": 6}
     ],
     "steps": [
-      { "n": 1, "title": "Start with the reservoir", "text": "Set the watertight outer pot down and pour in a few centimetres of water." },
-      { "n": 2, "title": "Thread the wick", "text": "Push the cotton wick through the inner pot's hole so it dangles into the water." },
-      { "n": 3, "title": "Seat the inner pot", "text": "Lower the inner pot into the reservoir, keeping the wick hanging straight down." },
-      { "n": 4, "title": "Fill and plant", "text": "Pack peat-free potting mix around the wick and settle your plant on top." },
-      { "n": 5, "title": "Add the level float", "text": "Drop the float into the gap; its skewer rises to show the water level." },
-      { "n": 6, "title": "Wire up the sensor", "text": "Push the moisture probe into the soil and connect it to the ESP32 beside the pot." }
+      {"n": 1, "title": "Start with the reservoir", "text": "Set the watertight outer pot down and pour in a few centimetres of water."},
+      {"n": 2, "title": "Thread the wick", "text": "Push the cotton wick through the inner pot's hole so it dangles into the water."},
+      {"n": 3, "title": "Seat the inner pot", "text": "Lower the inner pot into the reservoir, keeping the wick hanging straight down."},
+      {"n": 4, "title": "Fill and plant", "text": "Pack peat-free potting mix around the wick and settle your plant on top."},
+      {"n": 5, "title": "Add the level float", "text": "Drop the float into the gap; its skewer rises to show the water level."},
+      {"n": 6, "title": "Wire up the sensor", "text": "Push the moisture probe into the soil and connect it to the ESP32 beside the pot."}
     ]
   }
 }

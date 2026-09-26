@@ -5,6 +5,7 @@ import { api, type GoalInfo, type Offer } from '../lib/api';
 import { LocationPicker, loadArea } from '../components/map/LocationPicker';
 import { NearbyMap } from '../components/map/NearbyMap';
 import { Composer } from '../components/Composer';
+import { AssemblyView } from '../components/assembly/AssemblyView';
 import {
   AgentNoteView, ClarifyGroup, ComponentCard, CostCompareView, GuideCardView, LocalShopCardView, PlanSummaryView, ROUTE_STYLE, type ScoutState,
 } from '../components/genui/Blocks';
@@ -257,6 +258,7 @@ export default function Home() {
               <section ref={guidesRef} className="scroll-mt-20 pt-14">
                 <p className="text-[12px] font-medium uppercase tracking-[0.2em] text-own">Everything gathered</p>
                 <h2 className="mt-2 font-display text-5xl text-ink">Now put it together.</h2>
+                {of(guides, 'AssemblyView').map((b, i) => <div key={i} className="mt-6"><AssemblyView block={b} /></div>)}
                 <div className="mt-6 grid gap-4 md:grid-cols-2">{of(guides, 'GuideCard').map((b, i) => <GuideCardView key={b.guideId} b={b} idx={i} />)}</div>
               </section>
             )}
