@@ -36,13 +36,25 @@ export async function tavily(query: string, opts: { domains?: string[]; max?: nu
   } finally { clearTimeout(t); }
 }
 
-const price = (s: string) => { const m = s.match(/£\s?(\d{1,4}(?:\.\d{2})?)/); return m ? Math.round(parseFloat(m[1]) * 100) : undefined; };
+const priceIn = (s: string) => { const m = s.match(/£\s?(\d{1,3}(?:\.\d{2})?)(?!\d)/); return m ? Math.round(parseFloat(m[1]) * 100) : undefined; };
+const WORDS = (s: string) => s.toLowerCase().split(/[^a-z]+/).filter((w) => w.length > 2 && !['the', 'and', 'for', 'with'].includes(w));
 
-export async function webScout(part: string, goal: string): Promise<WebLink[]> {
-  const rs = await tavily(`buy ${part} ${goal} UK price`, { domains: SHOPS, max: 8 });
+// Public listings for one part. Search by the part itself (e.g. "red cape"), keep only listings that
+// mention it, and trust a price only from the title or a plausible one in the snippet.
+export async function webScout(part: string, tag: string, context = ''): Promise<WebLink[]> {
+  const q = `${part}${part.toLowerCase().includes(tag.replace('-', ' ')) ? '' : ` ${tag.replace('-', ' ')}`}${context ? ` ${context}` : ''} buy UK`;
+  const rs = await tavily(q, { domains: SHOPS, max: 8 });
+  const need = [...new Set([...WORDS(tag.replace('-', ' ')), ...WORDS(part)])];
   const seen = new Set<string>();
   return rs
-    .map((r) => { const domain = new URL(r.url).hostname.replace(/^www\./, ''); return { title: r.title.replace(/\s*[|:-]\s*(Amazon|eBay|Argos|Etsy).*$/i, '').slice(0, 90), url: r.url, domain, pricePence: price(`${r.title} ${r.content}`) }; })
+    .filter((r) => { const t = r.title.toLowerCase(); return need.some((w) => t.includes(w.replace(/s$/, ''))); })
+    .map((r) => {
+      const domain = new URL(r.url).hostname.replace(/^www\./, '');
+      const fromTitle = priceIn(r.title);
+      const fromText = priceIn(r.content);
+      const pricePence = fromTitle ?? (fromText && fromText <= 15000 ? fromText : undefined);
+      return { title: r.title.replace(/\s*[|:–-]\s*(Amazon|eBay|Argos|Etsy|John Lewis|IKEA|Screwfix|B&Q|Hobbycraft)[^|]*$/i, '').replace(/^Amazon\.co\.uk\s*:\s*/i, '').slice(0, 90), url: r.url, domain, pricePence };
+    })
     .filter((l) => (seen.has(l.domain) ? false : (seen.add(l.domain), true)))
     .sort((a, b) => Number(!!b.pricePence) - Number(!!a.pricePence))
     .slice(0, 3);

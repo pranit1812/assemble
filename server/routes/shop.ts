@@ -123,7 +123,7 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
     send({ t: 'status', agent: 'Advisor', text: 'Checking whether to buy now or wait.' });
     const [judged, webs, advice] = await Promise.all([
       judgeWhys({ title: goal.title, budgetPence: budget, deadline }, bd.components.map((c) => ({ id: c.id, name: c.name, pick: pickOpt(c.id) })), skill, whole?.price_pence ?? allNew),
-      Promise.all(bare.map((c) => webScout(c.name, goal.title))),
+      Promise.all(bare.map((c) => { const k = comps.find((x) => x.id === c.id)!; return webScout(c.name, k.tag, k.tags.includes('adult') ? 'adult' : ''); })),
       advise({ question: 'Should I buy this now or wait?', goalTitle: goal.title, deadline, budgetPence: budget,
         picks: bd.components.map((c) => ({ component: c.name, pick: pickOpt(c.id) })), tags: comps.flatMap((c) => [c.tag, ...c.tags]) }).catch(() => null),
     ]);
