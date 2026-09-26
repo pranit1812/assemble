@@ -5,6 +5,7 @@ import { Router } from 'express';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { all, get, run, J, id, DB_PATH } from '../db';
+import { triggerBot } from '../trigger';
 
 export const UPLOADS = join(dirname(DB_PATH), 'uploads');
 mkdirSync(UPLOADS, { recursive: true });
@@ -19,6 +20,7 @@ export function queueVision(goalId: string, dataUrl: string, goalText: string, c
   writeFileSync(file, Buffer.from(m[2], 'base64'));
   run('INSERT INTO tasks (id, agent, title, status, detail) VALUES (?,?,?,?,?)', id('t'), 'Vision', `Look at a shopper's photo`, 'queued',
     JSON.stringify({ goalId, imagePath: file, imageUrl: `/uploads/${file.split('/').pop()}`, goal: goalText, components }));
+  triggerBot('vision', 'check photos', { goalId, goal: goalText, imagePath: file });
 }
 
 // Bot: claim the next photo (returns null when there is none).

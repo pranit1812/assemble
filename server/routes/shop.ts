@@ -16,6 +16,7 @@ import { queueVision } from './vision';
 import { webScout, hasWeb } from '../agents/web';
 import { advise } from '../agents/advisor';
 import { offersForGoal } from './bridge';
+import { triggerBot } from '../trigger';
 
 export const shopRouter = Router();
 
@@ -128,6 +129,7 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
     for (const c of bd.components.filter((c) => c.briefOpen)) {
       logEvent('component.unmet', c.name, goal.area);
       run('INSERT INTO briefs (id, goal_id, component, tag, area, budget_pence) VALUES (?,?,?,?,?,?)', id('b'), goal.id, c.name, comps.find((k) => k.id === c.id)!.tag, goal.area, null);
+      triggerBot('brief', `a shopper near ${goal.area} needs: ${c.name}. Ask nearby shops.`, { goalId: goal.id, part: c.name, area: goal.area });
     }
 
     const pickOpt = (cid: string) => bd.components.find((c) => c.id === cid)!.options.find((o) => o.id === picks[cid]) ?? null;

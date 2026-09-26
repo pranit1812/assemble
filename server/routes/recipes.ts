@@ -4,6 +4,7 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { all, run, J, id } from '../db';
 import { isTag } from '../../shared/tags';
+import { triggerBot } from '../trigger';
 
 export const recipesRouter = Router();
 
@@ -36,4 +37,5 @@ export function queueRecipe(goalText: string, area: string) {
   const open = all<any>("SELECT id FROM tasks WHERE agent = 'Recipe writer' AND status IN ('queued','running') AND detail = ?", goalText);
   if (open.length) return;
   run('INSERT INTO tasks (id, agent, title, status, detail) VALUES (?,?,?,?,?)', id('t'), 'Recipe writer', `Write a house recipe (${area})`, 'queued', goalText);
+  triggerBot('recipe', `write a recipe for: ${goalText}`, { goal: goalText, area });
 }
