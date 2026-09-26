@@ -45,6 +45,8 @@ shopRouter.post('/goals', async (req, res) => {
   const { text = '', image, userName, areaId } = req.body ?? {};
   if (image && (typeof image !== 'string' || !image.startsWith('data:image/') || image.length > 6_000_000)) return void res.status(400).json({ error: 'Image must be a photo under ~4MB' });
   if (!String(text).trim() && !image) return void res.status(400).json({ error: 'Tell me a goal' });
+  // Long text would flood the owner and bot pages; real goals are a sentence or two.
+  if (String(text).length > 600 || String(userName ?? '').length > 60) return void res.status(400).json({ error: 'Keep it under 600 characters' });
   const area = AREAS.find((a) => a.id === areaId) ?? DEFAULT_AREA;
   const r = await intake(String(text).trim() || 'Help me make what is in this photo', image);
   const gid = id('g');
