@@ -25,4 +25,7 @@ curl -s -X POST "$BASE/api/vision/<taskId>" -H "Authorization: Bearer $KEY" -H '
 ```
 5. Go straight back to step 1.
 
-Never claim items that are not visible. If the photo has nothing relevant, post `"owned": []` and say what you do see.
+Be generous about what counts: parts are loose descriptions. Blue leggings or a plain blue long-sleeve top count toward a
+"Blue suit"; any red fabric can become a "Red cape"; an old jar counts as a "reservoir"; shoeboxes count as "Storage boxes".
+Mark a part owned if something in the photo could reasonably serve as it, and say so in your sentence
+("Your blue leggings will do for the suit."). Never claim items that are not visible. If the photo has nothing relevant, post `"owned": []` and say what you do see.
