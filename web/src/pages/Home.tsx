@@ -29,6 +29,13 @@ export default function Home() {
   const [nearby, setNearby] = useState<{ shops: number; listings: number } | null>(null);
   const [listening, setListening] = useState(false);
   const planRef = useRef<HTMLDivElement>(null);
+  const [lg, setLg] = useState(() => window.matchMedia('(min-width: 1024px)').matches);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const on = () => setLg(mq.matches);
+    mq.addEventListener('change', on);
+    return () => mq.removeEventListener('change', on);
+  }, []);
   const guidesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { api.nearby(area.id).then(setNearby).catch(() => {}); }, [area.id]);
@@ -117,7 +124,7 @@ export default function Home() {
             <div className="flex items-end gap-2 rounded-[28px] border border-line bg-card p-2.5 pl-5 shadow-[var(--shadow-soft)] focus-within:border-ink/30">
               <textarea value={text} onChange={(e) => setText(e.target.value)} rows={1} autoFocus
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); start(); } }}
-                placeholder="Describe a goal, not a product"
+                placeholder="Describe your goal…"
                 className="max-h-40 min-h-[44px] flex-1 resize-none bg-transparent py-2.5 text-[17px] text-ink outline-none placeholder:text-faint" />
               {hasMic && (
                 <button type="button" onClick={mic} aria-label="Speak" className={`grid h-11 w-11 place-items-center rounded-full ${listening ? 'bg-accent text-white' : 'text-muted hover:bg-paper'}`}>
@@ -176,6 +183,7 @@ export default function Home() {
 
               <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
                 <div className="space-y-4">
+                  {!lg && map && <NearbyMap block={map} />}
                   {(bd?.components ?? comps).map((c, i) => (
                     <ComponentCard key={c.id} idx={i} c={c} scouts={scouts[c.id]} onPick={bd ? (o) => pick(c.id, o) : undefined} />
                   ))}
@@ -183,7 +191,7 @@ export default function Home() {
                   {of(blocks, 'LocalShopCard').map((b) => <LocalShopCardView key={b.shop.id} b={b} />)}
                 </div>
                 <aside className="space-y-4 lg:sticky lg:top-6 lg:self-start">
-                  {map ? <NearbyMap block={map} /> : <div className="grid h-[280px] place-items-center rounded-2xl border border-line bg-card text-sm text-muted sm:h-[360px]"><span className="pulse-dot">Scouting around {area.name}…</span></div>}
+                  {!lg ? null : map ? <NearbyMap block={map} /> : <div className="grid h-[280px] place-items-center rounded-2xl border border-line bg-card text-sm text-muted sm:h-[360px]"><span className="pulse-dot">Scouting around {area.name}…</span></div>}
                   {summary && <PlanSummaryView b={summary} onToggle={toggle} />}
                 </aside>
               </div>

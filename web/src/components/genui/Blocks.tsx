@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { ROUTE_ORDER, pounds, type BlockOf, type Option, type RouteTag } from '@shared/genui';
 
-export const ROUTE_STYLE: Record<RouteTag, { bg: string; text: string; ring: string; soft: string; label: string; hint: string }> = {
+export const ROUTE_STYLE: Record<RouteTag, { bg: string; text: string; ring: string; soft: string; label: string; short?: string; hint: string }> = {
   Own: { bg: 'bg-own', text: 'text-own', ring: 'ring-own', soft: 'bg-own/10', label: 'Own', hint: 'Already yours' },
   DIY: { bg: 'bg-diy', text: 'text-diy', ring: 'ring-diy', soft: 'bg-diy/10', label: 'Make', hint: 'Make it' },
-  Secondhand: { bg: 'bg-secondhand', text: 'text-secondhand', ring: 'ring-secondhand', soft: 'bg-secondhand/10', label: 'Neighbour', hint: 'Secondhand nearby' },
-  Local: { bg: 'bg-local', text: 'text-local', ring: 'ring-local', soft: 'bg-local/10', label: 'Local shop', hint: 'Walk in' },
+  Secondhand: { bg: 'bg-secondhand', text: 'text-secondhand', ring: 'ring-secondhand', soft: 'bg-secondhand/10', label: 'Neighbour', short: 'Used', hint: 'Secondhand nearby' },
+  Local: { bg: 'bg-local', text: 'text-local', ring: 'ring-local', soft: 'bg-local/10', label: 'Local shop', short: 'Shop', hint: 'Walk in' },
   Parts: { bg: 'bg-parts', text: 'text-parts', ring: 'ring-parts', soft: 'bg-parts/10', label: 'Parts', hint: 'Buy parts, combine' },
   New: { bg: 'bg-new', text: 'text-new', ring: 'ring-new', soft: 'bg-new/10', label: 'New', hint: 'Buy it new' },
 };
@@ -90,7 +90,7 @@ function Ladder({ options, pickId, scouts, onPick }: { options?: Option[]; pickI
   const best = options ? bestPerRoute(options) : {};
   const picked = options?.find((o) => o.id === pickId);
   return (
-    <div className="grid grid-cols-6 gap-1.5">
+    <div className="grid grid-cols-6 gap-1 sm:gap-1.5">
       {ROUTE_ORDER.map((r) => {
         const s = ROUTE_STYLE[r];
         const o = picked?.tag === r ? picked : best[r];
@@ -99,10 +99,10 @@ function Ladder({ options, pickId, scouts, onPick }: { options?: Option[]; pickI
         const empty = options ? !o : sc?.state === 'done' && sc.found === 0;
         return (
           <button key={r} disabled={!o || !onPick} onClick={() => o && onPick?.(o)} title={o ? `${o.title} · ${pounds(o.pricePence)}` : s.hint}
-            className={`relative flex min-h-[54px] flex-col justify-between rounded-xl px-2 py-1.5 text-left transition
+            className={`relative flex min-h-[54px] flex-col justify-between rounded-xl px-1.5 py-1.5 text-left transition sm:px-2
               ${isPick ? `${s.bg} text-white shadow-sm` : empty ? 'border border-dashed border-line text-faint' : `${s.soft} ${s.text} hover:ring-1 ${s.ring}`}`}>
-            <span className="text-[10px] font-medium uppercase tracking-wide opacity-90">{s.label}</span>
-            <span className="font-mono text-[13px]">
+            <span className="truncate text-[10px] font-medium uppercase tracking-wide opacity-90"><span className="sm:hidden">{s.short ?? s.label}</span><span className="hidden sm:inline">{s.label}</span></span>
+            <span className="truncate font-mono text-[11.5px] sm:text-[13px]">
               {options ? (o ? (o.pricePence === 0 ? 'free' : pounds(o.pricePence)) : '—')
                 : sc?.state === 'run' ? <span className="pulse-dot">•••</span> : sc?.state === 'done' ? (sc.found ? `${sc.found} found` : 'none') : <span className="opacity-30">·</span>}
             </span>
