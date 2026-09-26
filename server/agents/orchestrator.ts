@@ -118,6 +118,9 @@ export async function intake(text: string, image?: string) {
         ...(thing.tag === 'craft' || thing.tag === UNLISTED ? [] : [{ ...thing, name: "A replacement, if it's not worth fixing" }])];
     }
   }
+  // AI-planned repairs also get the repair café, so there's always a real local route.
+  if (out && !recipe && REPAIR.test(text) && !components.some((c) => c.tag === 'repair-visit'))
+    components = [...components.slice(0, 5), { id: 'fix', name: 'Repair café or engineer', tag: 'repair-visit', tags: ['repair-visit'] }];
   const repair = REPAIR.test(text) || ['lamp', 'washer'].includes(recipe?.id ?? '');
   const budgetPence = parsed.budgetPence ?? out?.budgetPence ?? null;
   const deadline = parsed.deadline ?? out?.deadline ?? null;

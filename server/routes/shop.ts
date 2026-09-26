@@ -7,6 +7,10 @@ import { AREAS, DEFAULT_AREA, km } from '../../shared/areas';
 import { ROUTE_ORDER, pounds, type BlockOf, type Option, type PlanEvent } from '../../shared/genui';
 import { intake, deadlineDays, getRecipe, parseConstraints } from '../agents/orchestrator';
 
+const STOP = new Set(['and', 'the', 'for', 'with', 'your', 'set', 'kit', 'pack', 'new', 'old', 'small', 'large', 'big']);
+const stems = (t: string) => t.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2 && !STOP.has(w)).map((w) => w.replace(/(es|s)$/, ''));
+const fits = (part: string, title: string) => { const want = new Set(stems(part)); return stems(title).some((w) => want.has(w)); };
+
 const COLOURS = new Set(['blue', 'yellow', 'black', 'white', 'green', 'purple', 'orange', 'pink', 'brown', 'grey', 'gray']);
 import { SCOUTS, wholeProduct, type ScoutCtx } from '../agents/scouts';
 import { score, rank, pickPlan, judgeWhys } from '../agents/judge';
@@ -112,7 +116,10 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
         send({ t: 'scout', componentId: c.id, route, state: 'done', found: opts.length });
         return opts;
       }));
-      return { c, options: rank(found.flat().map((o) => score(o, x))) };
+      // No house recipe means the AI picked the category, so a local option only counts if its name
+      // shares a word with the part ("Tap washer" never gets "Plug fuses"). Otherwise: ask shops + web links.
+      const opts = goal.recipe_id ? found.flat() : found.flat().filter((o) => o.tag === 'Own' || fits(c.name, o.title));
+      return { c, options: rank(opts.map((o) => score(o, x))) };
     }));
 
     const n = results.reduce((s, r) => s + r.options.length, 0);
