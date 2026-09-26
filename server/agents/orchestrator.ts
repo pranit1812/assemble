@@ -10,11 +10,16 @@ import type { BlockOf } from '../../shared/genui';
 export type Comp = { id: string; name: string; tag: string; tags: string[]; note?: string };
 export type Recipe = { id: string; title: string; match: string[]; whole_tag: string | null; components: Comp[] };
 
+// Extra phrasings for house recipes, kept in code so the live data doesn't need a reseed.
+const ALIASES: Record<string, string[]> = {
+  'tidy-shelf': ['cramped', 'tiny bedroom', 'small bedroom', 'tiny room', 'small room', 'box room', 'no space', 'more space'],
+};
+
 export function findRecipe(text: string): Recipe | undefined {
   const s = text.toLowerCase();
   return all<any>('SELECT * FROM recipes')
     .map((r) => ({ ...r, match: J<string[]>(r.match, []), components: J<Comp[]>(r.components, []) }))
-    .find((r) => r.match.some((m: string) => s.includes(m.toLowerCase())));
+    .find((r) => [...r.match, ...(ALIASES[r.id] ?? [])].some((m: string) => s.includes(m.toLowerCase())));
 }
 export const getRecipe = (id: string | null) =>
   id ? all<any>('SELECT * FROM recipes WHERE id = ?', id).map((r) => ({ ...r, match: J(r.match, []), components: J<Comp[]>(r.components, []) }))[0] as Recipe | undefined : undefined;
@@ -60,11 +65,15 @@ function sanitize(cs: Comp[]): Comp[] {
 }
 
 const GENERIC = new Set(['costume', 'halloween', 'kids', 'adult', 'red', 'blue', 'yellow', 'black', 'craft', 'party', 'garden', 'electronics']);
-const REPAIR = /\b(broken|broke|not working|isn'?t working|doesn'?t work|won'?t (work|turn|drain|spin|start|switch)|stopped working|leak(s|ing)?|fix|repair|faulty)\b/i;
+const REPAIR = /\b(broken|brokn|broke|not working|isn'?t working|doesn'?t work|won'?t (work|turn|drain|spin|start|switch)|stopped working|leak(s|ing|y)?|drip(s|ping|py)?|fix|fx|repair|faulty|slipp?ing)\b/i;
+// Tag for a part nothing in the catalogue fits: scouts find nothing, so the plan asks local shops
+// and shows online links instead of padding it with unrelated craft stock.
+export const UNLISTED = 'unlisted';
 
 export const cleanTitle = (text: string) => {
   let t = text.replace(/^\s*(i('d| would)? (want|need|like|would like|'d like) to|help me|how (do|can) i)\s+(be|make|build|get|create|prototype|find|buy)?\s*(a|an|some|my)?\s*/i, '').replace(/[,.].*$/, '')
     // Budget and deadline are shown separately, so drop them from the title ("… by tomorrow", "under £20").
+    .replace(/\s*£\s?\d+(\.\d{1,2})?\s*/g, ' ')
     .replace(/\s+(by|before|for|under|within|in)\s+(today|tonight|tomorrow|next week|this week|\w+day|£\s?\d+\S*|\d+\s?(quid|pounds|days?|weeks?))\b.*$/i, '').trim();
   if (t.length > 40) t = t.slice(0, 40).replace(/\s+\S*$/, '');
   return t ? t[0].toUpperCase() + t.slice(1) : 'Your goal';
@@ -73,7 +82,8 @@ export const cleanTitle = (text: string) => {
 function genericComponents(text: string): Comp[] {
   const s = text.toLowerCase();
   const found = TAGS.filter((t) => new RegExp(`\\b${t}s?\\b`).test(s));
-  const tag = found.find((t) => !GENERIC.has(t)) ?? found[0] ?? 'craft';
+  // Only broad tags (party, kids, costume…) matched? Stock under those alone isn't the thing they asked for.
+  const tag = found.find((t) => !GENERIC.has(t)) ?? UNLISTED;
   return [{ id: 'item', name: cleanTitle(text), tag, tags: found.filter((t) => t !== tag) }];
 }
 
@@ -105,7 +115,7 @@ export async function intake(text: string, image?: string) {
     if (REPAIR.test(text)) {
       const thing = components[0];
       components = [{ id: 'fix', name: 'Repair café or engineer', tag: 'repair-visit', tags: ['repair-visit'] },
-        ...(thing.tag === 'craft' ? [] : [{ ...thing, name: "A replacement, if it's not worth fixing" }])];
+        ...(thing.tag === 'craft' || thing.tag === UNLISTED ? [] : [{ ...thing, name: "A replacement, if it's not worth fixing" }])];
     }
   }
   const repair = REPAIR.test(text) || ['lamp', 'washer'].includes(recipe?.id ?? '');
