@@ -131,6 +131,7 @@ export const AssemblyPart = z.object({
   explode: z.tuple([z.number(), z.number(), z.number()]).optional(), // offset when exploded
   color: z.string(), // hex
   step: z.number().int(), // which step this part joins (1-based)
+  model: z.string().optional(), // key into web/src/components/assembly/models (photo-derived procedural model); primitive is the fallback
 });
 export type AssemblyPart = z.infer<typeof AssemblyPart>;
 

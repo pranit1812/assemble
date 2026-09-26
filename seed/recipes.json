@@ -2,28 +2,232 @@
   {
     "id": "superman",
     "title": "Superman costume",
-    "match": ["superman", "superhero", "man of steel", "clark kent", "kal-el"],
+    "match": [
+      "superman",
+      "superhero",
+      "man of steel",
+      "clark kent",
+      "kal-el"
+    ],
     "whole_tag": "superman-costume",
     "components": [
-      { "id": "suit", "name": "Blue suit", "tag": "bodysuit", "tags": ["bodysuit", "blue", "top", "leggings"], "note": "A blue top and leggings work" },
-      { "id": "cape", "name": "Red cape", "tag": "cape", "tags": ["cape", "red"], "note": "About 1m of red satin" },
-      { "id": "emblem", "name": "Chest emblem", "tag": "emblem", "tags": ["emblem", "iron-on", "felt"], "note": "Felt or iron-on shield" },
-      { "id": "boots", "name": "Boot covers", "tag": "boot-covers", "tags": ["boot-covers", "boots", "red"], "note": "Red covers over trainers are enough" },
-      { "id": "belt", "name": "Yellow belt", "tag": "belt", "tags": ["belt", "yellow"], "note": "Wide yellow ribbon works fine" }
+      {
+        "id": "suit",
+        "name": "Blue suit",
+        "tag": "bodysuit",
+        "tags": [
+          "bodysuit",
+          "blue",
+          "top",
+          "leggings"
+        ],
+        "note": "A blue top and leggings work"
+      },
+      {
+        "id": "cape",
+        "name": "Red cape",
+        "tag": "cape",
+        "tags": [
+          "cape",
+          "red"
+        ],
+        "note": "About 1m of red satin"
+      },
+      {
+        "id": "emblem",
+        "name": "Chest emblem",
+        "tag": "emblem",
+        "tags": [
+          "emblem",
+          "iron-on",
+          "felt"
+        ],
+        "note": "Felt or iron-on shield"
+      },
+      {
+        "id": "boots",
+        "name": "Boot covers",
+        "tag": "boot-covers",
+        "tags": [
+          "boot-covers",
+          "boots",
+          "red"
+        ],
+        "note": "Red covers over trainers are enough"
+      },
+      {
+        "id": "belt",
+        "name": "Yellow belt",
+        "tag": "belt",
+        "tags": [
+          "belt",
+          "yellow"
+        ],
+        "note": "Wide yellow ribbon works fine"
+      }
     ]
   },
   {
     "id": "plantpot",
     "title": "Self-watering plant pot",
-    "match": ["self-watering", "self watering", "plant pot", "planter", "watering"],
+    "match": [
+      "self-watering",
+      "self watering",
+      "plant pot",
+      "planter",
+      "watering"
+    ],
     "whole_tag": "self-watering-pot",
     "components": [
-      { "id": "reservoir", "name": "Water reservoir", "tag": "reservoir", "tags": ["reservoir", "pot", "jar", "bottle"], "note": "Watertight outer container holds the water" },
-      { "id": "inner", "name": "Inner pot", "tag": "inner-pot", "tags": ["inner-pot", "pot", "terracotta"], "note": "Needs a hole for the wick" },
-      { "id": "wick", "name": "Wick", "tag": "wick", "tags": ["wick", "cotton-cord"], "note": "Cotton draws water up to roots" },
-      { "id": "float", "name": "Water-level float", "tag": "float", "tags": ["float", "water-level"], "note": "Shows when to top up" },
-      { "id": "sensor", "name": "Moisture sensor", "tag": "moisture-sensor", "tags": ["moisture-sensor", "sensor", "esp32", "microcontroller"], "note": "Optional: ESP32 alerts when soil dries" },
-      { "id": "mix", "name": "Potting mix", "tag": "potting-mix", "tags": ["potting-mix", "soil"], "note": "Peat-free, light and free-draining" }
+      {
+        "id": "reservoir",
+        "name": "Water reservoir",
+        "tag": "reservoir",
+        "tags": [
+          "reservoir",
+          "pot",
+          "jar",
+          "bottle"
+        ],
+        "note": "Watertight outer container holds the water"
+      },
+      {
+        "id": "inner",
+        "name": "Inner pot",
+        "tag": "inner-pot",
+        "tags": [
+          "inner-pot",
+          "pot",
+          "terracotta"
+        ],
+        "note": "Needs a hole for the wick"
+      },
+      {
+        "id": "wick",
+        "name": "Wick",
+        "tag": "wick",
+        "tags": [
+          "wick",
+          "cotton-cord"
+        ],
+        "note": "Cotton draws water up to roots"
+      },
+      {
+        "id": "float",
+        "name": "Water-level float",
+        "tag": "float",
+        "tags": [
+          "float",
+          "water-level"
+        ],
+        "note": "Shows when to top up"
+      },
+      {
+        "id": "sensor",
+        "name": "Moisture sensor",
+        "tag": "moisture-sensor",
+        "tags": [
+          "moisture-sensor",
+          "sensor",
+          "esp32",
+          "microcontroller"
+        ],
+        "note": "Optional: ESP32 alerts when soil dries"
+      },
+      {
+        "id": "mix",
+        "name": "Potting mix",
+        "tag": "potting-mix",
+        "tags": [
+          "potting-mix",
+          "soil"
+        ],
+        "note": "Peat-free, light and free-draining"
+      }
+    ]
+  },
+  {
+    "id": "tidy-shelf",
+    "title": "Shelf organisers",
+    "match": [
+      "shelf",
+      "shelves",
+      "organis",
+      "organiz",
+      "declutter",
+      "mess",
+      "messy",
+      "tidy",
+      "storage",
+      "clutter",
+      "bookcase"
+    ],
+    "whole_tag": "shelf-organiser-set",
+    "components": [
+      {
+        "id": "boxes",
+        "name": "Storage boxes",
+        "tag": "box",
+        "tags": [
+          "box",
+          "storage",
+          "drawer"
+        ],
+        "note": "Lidded boxes hide the small stuff"
+      },
+      {
+        "id": "baskets",
+        "name": "Baskets or bins",
+        "tag": "basket",
+        "tags": [
+          "basket",
+          "fabric-bin",
+          "storage"
+        ],
+        "note": "Soft bins for bulky things"
+      },
+      {
+        "id": "riser",
+        "name": "Shelf riser",
+        "tag": "shelf-riser",
+        "tags": [
+          "shelf-riser",
+          "shelf",
+          "wood",
+          "crate"
+        ],
+        "note": "Adds a second level to deep shelves"
+      },
+      {
+        "id": "dividers",
+        "name": "Shelf dividers",
+        "tag": "divider",
+        "tags": [
+          "divider",
+          "magazine-file",
+          "shelf"
+        ],
+        "note": "Keeps books and files upright"
+      },
+      {
+        "id": "labels",
+        "name": "Labels",
+        "tag": "label",
+        "tags": [
+          "label"
+        ],
+        "note": "So everything goes back in place"
+      },
+      {
+        "id": "cables",
+        "name": "Cable tidy",
+        "tag": "cable-tidy",
+        "tags": [
+          "cable-tidy",
+          "wires"
+        ],
+        "note": "Clips loose chargers out of sight"
+      }
     ]
   }
 ]

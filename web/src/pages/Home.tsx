@@ -13,9 +13,9 @@ const PROMPTS = [
   { label: 'Be Superman for Halloween', text: 'I want to be Superman for Halloween, £40, by Friday' },
   { label: 'Prototype a self-watering pot', text: 'Prototype a self-watering plant pot' },
   { label: 'A witch costume by tomorrow', text: 'A witch costume for my daughter by tomorrow, under £20' },
-  { label: 'Start a windowsill herb garden', text: 'Start a windowsill herb garden, £25' },
+  { label: 'Tidy my messy shelf', text: 'Find me shelf organisers for this mess, DIY is fine, under £30' },
 ];
-const PLACEHOLDERS = ['Superman for Halloween, £40, by Friday…', 'A self-watering plant pot prototype…', 'Something for a witch costume, by tomorrow…', 'Or attach a photo of what you already have…'];
+const PLACEHOLDERS = ['Superman for Halloween, £40, by Friday…', 'A self-watering plant pot prototype…', 'Shelf organisers for my messy desk…', 'Or attach a photo of what you already have…'];
 
 type Phase = 'idle' | 'intake' | 'clarify' | 'planning' | 'planned';
 const of = <T extends Block['type']>(bs: Block[], t: T) => bs.filter((b) => b.type === t) as BlockOf<T>[];

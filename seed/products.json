@@ -1225,5 +1225,462 @@
   "kind": "complete",
   "stock": 40,
   "eta_days": 3
+ },
+ {
+  "id": "p80",
+  "merchant_id": "m_hardware",
+  "title": "Wooden crate, 40cm",
+  "description": "Rough pine crate. Stand it on its side and it becomes a shelf riser.",
+  "price_pence": 650,
+  "tags": [
+   "crate",
+   "wood",
+   "shelf-riser",
+   "storage"
+  ],
+  "kind": "part",
+  "stock": 12,
+  "eta_days": 0,
+  "guide_id": "g_crate_riser"
+ },
+ {
+  "id": "p81",
+  "merchant_id": "m_hardware",
+  "title": "Metal shelf riser, 30cm",
+  "description": "Powder-coated wire riser that doubles a cupboard shelf.",
+  "price_pence": 599,
+  "tags": [
+   "shelf-riser",
+   "shelf",
+   "storage"
+  ],
+  "kind": "complete",
+  "stock": 10,
+  "eta_days": 0
+ },
+ {
+  "id": "p82",
+  "merchant_id": "m_hardware",
+  "title": "Label maker with two tapes",
+  "description": "Handheld label printer, batteries included.",
+  "price_pence": 1499,
+  "tags": [
+   "label"
+  ],
+  "kind": "tool",
+  "stock": 6,
+  "eta_days": 0
+ },
+ {
+  "id": "p83",
+  "merchant_id": "m_hardware",
+  "title": "Adhesive hooks, pack of 6",
+  "description": "No-drill hooks for bags, keys and cables.",
+  "price_pence": 299,
+  "tags": [
+   "hooks",
+   "wall-mount",
+   "storage"
+  ],
+  "kind": "part",
+  "stock": 30,
+  "eta_days": 0
+ },
+ {
+  "id": "p84",
+  "merchant_id": "m_hardware",
+  "title": "Acrylic shelf dividers, pair",
+  "description": "Clip onto 18mm shelves to keep piles upright.",
+  "price_pence": 499,
+  "tags": [
+   "divider",
+   "shelf"
+  ],
+  "kind": "part",
+  "stock": 14,
+  "eta_days": 0
+ },
+ {
+  "id": "p85",
+  "merchant_id": "m_hardware",
+  "title": "Self-adhesive cable clips, 20 pack",
+  "description": "Stick under a desk or shelf edge to route chargers.",
+  "price_pence": 249,
+  "tags": [
+   "cable-tidy",
+   "wires"
+  ],
+  "kind": "part",
+  "stock": 40,
+  "eta_days": 0
+ },
+ {
+  "id": "p86",
+  "merchant_id": "m_charity",
+  "title": "Wicker basket, medium",
+  "description": "Donated and cleaned, sturdy handles, fits a standard shelf.",
+  "price_pence": 350,
+  "tags": [
+   "basket",
+   "storage",
+   "home"
+  ],
+  "kind": "complete",
+  "stock": 4,
+  "eta_days": 0
+ },
+ {
+  "id": "p87",
+  "merchant_id": "m_charity",
+  "title": "Fabric storage box, grey",
+  "description": "Collapsible cube box, one small mark on the side.",
+  "price_pence": 200,
+  "tags": [
+   "box",
+   "fabric-bin",
+   "storage"
+  ],
+  "kind": "complete",
+  "stock": 6,
+  "eta_days": 0
+ },
+ {
+  "id": "p88",
+  "merchant_id": "m_charity",
+  "title": "Lidded boxes, set of 3",
+  "description": "Nesting card boxes with lids, a mix of patterns.",
+  "price_pence": 400,
+  "tags": [
+   "box",
+   "storage",
+   "home"
+  ],
+  "kind": "complete",
+  "stock": 3,
+  "eta_days": 0
+ },
+ {
+  "id": "p89",
+  "merchant_id": "m_charity",
+  "title": "Wooden cutlery tray",
+  "description": "Five compartments, works as a drawer or shelf divider.",
+  "price_pence": 150,
+  "tags": [
+   "tray",
+   "divider",
+   "wood"
+  ],
+  "kind": "complete",
+  "stock": 2,
+  "eta_days": 0
+ },
+ {
+  "id": "p90",
+  "merchant_id": "m_charity",
+  "title": "Rattan magazine rack",
+  "description": "Holds papers and files upright on a shelf.",
+  "price_pence": 250,
+  "tags": [
+   "magazine-file",
+   "divider",
+   "storage"
+  ],
+  "kind": "complete",
+  "stock": 2,
+  "eta_days": 0
+ },
+ {
+  "id": "p91",
+  "merchant_id": "m_makers",
+  "title": "Braided cable sleeve, 1.5m",
+  "description": "Zips round a bundle of leads behind a desk.",
+  "price_pence": 399,
+  "tags": [
+   "cable-tidy",
+   "wires",
+   "electronics"
+  ],
+  "kind": "part",
+  "stock": 12,
+  "eta_days": 0
+ },
+ {
+  "id": "p92",
+  "merchant_id": "m_party",
+  "title": "Chalkboard labels, 24 pack",
+  "description": "Wipe-clean stickers with a white chalk pen.",
+  "price_pence": 199,
+  "tags": [
+   "label",
+   "party"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 0
+ },
+ {
+  "id": "p93",
+  "merchant_id": "m_thread",
+  "title": "Decorative paper roll, 3m",
+  "description": "Patterned wrapping paper for covering shoeboxes.",
+  "price_pence": 299,
+  "tags": [
+   "box",
+   "craft"
+  ],
+  "kind": "material",
+  "stock": 50,
+  "eta_days": 2,
+  "guide_id": "g_shoebox_drawers"
+ },
+ {
+  "id": "p94",
+  "merchant_id": "m_thread",
+  "title": "Flat-pack kraft boxes, 3 pack",
+  "description": "Plain card boxes you fold, paint or wrap yourself.",
+  "price_pence": 450,
+  "tags": [
+   "box",
+   "cardboard",
+   "storage"
+  ],
+  "kind": "part",
+  "stock": 40,
+  "eta_days": 2
+ },
+ {
+  "id": "p95",
+  "merchant_id": "m_thread",
+  "title": "Seagrass cord, 20m",
+  "description": "Natural cord for weaving or wrapping a basket.",
+  "price_pence": 450,
+  "tags": [
+   "basket",
+   "craft"
+  ],
+  "kind": "material",
+  "stock": 30,
+  "eta_days": 2
+ },
+ {
+  "id": "p96",
+  "merchant_id": "m_thread",
+  "title": "Pine board, 60 x 15cm",
+  "description": "Planed board, cut two legs and you have a riser.",
+  "price_pence": 499,
+  "tags": [
+   "wood",
+   "shelf-riser"
+  ],
+  "kind": "material",
+  "stock": 25,
+  "eta_days": 2
+ },
+ {
+  "id": "p97",
+  "merchant_id": "m_thread",
+  "title": "Wooden peg feet, 4 pack",
+  "description": "Screw-in feet to lift a board into a shelf riser.",
+  "price_pence": 249,
+  "tags": [
+   "shelf-riser",
+   "wood"
+  ],
+  "kind": "part",
+  "stock": 40,
+  "eta_days": 2
+ },
+ {
+  "id": "p98",
+  "merchant_id": "m_thread",
+  "title": "Kraft card, A3, 10 sheets",
+  "description": "Stiff 400gsm card for dividers and files.",
+  "price_pence": 399,
+  "tags": [
+   "cardboard",
+   "divider",
+   "craft"
+  ],
+  "kind": "material",
+  "stock": 40,
+  "eta_days": 2
+ },
+ {
+  "id": "p99",
+  "merchant_id": "m_thread",
+  "title": "Washi tape, 5 rolls",
+  "description": "Writable paper tape for quick labels.",
+  "price_pence": 349,
+  "tags": [
+   "label",
+   "craft"
+  ],
+  "kind": "material",
+  "stock": 60,
+  "eta_days": 2,
+  "guide_id": "g_washi_labels"
+ },
+ {
+  "id": "p100",
+  "merchant_id": "m_thread",
+  "title": "Kraft tag labels, 50 pack",
+  "description": "Tie-on or stick-on brown labels.",
+  "price_pence": 199,
+  "tags": [
+   "label"
+  ],
+  "kind": "part",
+  "stock": 70,
+  "eta_days": 2
+ },
+ {
+  "id": "p101",
+  "merchant_id": "m_pin",
+  "title": "3D-printed cable clips, 10 pack",
+  "description": "Clip to a shelf edge to hold charging leads.",
+  "price_pence": 220,
+  "tags": [
+   "cable-tidy",
+   "3d-print",
+   "pla"
+  ],
+  "kind": "part",
+  "stock": 30,
+  "eta_days": 3
+ },
+ {
+  "id": "p102",
+  "merchant_id": "m_pin",
+  "title": "Hook-and-loop cable ties, 20 pack",
+  "description": "Reusable soft ties for coiling cables.",
+  "price_pence": 249,
+  "tags": [
+   "cable-tidy",
+   "velcro"
+  ],
+  "kind": "part",
+  "stock": 60,
+  "eta_days": 3
+ },
+ {
+  "id": "p103",
+  "merchant_id": "m_nest",
+  "title": "12-piece shelf organiser set",
+  "description": "Boxes, baskets, a riser, dividers, labels and cable clips in one box.",
+  "price_pence": 3900,
+  "tags": [
+   "shelf-organiser-set",
+   "storage",
+   "home",
+   "shelf"
+  ],
+  "kind": "complete",
+  "stock": 25,
+  "eta_days": 2
+ },
+ {
+  "id": "p104",
+  "merchant_id": "m_nest",
+  "title": "Bamboo shelf organiser set",
+  "description": "Solid bamboo boxes, riser and dividers with engraved labels.",
+  "price_pence": 5500,
+  "tags": [
+   "shelf-organiser-set",
+   "storage",
+   "home",
+   "shelf",
+   "wood"
+  ],
+  "kind": "complete",
+  "stock": 10,
+  "eta_days": 2
+ },
+ {
+  "id": "p105",
+  "merchant_id": "m_nest",
+  "title": "Lidded storage boxes, set of 3",
+  "description": "Linen-covered boxes with lids and pull handles.",
+  "price_pence": 1699,
+  "tags": [
+   "box",
+   "storage",
+   "home"
+  ],
+  "kind": "complete",
+  "stock": 30,
+  "eta_days": 2
+ },
+ {
+  "id": "p106",
+  "merchant_id": "m_nest",
+  "title": "Woven seagrass basket, large",
+  "description": "Hand-woven basket with handles, 35cm wide.",
+  "price_pence": 1499,
+  "tags": [
+   "basket",
+   "storage",
+   "home"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 2
+ },
+ {
+  "id": "p107",
+  "merchant_id": "m_nest",
+  "title": "Expandable bamboo shelf riser",
+  "description": "Extends from 38 to 70cm to fit most cupboards.",
+  "price_pence": 1299,
+  "tags": [
+   "shelf-riser",
+   "wood",
+   "shelf"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 2
+ },
+ {
+  "id": "p108",
+  "merchant_id": "m_nest",
+  "title": "Clear acrylic shelf dividers, 4 pack",
+  "description": "Slide onto shelves to keep jumpers and books upright.",
+  "price_pence": 1199,
+  "tags": [
+   "divider",
+   "shelf"
+  ],
+  "kind": "complete",
+  "stock": 25,
+  "eta_days": 2
+ },
+ {
+  "id": "p109",
+  "merchant_id": "m_nest",
+  "title": "Pre-printed shelf labels, 60 pack",
+  "description": "Minimal black-on-white labels for boxes and jars.",
+  "price_pence": 699,
+  "tags": [
+   "label",
+   "home"
+  ],
+  "kind": "complete",
+  "stock": 40,
+  "eta_days": 2
+ },
+ {
+  "id": "p110",
+  "merchant_id": "m_nest",
+  "title": "Cable tidy box, white",
+  "description": "Hides a power strip and spare cable length.",
+  "price_pence": 999,
+  "tags": [
+   "cable-tidy",
+   "storage",
+   "home"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 2
  }
 ]

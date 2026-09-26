@@ -14,6 +14,8 @@ export const TAGS = [
   'soil', 'potting-mix', 'bottle', 'terracotta', 'jar', 'water-level', 'float', 'herb', 'seedling',
   'sensor', 'moisture-sensor', 'microcontroller', 'esp32', 'arduino', 'led', 'usb', 'wires', 'jumper-wires',
   '3d-print', 'pla', 'drill', 'electronics', 'garden', 'craft', 'party', 'lights',
+  // home organising / room decor
+  'home', 'storage', 'shelf', 'shelf-riser', 'box', 'basket', 'crate', 'drawer', 'divider', 'hooks', 'rail', 'label', 'magazine-file', 'cable-tidy', 'wood', 'fabric-bin', 'wall-mount', 'tray', 'shelf-organiser-set',
 ] as const;
 export type Tag = (typeof TAGS)[number];
 export const isTag = (t: string): t is Tag => (TAGS as readonly string[]).includes(t);

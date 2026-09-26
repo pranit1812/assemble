@@ -4,3 +4,5 @@ dist-new
 data/*.db*
 .env
 .DS_Store
+.img2threejs
+web/src/components/assembly/models/lab-*

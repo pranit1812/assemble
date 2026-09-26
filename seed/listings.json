@@ -515,5 +515,146 @@
   "area": "Peckham",
   "lat": 51.4752,
   "lng": -0.07
+ },
+ {
+  "id": "s33",
+  "title": "Wicker baskets x3, nesting",
+  "description": "Three sizes, one has a small snag on the rim.",
+  "price_pence": 400,
+  "tags": [
+   "basket",
+   "storage",
+   "home"
+  ],
+  "condition": "good",
+  "seller": "Maya T.",
+  "area": "Hackney",
+  "lat": 51.5482,
+  "lng": -0.0596
+ },
+ {
+  "id": "s34",
+  "title": "Wooden wine crates x2",
+  "description": "From a wine shop clear-out, great as a shelf riser.",
+  "price_pence": 600,
+  "tags": [
+   "crate",
+   "wood",
+   "shelf-riser",
+   "storage"
+  ],
+  "condition": "good",
+  "seller": "Rafael C.",
+  "area": "Dalston",
+  "lat": 51.5458,
+  "lng": -0.0765
+ },
+ {
+  "id": "s35",
+  "title": "Grey fabric cube boxes x4",
+  "description": "Fit standard cube shelving, folded flat.",
+  "price_pence": 500,
+  "tags": [
+   "box",
+   "fabric-bin",
+   "storage"
+  ],
+  "condition": "like new",
+  "seller": "Hana W.",
+  "area": "Bethnal Green",
+  "lat": 51.5288,
+  "lng": -0.0545
+ },
+ {
+  "id": "s36",
+  "title": "Clear lidded boxes x5, shoebox size",
+  "description": "Stackable, a few light scratches.",
+  "price_pence": 300,
+  "tags": [
+   "box",
+   "storage"
+  ],
+  "condition": "good",
+  "seller": "Tariq B.",
+  "area": "Hackney",
+  "lat": 51.5418,
+  "lng": -0.0506
+ },
+ {
+  "id": "s37",
+  "title": "Two-tier bamboo shelf riser",
+  "description": "Used in a kitchen cupboard, wiped clean.",
+  "price_pence": 350,
+  "tags": [
+   "shelf-riser",
+   "wood",
+   "shelf"
+  ],
+  "condition": "good",
+  "seller": "Freya D.",
+  "area": "Dalston",
+  "lat": 51.544,
+  "lng": -0.0712
+ },
+ {
+  "id": "s38",
+  "title": "Desk organiser with pen tray",
+  "description": "Mesh metal, three upright slots and a tray.",
+  "price_pence": 200,
+  "tags": [
+   "tray",
+   "divider",
+   "storage"
+  ],
+  "condition": "good",
+  "seller": "Kofi M.",
+  "area": "Bethnal Green",
+  "lat": 51.5301,
+  "lng": -0.0588
+ },
+ {
+  "id": "s39",
+  "title": "White card magazine files x6",
+  "description": "Barely used, from an office move.",
+  "price_pence": 150,
+  "tags": [
+   "magazine-file",
+   "divider",
+   "storage"
+  ],
+  "condition": "like new",
+  "seller": "Ellie P.",
+  "area": "Hackney",
+  "lat": 51.5493,
+  "lng": -0.0525
+ },
+ {
+  "id": "s40",
+  "title": "Handheld label maker with spare tape",
+  "description": "Works fine, needs 4 AAA batteries.",
+  "price_pence": 500,
+  "tags": [
+   "label"
+  ],
+  "condition": "good",
+  "seller": "Arjun S.",
+  "area": "Dalston",
+  "lat": 51.5476,
+  "lng": -0.0726
+ },
+ {
+  "id": "s41",
+  "title": "Cable tidy box, white",
+  "description": "Hides a six-way extension lead.",
+  "price_pence": 250,
+  "tags": [
+   "cable-tidy",
+   "storage"
+  ],
+  "condition": "good",
+  "seller": "Sian R.",
+  "area": "Hackney",
+  "lat": 51.5436,
+  "lng": -0.061
  }
 ]
