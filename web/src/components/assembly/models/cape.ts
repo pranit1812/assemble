@@ -23,27 +23,97 @@ function hash(n: number): number {
 const PH1 = hash(3) * Math.PI * 2;
 const PH2 = hash(11) * Math.PI * 2;
 
+// Mannequin landmarks (suit.ts), in cape-local space: local = world - (0, 1.5, -0.1).
+// Back of the neck z -0.073 (local +0.027), shoulders 0.435 m wide at y 1.45.
+const ORIGIN_Z = -0.1;
+const ORIGIN_Y = 1.5;
+// torso elliptical sections (world): y, half-width, half-depth, forward shift
+const TORSO: number[][] = [
+  [0.845, 0.075, 0.058, -0.01], [0.875, 0.128, 0.088, -0.008], [0.915, 0.154, 0.1, -0.006],
+  [0.95, 0.156, 0.099, -0.004], [1.0, 0.143, 0.094, 0.0], [1.07, 0.14, 0.098, 0.004],
+  [1.17, 0.152, 0.108, 0.01], [1.27, 0.166, 0.118, 0.012], [1.33, 0.174, 0.117, 0.008],
+  [1.39, 0.18, 0.109, 0.0], [1.43, 0.178, 0.099, -0.005], [1.46, 0.155, 0.086, -0.009],
+  [1.485, 0.1, 0.068, -0.01], [1.505, 0.064, 0.058, -0.01], [1.53, 0.066, 0.062, -0.01],
+];
+// upper-arm capsule chain (world, right side; mirrored): x, y, z, radius
+const ARM: number[][] = [
+  [0.16, 1.44, -0.01, 0.055], [0.198, 1.375, -0.012, 0.054], [0.215, 1.26, -0.02, 0.045], [0.235, 1.12, -0.03, 0.038],
+];
+const GAP = 0.012; // cloth rests ~1 cm off the suit
+
+function torsoAt(y: number): number[] | null {
+  if (y < TORSO[0][0] || y > TORSO[TORSO.length - 1][0]) return null;
+  for (let i = 1; i < TORSO.length; i++) {
+    if (y <= TORSO[i][0]) {
+      const a = TORSO[i - 1];
+      const b = TORSO[i];
+      const t = (y - a[0]) / (b[0] - a[0]);
+      return [a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t, a[3] + (b[3] - a[3]) * t];
+    }
+  }
+  return null;
+}
+
+const _a = new THREE.Vector3();
+const _b = new THREE.Vector3();
+const _q = new THREE.Vector3();
+/** Push a cape-local point out of the mannequin (torso ellipses + upper-arm capsules). */
+function clearBody(p: THREE.Vector3): THREE.Vector3 {
+  const wy = p.y + ORIGIN_Y;
+  const wz = p.z + ORIGIN_Z;
+  const t = torsoAt(wy);
+  if (t) {
+    const rx = t[0] + GAP;
+    const rz = t[1] + GAP;
+    const dz = wz - t[2];
+    const q = Math.hypot(p.x / rx, dz / rz);
+    if (q < 1 && q > 1e-6) {
+      p.x /= q;
+      p.z = t[2] + dz / q - ORIGIN_Z;
+    }
+  }
+  const side = Math.sign(p.x) || 1;
+  for (let i = 1; i < ARM.length; i++) {
+    const A = ARM[i - 1];
+    const B = ARM[i];
+    _a.set(A[0] * side, A[1] - ORIGIN_Y, A[2] - ORIGIN_Z);
+    _b.set(B[0] * side, B[1] - ORIGIN_Y, B[2] - ORIGIN_Z);
+    const ab = _b.clone().sub(_a);
+    const k = THREE.MathUtils.clamp(_q.copy(p).sub(_a).dot(ab) / ab.lengthSq(), 0, 1);
+    const r = A[3] + (B[3] - A[3]) * k + GAP;
+    const c = _a.clone().addScaledVector(ab, k);
+    const off = _q.copy(p).sub(c);
+    const d = off.length();
+    if (d < r && d > 1e-6) p.copy(c).addScaledVector(off, r / d);
+  }
+  return p;
+}
+
 /** Cross-section of the drape at row v (0 = collar, 1 = hem). Elliptical arc around the body. */
 function profile(v: number) {
   const settle = 1 - Math.exp(-v / 0.03); // collar -> shoulders transition
-  const a = 0.095 + 0.14 * settle + 0.21 * v; // half width (flares to ~0.445 at the hem)
-  const b = 0.1 + 0.045 * settle + 0.08 * Math.pow(v, 1.3); // depth behind the body centre
-  const c = 0.1 - 0.03 * v * v; // body centre sits ~0.1 m in front of the attach point
-  const span = THREE.MathUtils.degToRad(80 + 45 * Math.exp(-((v / 0.18) ** 2))); // wrap angle
+  const a = 0.075 + 0.17 * settle + 0.2 * v; // half width (flares to ~0.445 at the hem)
+  const c = 0.09; // neck/body axis sits 9 cm in front of the attach point
+  // centre-back line: collar 2.4 cm forward of the origin (on the neck), then the cloth
+  // settles onto the shoulder blades and hangs with only a gentle billow toward the hem
+  const back = 0.024 - 0.05 * (1 - Math.exp(-v / 0.035)) - 0.045 * v * v;
+  const b = c - back;
+  const span = THREE.MathUtils.degToRad(80 + 42 * Math.exp(-((v / 0.18) ** 2))); // wrap angle
   const x = v / 0.12;
-  const drop = 0.035 + 0.1 * x * Math.exp(1 - x) - 0.06 * v * v; // side sag over the shoulders
+  const drop = 0.03 + 0.085 * x * Math.exp(1 - x) - 0.06 * v * v; // side sag over the shoulders
   return { a, b, c, span, drop };
 }
 
-/** Broad radial folds (few, deepening toward the hem) plus small gathers at the collar. */
+const HEM_AMP = 0.08;
+/** Broad radial folds that stand OUT from the body (the valleys rest on it), plus collar gathers. */
 function fold(u: number, v: number): number {
-  const amp = 0.07 * Math.pow(THREE.MathUtils.smoothstep(v, 0.04, 1), 1.1);
+  const amp = HEM_AMP * Math.pow(THREE.MathUtils.smoothstep(v, 0.04, 1), 1.1);
   // ~3 broad folds across the back that drift diagonally, like the photo's hem swing
   const f =
     Math.sin(Math.PI * 2 * 3 * u + PH1 + 1.6 * v) +
     0.3 * Math.sin(Math.PI * 2 * 5 * u + PH2 - 1.1 * v);
-  const gather = 0.012 * Math.exp(-v / 0.05) * Math.sin(Math.PI * 2 * 11 * u);
-  return amp * f + gather;
+  const gather = 0.012 * Math.exp(-v / 0.05) * (0.5 + 0.5 * Math.sin(Math.PI * 2 * 11 * u));
+  return amp * (f + 1.3) * 0.5 + gather;
 }
 
 function capePoint(u: number, v: number, out: THREE.Vector3): THREE.Vector3 {
@@ -56,8 +126,8 @@ function capePoint(u: number, v: number, out: THREE.Vector3): THREE.Vector3 {
   const x = (p.a + d) * sx;
   const z = p.c - (p.b + d) * cz;
   let y = -LEN * v - p.drop * s * s;
-  y += 0.25 * fold(u, 1) * Math.pow(v, 6); // hem scallops where folds reach it
-  return out.set(x, y, z);
+  y += 0.25 * (fold(u, 1) - HEM_AMP * 0.65) * Math.pow(v, 6); // hem scallops where folds reach it
+  return clearBody(out.set(x, y, z));
 }
 
 function capeSurface(): THREE.BufferGeometry {
@@ -115,12 +185,12 @@ function tie(mat: THREE.Material): THREE.Group {
   g.name = 'cape-tie';
   const left = capePoint(0, 0, new THREE.Vector3());
   const right = capePoint(1, 0, new THREE.Vector3());
-  const knot = new THREE.Vector3(0, -0.05, 0.215);
+  const knot = clearBody(new THREE.Vector3(0, -0.045, 0.19));
   const cordCurve = new THREE.CatmullRomCurve3([
     left,
-    new THREE.Vector3(left.x * 0.55, -0.035, 0.2),
+    clearBody(new THREE.Vector3(left.x * 0.55, -0.03, 0.178)),
     knot,
-    new THREE.Vector3(right.x * 0.55, -0.035, 0.2),
+    clearBody(new THREE.Vector3(right.x * 0.55, -0.03, 0.178)),
     right,
   ]);
   const cord = new THREE.Mesh(new THREE.TubeGeometry(cordCurve, 40, 0.0035, 5, false), mat);
