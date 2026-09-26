@@ -20,6 +20,7 @@ export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, b
   for (const c of bd.components)
     for (const o of c.options) {
       if ((o.tag !== 'Secondhand' && o.tag !== 'Local') || o.source.lat == null || o.source.lng == null) continue;
+      if ((o.source.distanceKm ?? 0) > 5 && o.id !== c.pickId) continue; // keep the map on the neighbourhood
       const key = `${o.source.name}@${o.source.lat}`;
       const picked = o.id === c.pickId;
       const prev = pins.get(key);
@@ -32,7 +33,7 @@ export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, b
   blocks.push(bd);
 
   // Local shops: where the plan sends you, else the nearest shop that has something.
-  const localOpts = bd.components.flatMap((c) => c.options.filter((o) => o.tag === 'Local').map((o) => ({ c, o, picked: o.id === c.pickId })));
+  const localOpts = bd.components.filter((c) => pickOf(c)?.tag !== 'Own').flatMap((c) => c.options.filter((o) => o.tag === 'Local').map((o) => ({ c, o, picked: o.id === c.pickId })));
   const shopIds = [...new Set(localOpts.filter((x) => x.picked).map((x) => x.o.source.merchantId!))];
   if (!shopIds.length && localOpts.length) shopIds.push([...localOpts].sort((a, b) => (a.o.source.distanceKm ?? 9) - (b.o.source.distanceKm ?? 9))[0].o.source.merchantId!);
   for (const sid of shopIds.slice(0, 2)) {

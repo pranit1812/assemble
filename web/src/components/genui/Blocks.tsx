@@ -147,7 +147,7 @@ export function ComponentCard({ c, scouts, onPick, idx = 0 }: { c: { id: string;
             <div className="mt-1 text-[13px] text-muted">
               {o.source.name}
               {o.source.area ? ` · ${o.source.area}` : ''}
-              {o.source.distanceKm != null ? ` · ${o.source.distanceKm} km` : ''} · {mins(o.effortMins)} hands-on · ready {eta(o.etaDays)}
+              {o.source.distanceKm != null ? ` · ${o.source.distanceKm} km` : ''} · {o.tag === 'Secondhand' || o.tag === 'Local' ? `${Math.round(o.effortMins / 2)} min walk` : `${mins(o.effortMins)} hands-on`} · ready {eta(o.etaDays)}
             </div>
             <p className="mt-2 text-[14px] leading-relaxed text-ink/80"><span className="mr-1.5 text-[11px] font-medium uppercase tracking-wide text-muted">Why</span>{o.why}</p>
           </div>

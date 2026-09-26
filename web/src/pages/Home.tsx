@@ -116,7 +116,7 @@ export default function Home() {
             <div className="flex items-end gap-2 rounded-[28px] border border-line bg-card p-2.5 pl-5 shadow-[var(--shadow-soft)] focus-within:border-ink/30">
               <textarea value={text} onChange={(e) => setText(e.target.value)} rows={1} autoFocus
                 onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); start(); } }}
-                placeholder="A goal, not a product. “Superman for Halloween, £40, by Friday”"
+                placeholder="Describe a goal, not a product"
                 className="max-h-40 min-h-[44px] flex-1 resize-none bg-transparent py-2.5 text-[17px] text-ink outline-none placeholder:text-faint" />
               {hasMic && (
                 <button type="button" onClick={mic} aria-label="Speak" className={`grid h-11 w-11 place-items-center rounded-full ${listening ? 'bg-accent text-white' : 'text-muted hover:bg-paper'}`}>
@@ -177,8 +177,8 @@ export default function Home() {
                   {(bd?.components ?? comps).map((c, i) => (
                     <ComponentCard key={c.id} idx={i} c={c} scouts={scouts[c.id]} onPick={bd ? (o) => pick(c.id, o) : undefined} />
                   ))}
-                  {of(blocks, 'LocalShopCard').map((b) => <LocalShopCardView key={b.shop.id} b={b} />)}
                   {of(blocks, 'CostCompare').map((b, i) => <CostCompareView key={i} b={b} />)}
+                  {of(blocks, 'LocalShopCard').map((b) => <LocalShopCardView key={b.shop.id} b={b} />)}
                 </div>
                 <aside className="space-y-4 lg:sticky lg:top-6 lg:self-start">
                   {map ? <NearbyMap block={map} /> : <div className="grid h-[280px] place-items-center rounded-2xl border border-line bg-card text-sm text-muted sm:h-[360px]"><span className="pulse-dot">Scouting around {area.name}…</span></div>}
