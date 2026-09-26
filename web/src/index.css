@@ -18,9 +18,10 @@
   --color-parts: #3d5a80;
   --color-new: #57534e;
 
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, monospace;
+  /* One family, General Sans (Fontshare). Display = 500, tight; text = 400/500; numbers tabular. */
+  --font-display: "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "General Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "General Sans", ui-sans-serif, system-ui, sans-serif;
 
   --shadow-soft: 0 1px 2px rgb(28 25 23 / 0.04), 0 8px 24px -12px rgb(28 25 23 / 0.12);
 }
@@ -77,3 +78,10 @@ body::before {
 }
 @keyframes offer-in { 0% { opacity: 0; transform: translateY(-6px) scale(.98); } 60% { opacity: 1; transform: none; } 100% { box-shadow: 0 0 0 0 rgb(176 125 18 / 0); } }
 .offer-in { animation: offer-in .6s cubic-bezier(.2,.7,.2,1) both; }
+
+/* type roles for General Sans */
+@layer utilities {
+  .font-display { font-weight: 500; letter-spacing: -0.035em; }
+  .font-mono { font-variant-numeric: tabular-nums; letter-spacing: 0; }
+}
+em { font-style: normal; }

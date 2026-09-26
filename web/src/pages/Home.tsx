@@ -169,7 +169,7 @@ export default function Home() {
         <div className="relative z-10 flex min-h-[100svh] flex-col">
           <Header area={area} setArea={setArea} />
           <main className="flex flex-1 flex-col items-center justify-center px-4 pb-24 text-center sm:px-6">
-            <h1 className="font-display text-[42px] leading-[1.04] text-ink sm:text-[72px]">
+            <h1 className="font-display text-[38px] leading-[1.06] text-ink sm:text-[60px]">
               <Words text={`Hey ${name},`} className="text-muted" />
               <br />
               <Words text="what are we thinking today?" delay={260} />
