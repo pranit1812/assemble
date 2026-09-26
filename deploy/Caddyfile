@@ -1,0 +1,4 @@
+# /etc/caddy/Caddyfile  (replace host with the VM's public hostname)
+your-vm-hostname.example {
+  reverse_proxy localhost:3000
+}
