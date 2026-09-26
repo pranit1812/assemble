@@ -41,6 +41,9 @@ export async function advise(o: {
   const label = deadlineLabel(o.deadline);
   const reused = chosen.length - newish.length;
   const sources: { title: string; url: string }[] = []; // rules don't read the web, so they cite nothing
+  if (!chosen.length)
+    return { type: 'AdviceCard', question: o.question, verdict: 'Wait', headline: 'Wait for local offers before buying anything.', by: 'rules', upcoming: null, sources,
+      reasons: ["Nothing nearby is listed for this yet, so there's no pick to rush.", 'Shops near you have been asked; their offers appear on this plan.', 'If you need it sooner, compare the online links on each part.'] };
   if (dl <= 14)
     return { type: 'AdviceCard', question: o.question, verdict: 'Buy now', headline: `Buy now: you need it ${label === 'today' || label === 'tomorrow' ? label : `by ${label}`}.`, by: 'rules', upcoming: null, sources,
       reasons: [`Waiting risks missing ${label === 'today' || label === 'tomorrow' ? label : label}.`, `${reused} of ${chosen.length} parts are yours, made or secondhand, so newer versions don't change them.`, newish.length ? `Only ${newish.length} part${newish.length > 1 ? 's are' : ' is'} bought new, and nothing about ${newish.length > 1 ? 'them' : 'it'} improves by waiting.` : 'Nothing here is bought new.'] };

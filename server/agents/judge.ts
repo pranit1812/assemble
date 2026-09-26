@@ -69,7 +69,22 @@ export async function judgeWhys(
     schema: JudgeOut,
     timeoutMs: 8000,
   });
-  return out;
+  return out ?? { whys: {}, summary: ruleSummary(goal.budgetPence, comps, allNewPence) };
+}
+
+// Honest one-liner when the model is unavailable: never claim "inside budget" when it isn't,
+// never compare against £0, and say plainly when nothing nearby fits yet.
+function ruleSummary(budgetPence: number | null, comps: { pick: Option | null }[], allNewPence: number) {
+  const chosen = comps.map((c) => c.pick).filter(Boolean) as Option[];
+  const missing = comps.length - chosen.length;
+  if (!chosen.length)
+    return "Nothing in our local catalogue fits this yet, so I've asked shops near you to reply with offers. Compare the online links meanwhile, or name the exact thing for a sharper plan.";
+  const total = chosen.reduce((s, o) => s + o.pricePence, 0);
+  const notNew = chosen.filter((o) => ['Own', 'DIY', 'Secondhand'].includes(o.tag)).length;
+  const vsNew = allNewPence > total ? `, against ${pounds(allNewPence)} to buy it all new` : '';
+  const fit = budgetPence == null ? '' : total <= budgetPence ? `, inside your ${pounds(budgetPence)}` : `, over your ${pounds(budgetPence)}, so swap a pick or two`;
+  const gap = missing ? ` ${missing} part${missing > 1 ? 's' : ''} nobody nearby has yet; I've asked local shops.` : '';
+  return `${notNew} of ${comps.length} parts come from what you own, can make, or a neighbour already has. ${pounds(total)} all in${vsNew}${fit}.${gap}`;
 }
 
 export const routeIndex = (t: Option['tag']) => ROUTE_ORDER.indexOf(t);
