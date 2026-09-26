@@ -1,0 +1,29 @@
+[
+  {
+    "id": "superman",
+    "title": "Superman costume",
+    "match": ["superman", "superhero", "man of steel", "clark kent", "kal-el"],
+    "whole_tag": "superman-costume",
+    "components": [
+      { "id": "suit", "name": "Blue suit", "tag": "bodysuit", "tags": ["bodysuit", "blue", "top", "leggings"], "note": "A blue top and leggings work" },
+      { "id": "cape", "name": "Red cape", "tag": "cape", "tags": ["cape", "red"], "note": "About 1m of red satin" },
+      { "id": "emblem", "name": "Chest emblem", "tag": "emblem", "tags": ["emblem", "iron-on", "felt"], "note": "Felt or iron-on shield" },
+      { "id": "boots", "name": "Boot covers", "tag": "boot-covers", "tags": ["boot-covers", "boots", "red"], "note": "Red covers over trainers are enough" },
+      { "id": "belt", "name": "Yellow belt", "tag": "belt", "tags": ["belt", "yellow"], "note": "Wide yellow ribbon works fine" }
+    ]
+  },
+  {
+    "id": "plantpot",
+    "title": "Self-watering plant pot",
+    "match": ["self-watering", "self watering", "plant pot", "planter", "watering"],
+    "whole_tag": "self-watering-pot",
+    "components": [
+      { "id": "reservoir", "name": "Water reservoir", "tag": "reservoir", "tags": ["reservoir", "pot", "jar", "bottle"], "note": "Watertight outer container holds the water" },
+      { "id": "inner", "name": "Inner pot", "tag": "inner-pot", "tags": ["inner-pot", "pot", "terracotta"], "note": "Needs a hole for the wick" },
+      { "id": "wick", "name": "Wick", "tag": "wick", "tags": ["wick", "cotton-cord"], "note": "Cotton draws water up to roots" },
+      { "id": "float", "name": "Water-level float", "tag": "float", "tags": ["float", "water-level"], "note": "Shows when to top up" },
+      { "id": "sensor", "name": "Moisture sensor", "tag": "moisture-sensor", "tags": ["moisture-sensor", "sensor", "esp32", "microcontroller"], "note": "Optional: ESP32 alerts when soil dries" },
+      { "id": "mix", "name": "Potting mix", "tag": "potting-mix", "tags": ["potting-mix", "soil"], "note": "Peat-free, light and free-draining" }
+    ]
+  }
+]

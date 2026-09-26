@@ -1,4 +1,177 @@
 import { Router } from 'express';
 import { all, get, run, J, id, logEvent } from '../db';
+import { AREAS, DEFAULT_AREA, km } from '../../shared/areas';
+import { ROUTE_ORDER, pounds, type BlockOf, type Option, type PlanEvent } from '../../shared/genui';
+import { intake, deadlineDays, getRecipe } from '../agents/orchestrator';
+import { SCOUTS, wholeProduct, type ScoutCtx } from '../agents/scouts';
+import { score, rank, pickPlan, judgeWhys } from '../agents/judge';
+import { compose, guidesFor, type GoalRow } from '../agents/composer';
 
 export const shopRouter = Router();
+
+type State = { bd: BlockOf<'Breakdown'>; note: BlockOf<'AgentNote'> | null; wholeNewPence: number | null };
+
+export function track(agent: string, title: string, detail = '', status = 'done') {
+  run('INSERT INTO tasks (id, agent, title, status, detail) VALUES (?,?,?,?,?)', id('t'), agent, title, status, detail);
+}
+
+const loadGoal = (gid: string) => get<GoalRow & { blocks: string | null; status: string }>('SELECT * FROM goals WHERE id = ?', gid);
+const acquiredMap = (gid: string) => Object.fromEntries(all<any>('SELECT id, acquired FROM components WHERE goal_id = ?', gid).map((c) => [c.id, !!c.acquired]));
+
+function composed(goal: GoalRow & { blocks: string | null }) {
+  const st = J<State | null>(goal.blocks, null);
+  return st ? compose(goal, st.bd, acquiredMap(goal.id), st.note, st.wholeNewPence) : [];
+}
+
+shopRouter.post('/goals', async (req, res) => {
+  const { text = '', image, userName, areaId } = req.body ?? {};
+  if (!String(text).trim() && !image) return void res.status(400).json({ error: 'Tell me a goal' });
+  const area = AREAS.find((a) => a.id === areaId) ?? DEFAULT_AREA;
+  const r = await intake(String(text).trim() || 'Help me make what is in this photo', image);
+  const gid = id('g');
+  run('INSERT INTO goals (id, user_name, text, title, recipe_id, area, lat, lng, budget_pence, deadline) VALUES (?,?,?,?,?,?,?,?,?,?)',
+    gid, userName ?? null, text, r.title, r.recipeId, area.name, area.lat, area.lng, r.budgetPence, r.deadline);
+  for (const c of r.components) run('INSERT INTO components (id, goal_id, name, tag, tags) VALUES (?,?,?,?,?)', c.id, gid, c.name, c.tag, JSON.stringify(c.tags));
+  logEvent('goal.created', r.title, area.name);
+  track('Orchestrator', `Understood "${r.title}"`, `${r.components.length} parts · ${r.by === 'grok' ? 'Grok' : 'house recipe'} · ${area.name}`);
+  res.json({
+    goal: { id: gid, title: r.title, by: r.by, components: r.components.map(({ id, name }) => ({ id, name })) },
+    blocks: [{ type: 'AgentNote', agent: 'Orchestrator', text: r.restated }, ...r.cards],
+  });
+});
+
+shopRouter.post('/goals/:id/plan', async (req, res) => {
+  const goal = loadGoal(req.params.id);
+  if (!goal) return void res.status(404).json({ error: 'No such goal' });
+  const answers: Record<string, string | string[]> = req.body?.answers ?? {};
+  const one = (k: string) => (Array.isArray(answers[k]) ? answers[k][0] : (answers[k] as string | undefined));
+  const budget = goal.budget_pence ?? (one('budget') && one('budget') !== 'any' ? parseInt(one('budget')!, 10) : null);
+  const deadline = goal.deadline ?? (one('deadline') && one('deadline') !== 'any' ? one('deadline')! : null);
+  const owned = new Set(([] as string[]).concat(answers.owned ?? []).filter((v) => v !== 'none'));
+  const skill = one('skill') ?? 'some';
+  run('UPDATE goals SET answers = ?, budget_pence = ?, deadline = ? WHERE id = ?', JSON.stringify(answers), budget, deadline, goal.id);
+  Object.assign(goal, { budget_pence: budget, deadline });
+
+  res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache, no-transform');
+  res.setHeader('X-Accel-Buffering', 'no');
+  res.flushHeaders();
+  const send = (ev: PlanEvent) => res.write(JSON.stringify(ev) + '\n');
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  try {
+    const comps = all<any>('SELECT * FROM components WHERE goal_id = ? ORDER BY rowid', goal.id).map((c) => ({ id: c.id, name: c.name, tag: c.tag, tags: J<string[]>(c.tags, []) }));
+    const x: ScoutCtx = { lat: goal.lat, lng: goal.lng, owned, skill, deadlineDays: deadlineDays(deadline) };
+    send({ t: 'status', agent: 'Orchestrator', text: `${comps.length} parts. Sending ${comps.length * ROUTE_ORDER.length} scouts out around ${goal.area}.` });
+    send({ t: 'components', components: comps.map(({ id, name, tag }) => ({ id, name, tag })) });
+
+    const results = await Promise.all(comps.map(async (c) => {
+      const found = await Promise.all(ROUTE_ORDER.map(async (route, ri) => {
+        send({ t: 'scout', componentId: c.id, route, state: 'run', found: 0 });
+        await sleep(200 + ri * 90 + Math.random() * 350);
+        const opts = SCOUTS[route](c, x);
+        send({ t: 'scout', componentId: c.id, route, state: 'done', found: opts.length });
+        return opts;
+      }));
+      return { c, options: rank(found.flat().map((o) => score(o, x))) };
+    }));
+
+    const n = results.reduce((s, r) => s + r.options.length, 0);
+    send({ t: 'status', agent: 'Judge', text: `Ranking ${n} options, mindful first. No merchant can pay for a spot.` });
+    const picks = pickPlan(results.map((r) => ({ id: r.c.id, options: r.options })), budget);
+    const recipe = getRecipe(goal.recipe_id);
+    const whole = wholeProduct(recipe?.whole_tag ?? null);
+
+    const bd: BlockOf<'Breakdown'> = { type: 'Breakdown', goal: goal.title, components: results.map(({ c, options }) => {
+      const unmet = !options.some((o) => o.tag === 'Secondhand' || o.tag === 'Local');
+      return { id: c.id, name: c.name, options, pickId: picks[c.id], briefOpen: unmet };
+    }) };
+
+    // Unmet parts become demand signal + an open brief local merchants can answer.
+    for (const c of bd.components.filter((c) => c.briefOpen)) {
+      logEvent('component.unmet', c.name, goal.area);
+      run('INSERT INTO briefs (id, goal_id, component, tag, area, budget_pence) VALUES (?,?,?,?,?,?)', id('b'), goal.id, c.name, comps.find((k) => k.id === c.id)!.tag, goal.area, null);
+    }
+
+    const pickOpt = (cid: string) => bd.components.find((c) => c.id === cid)!.options.find((o) => o.id === picks[cid]) ?? null;
+    const allNew = bd.components.reduce((s, c) => s + (c.options.find((o) => o.tag === 'New')?.pricePence ?? c.options.find((o) => o.tag === 'Parts')?.pricePence ?? 0), 0);
+    const judged = await judgeWhys({ title: goal.title, budgetPence: budget, deadline }, bd.components.map((c) => ({ id: c.id, name: c.name, pick: pickOpt(c.id) })), skill, whole?.price_pence ?? allNew);
+    if (judged) for (const c of bd.components) {
+      const w = judged.whys[c.id];
+      const o = c.options.find((o) => o.id === c.pickId);
+      if (w && o) o.why = w;
+    }
+    const chosen = bd.components.map((c) => pickOpt(c.id)).filter(Boolean) as Option[];
+    const total = chosen.reduce((s, o) => s + o.pricePence, 0);
+    const notNew = chosen.filter((o) => ['Own', 'DIY', 'Secondhand'].includes(o.tag)).length;
+    const newRef = whole?.price_pence ?? allNew;
+    const summary = judged?.summary ?? `${notNew} of ${chosen.length} parts come from what you own, can make, or a neighbour already has. ${pounds(total)} all in, against ${pounds(newRef)} ${whole ? 'for a boxed one' : 'to buy it all new'}${budget ? `, and well inside your ${pounds(budget)}` : ''}.`;
+    const note: BlockOf<'AgentNote'> = { type: 'AgentNote', agent: 'Judge', text: summary };
+
+    const state: State = { bd, note, wholeNewPence: whole?.price_pence ?? null };
+    run("UPDATE goals SET blocks = ?, status = 'planned' WHERE id = ?", JSON.stringify(state), goal.id);
+    for (const c of bd.components) run('UPDATE components SET pick = ?, unmet = ? WHERE goal_id = ? AND id = ?', JSON.stringify(pickOpt(c.id)), c.briefOpen ? 1 : 0, goal.id, c.id);
+    track('Scouts', `${n} routes for "${goal.title}"`, `${comps.length} parts × ${ROUTE_ORDER.length} routes near ${goal.area}`);
+    track('Judge', `Planned "${goal.title}": ${pounds(total)}`, `${notNew}/${chosen.length} without buying new${judged ? ' · Grok whys' : ''}`);
+    send({ t: 'blocks', blocks: compose(goal, bd, {}, note, state.wholeNewPence) });
+  } catch (e: any) {
+    console.error(e);
+    send({ t: 'error', message: e?.message ?? 'Planning failed' });
+  }
+  res.end();
+});
+
+shopRouter.get('/goals/:id', (req, res) => {
+  const goal = loadGoal(req.params.id);
+  if (!goal) return void res.status(404).json({ error: 'No such goal' });
+  res.json({ goal: { id: goal.id, title: goal.title, status: goal.status }, blocks: composed(goal) });
+});
+
+shopRouter.post('/goals/:id/pick', (req, res) => {
+  const goal = loadGoal(req.params.id);
+  const st = J<State | null>(goal?.blocks, null);
+  if (!goal || !st) return void res.status(404).json({ error: 'No plan yet' });
+  const { componentId, optionId } = req.body ?? {};
+  const c = st.bd.components.find((c) => c.id === componentId);
+  const o = c?.options.find((o) => o.id === optionId);
+  if (!c || !o) return void res.status(400).json({ error: 'Unknown option' });
+  c.pickId = o.id;
+  run('UPDATE goals SET blocks = ? WHERE id = ?', JSON.stringify(st), goal.id);
+  run('UPDATE components SET pick = ? WHERE goal_id = ? AND id = ?', JSON.stringify(o), goal.id, c.id);
+  res.json({ blocks: compose(goal, st.bd, acquiredMap(goal.id), st.note, st.wholeNewPence) });
+});
+
+shopRouter.post('/goals/:id/acquire', (req, res) => {
+  const goal = loadGoal(req.params.id);
+  const st = J<State | null>(goal?.blocks, null);
+  if (!goal || !st) return void res.status(404).json({ error: 'No plan yet' });
+  const { componentId, acquired } = req.body ?? {};
+  run('UPDATE components SET acquired = ? WHERE goal_id = ? AND id = ?', acquired ? 1 : 0, goal.id, componentId);
+  const c = st.bd.components.find((c) => c.id === componentId);
+  const o = c?.options.find((o) => o.id === c.pickId);
+  if (acquired && o?.source.merchantId && (o.tag === 'Local' || o.tag === 'New' || o.tag === 'Parts')) {
+    const payload = { event: 'lead.won', goal: goal.title, item: o.title, pricePence: o.pricePence, area: goal.area, at: new Date().toISOString() };
+    logEvent('lead.won', o.title, goal.area, o.source.merchantId, payload);
+    const hook = get<any>('SELECT webhook_url FROM merchants WHERE id = ?', o.source.merchantId)?.webhook_url;
+    if (hook) fetch(hook, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(payload) }).catch(() => {});
+  }
+  const acq = acquiredMap(goal.id);
+  const allAcquired = st.bd.components.every((c) => acq[c.id]);
+  if (allAcquired) run("UPDATE goals SET status = 'assembled' WHERE id = ?", goal.id);
+  res.json({ blocks: compose(goal, st.bd, acq, st.note, st.wholeNewPence), allAcquired });
+});
+
+shopRouter.get('/goals/:id/assembly', (req, res) => {
+  const goal = loadGoal(req.params.id);
+  const st = J<State | null>(goal?.blocks, null);
+  if (!goal || !st) return void res.status(404).json({ error: 'No plan yet' });
+  res.json({ blocks: guidesFor(goal, st.bd) });
+});
+
+// Landing-page line: what's around the shopper.
+shopRouter.get('/nearby', (req, res) => {
+  const a = AREAS.find((x) => x.id === req.query.area) ?? DEFAULT_AREA;
+  const shops = all<any>("SELECT lat, lng FROM merchants WHERE kind = 'local' AND walk_in = 1 AND lat IS NOT NULL").filter((m) => km(a, m) <= 5).length;
+  const listings = all<any>('SELECT lat, lng FROM listings').filter((l) => km(a, l) <= 5).length;
+  res.json({ area: a.name, shops, listings });
+});

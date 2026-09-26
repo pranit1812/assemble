@@ -30,6 +30,7 @@ export const Option = z.object({
   isNew: z.boolean().optional(), // added to the catalogue in the last hour
   guideId: z.string().optional(),
   productIds: z.array(z.string()).optional(), // for Parts bundles
+  makeIt: z.boolean().optional(), // a material you still have to make something from
 });
 export type Option = z.infer<typeof Option>;
 

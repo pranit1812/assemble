@@ -1,0 +1,519 @@
+[
+ {
+  "id": "s1",
+  "title": "Blue long-sleeve top and leggings, women's M",
+  "description": "Matching royal blue set, washed and folded. Perfect superhero base.",
+  "price_pence": 400,
+  "tags": [
+   "bodysuit",
+   "blue",
+   "top",
+   "leggings"
+  ],
+  "condition": "good",
+  "seller": "Priya K.",
+  "area": "Dalston",
+  "lat": 51.547,
+  "lng": -0.073
+ },
+ {
+  "id": "s2",
+  "title": "Men's blue running base layer, size L",
+  "description": "Worn twice, then I gave up running.",
+  "price_pence": 300,
+  "tags": [
+   "bodysuit",
+   "top",
+   "blue"
+  ],
+  "condition": "like new",
+  "seller": "Tom H.",
+  "area": "Hackney",
+  "lat": 51.5488,
+  "lng": -0.052
+ },
+ {
+  "id": "s3",
+  "title": "Kids blue superhero bodysuit, age 6-8",
+  "description": "Plain blue, no logo, my son has outgrown it.",
+  "price_pence": 350,
+  "tags": [
+   "bodysuit",
+   "blue",
+   "kids",
+   "superhero"
+  ],
+  "condition": "good",
+  "seller": "Amara O.",
+  "area": "Stoke Newington",
+  "lat": 51.5605,
+  "lng": -0.0735
+ },
+ {
+  "id": "s4",
+  "title": "Red cape, kids size (age 4-6)",
+  "description": "Well loved, a little faded at the hem.",
+  "price_pence": 200,
+  "tags": [
+   "cape",
+   "red",
+   "kids"
+  ],
+  "condition": "worn",
+  "seller": "Jonah B.",
+  "area": "Islington",
+  "lat": 51.537,
+  "lng": -0.101
+ },
+ {
+  "id": "s5",
+  "title": "Red satin cape, adult, worn once",
+  "description": "From a stag do. Long, swishy and clean.",
+  "price_pence": 400,
+  "tags": [
+   "cape",
+   "red",
+   "satin",
+   "adult"
+  ],
+  "condition": "like new",
+  "seller": "Grace T.",
+  "area": "Brixton",
+  "lat": 51.4625,
+  "lng": -0.114
+ },
+ {
+  "id": "s6",
+  "title": "Felt offcuts, red and yellow, big bag",
+  "description": "Leftovers from a craft club, plenty for a chest emblem.",
+  "price_pence": 100,
+  "tags": [
+   "emblem",
+   "felt",
+   "red",
+   "yellow",
+   "craft"
+  ],
+  "condition": "good",
+  "seller": "Sofia R.",
+  "area": "Hackney",
+  "lat": 51.5425,
+  "lng": -0.0505
+ },
+ {
+  "id": "s7",
+  "title": "Superhero iron-on patches x3",
+  "description": "Never used, bought too many for a party.",
+  "price_pence": 200,
+  "tags": [
+   "emblem",
+   "iron-on",
+   "superhero"
+  ],
+  "condition": "like new",
+  "seller": "Marcus D.",
+  "area": "Bethnal Green",
+  "lat": 51.5282,
+  "lng": -0.0568
+ },
+ {
+  "id": "s8",
+  "title": "Red wellies, size 7",
+  "description": "Scuffed but bright red, read as boots at a party.",
+  "price_pence": 300,
+  "tags": [
+   "boot-covers",
+   "boots",
+   "red"
+  ],
+  "condition": "worn",
+  "seller": "Hannah L.",
+  "area": "Dalston",
+  "lat": 51.5445,
+  "lng": -0.0772
+ },
+ {
+  "id": "s9",
+  "title": "Red boot covers, used once",
+  "description": "Adult one size, fit over trainers.",
+  "price_pence": 250,
+  "tags": [
+   "boot-covers",
+   "red",
+   "costume"
+  ],
+  "condition": "good",
+  "seller": "Kwame A.",
+  "area": "Shoreditch",
+  "lat": 51.5278,
+  "lng": -0.0775
+ },
+ {
+  "id": "s10",
+  "title": "Yellow canvas belt, 90cm",
+  "description": "Mustard yellow with a silver buckle.",
+  "price_pence": 200,
+  "tags": [
+   "belt",
+   "yellow"
+  ],
+  "condition": "good",
+  "seller": "Elif S.",
+  "area": "Shoreditch",
+  "lat": 51.5255,
+  "lng": -0.082
+ },
+ {
+  "id": "s11",
+  "title": "Wide yellow ribbon, about 3m",
+  "description": "Left over from a wedding, still on the card.",
+  "price_pence": 50,
+  "tags": [
+   "belt",
+   "ribbon",
+   "yellow"
+  ],
+  "condition": "good",
+  "seller": "Nell W.",
+  "area": "Hackney",
+  "lat": 51.5478,
+  "lng": -0.059
+ },
+ {
+  "id": "s12",
+  "title": "Kilner-style jars x4, 1L",
+  "description": "Clean glass jars, great as a water reservoir.",
+  "price_pence": 300,
+  "tags": [
+   "jar",
+   "reservoir"
+  ],
+  "condition": "good",
+  "seller": "Olu F.",
+  "area": "Hackney",
+  "lat": 51.5412,
+  "lng": -0.0598
+ },
+ {
+  "id": "s13",
+  "title": "Glazed ceramic cachepot, 18cm",
+  "description": "Watertight, no hole, one tiny chip on the rim.",
+  "price_pence": 400,
+  "tags": [
+   "reservoir",
+   "pot",
+   "planter"
+  ],
+  "condition": "good",
+  "seller": "Ruth M.",
+  "area": "Stoke Newington",
+  "lat": 51.5632,
+  "lng": -0.077
+ },
+ {
+  "id": "s14",
+  "title": "Terracotta pots, set of 6 (10-14cm)",
+  "description": "Some moss on the outside, all have drainage holes.",
+  "price_pence": 500,
+  "tags": [
+   "terracotta",
+   "pot",
+   "inner-pot"
+  ],
+  "condition": "worn",
+  "seller": "Dev P.",
+  "area": "Stoke Newington",
+  "lat": 51.5598,
+  "lng": -0.078
+ },
+ {
+  "id": "s15",
+  "title": "Plastic nursery pots x10",
+  "description": "Assorted small pots from the garden centre.",
+  "price_pence": 100,
+  "tags": [
+   "inner-pot",
+   "pot"
+  ],
+  "condition": "good",
+  "seller": "Beth C.",
+  "area": "Hackney",
+  "lat": 51.5501,
+  "lng": -0.0561
+ },
+ {
+  "id": "s16",
+  "title": "2L fizzy drink bottles, rinsed, x6",
+  "description": "Saving them from the recycling for a project that never happened.",
+  "price_pence": 50,
+  "tags": [
+   "bottle",
+   "reservoir",
+   "inner-pot"
+  ],
+  "condition": "good",
+  "seller": "Femi A.",
+  "area": "Dalston",
+  "lat": 51.549,
+  "lng": -0.0742
+ },
+ {
+  "id": "s17",
+  "title": "Old cotton T-shirts, bag of 5",
+  "description": "100% cotton, cut into strips they make great wicks.",
+  "price_pence": 100,
+  "tags": [
+   "wick",
+   "cotton-cord",
+   "fabric"
+  ],
+  "condition": "worn",
+  "seller": "Leo G.",
+  "area": "Dalston",
+  "lat": 51.5452,
+  "lng": -0.0718
+ },
+ {
+  "id": "s18",
+  "title": "Cotton macrame cord offcut, about 10m",
+  "description": "Natural 5mm cord left from a plant hanger.",
+  "price_pence": 200,
+  "tags": [
+   "wick",
+   "cotton-cord",
+   "craft"
+  ],
+  "condition": "like new",
+  "seller": "Aisha N.",
+  "area": "Bethnal Green",
+  "lat": 51.5295,
+  "lng": -0.0521
+ },
+ {
+  "id": "s19",
+  "title": "Wine corks, jar of about 30",
+  "description": "They float. That is all I know.",
+  "price_pence": 100,
+  "tags": [
+   "float",
+   "craft"
+  ],
+  "condition": "good",
+  "seller": "Sam E.",
+  "area": "Hackney",
+  "lat": 51.5433,
+  "lng": -0.0612
+ },
+ {
+  "id": "s20",
+  "title": "Aquarium water-level gauge",
+  "description": "Suction-cup float gauge, fits in a pot reservoir.",
+  "price_pence": 150,
+  "tags": [
+   "float",
+   "water-level"
+  ],
+  "condition": "good",
+  "seller": "Imran Q.",
+  "area": "Stratford",
+  "lat": 51.5425,
+  "lng": -0.006
+ },
+ {
+  "id": "s21",
+  "title": "ESP32 boards x2 and a moisture sensor, spare",
+  "description": "Left over from a uni project, all tested.",
+  "price_pence": 600,
+  "tags": [
+   "esp32",
+   "microcontroller",
+   "moisture-sensor",
+   "sensor",
+   "electronics"
+  ],
+  "condition": "like new",
+  "seller": "Chen L.",
+  "area": "Hackney",
+  "lat": 51.5468,
+  "lng": -0.0508
+ },
+ {
+  "id": "s22",
+  "title": "Microcontroller starter kit, Uno-compatible",
+  "description": "Board, breadboard, jumper wires and a soil sensor. Some parts used.",
+  "price_pence": 1200,
+  "tags": [
+   "arduino",
+   "microcontroller",
+   "moisture-sensor",
+   "sensor",
+   "jumper-wires",
+   "electronics"
+  ],
+  "condition": "good",
+  "seller": "Rosa V.",
+  "area": "Clerkenwell",
+  "lat": 51.525,
+  "lng": -0.108
+ },
+ {
+  "id": "s23",
+  "title": "Half bag of peat-free compost",
+  "description": "About 20L left, kept dry in the shed.",
+  "price_pence": 200,
+  "tags": [
+   "potting-mix",
+   "soil"
+  ],
+  "condition": "good",
+  "seller": "Martha J.",
+  "area": "Hackney",
+  "lat": 51.5419,
+  "lng": -0.053
+ },
+ {
+  "id": "s24",
+  "title": "Houseplant soil, 3L tub",
+  "description": "Bought too much repotting a monstera.",
+  "price_pence": 100,
+  "tags": [
+   "potting-mix",
+   "soil",
+   "plant"
+  ],
+  "condition": "good",
+  "seller": "Yusuf K.",
+  "area": "Bethnal Green",
+  "lat": 51.5262,
+  "lng": -0.059
+ },
+ {
+  "id": "s25",
+  "title": "Superman kids costume, age 5-6",
+  "description": "Worn for one birthday party, cape included.",
+  "price_pence": 500,
+  "tags": [
+   "superman-costume",
+   "superman",
+   "costume",
+   "kids"
+  ],
+  "condition": "good",
+  "seller": "Aaron P.",
+  "area": "Dalston",
+  "lat": 51.544,
+  "lng": -0.0738
+ },
+ {
+  "id": "s26",
+  "title": "Witch hat and broom, adult",
+  "description": "Hat is a bit squashed, broom is perfect.",
+  "price_pence": 400,
+  "tags": [
+   "witch",
+   "hat",
+   "halloween"
+  ],
+  "condition": "good",
+  "seller": "Lily A.",
+  "area": "Dalston",
+  "lat": 51.5485,
+  "lng": -0.0768
+ },
+ {
+  "id": "s27",
+  "title": "Black vampire cloak, adult",
+  "description": "Red lining, high collar, from last year.",
+  "price_pence": 500,
+  "tags": [
+   "vampire",
+   "costume",
+   "black",
+   "halloween"
+  ],
+  "condition": "good",
+  "seller": "Ade O.",
+  "area": "Shoreditch",
+  "lat": 51.524,
+  "lng": -0.078
+ },
+ {
+  "id": "s28",
+  "title": "Skeleton onesie, size M",
+  "description": "Glow-in-the-dark bones, washed once.",
+  "price_pence": 600,
+  "tags": [
+   "skeleton",
+   "costume",
+   "adult",
+   "halloween"
+  ],
+  "condition": "like new",
+  "seller": "Zoe F.",
+  "area": "Walthamstow",
+  "lat": 51.5815,
+  "lng": -0.0215
+ },
+ {
+  "id": "s29",
+  "title": "Face paint set, mostly full",
+  "description": "Missing the white, everything else is there.",
+  "price_pence": 200,
+  "tags": [
+   "face-paint",
+   "halloween"
+  ],
+  "condition": "good",
+  "seller": "Ivy R.",
+  "area": "Hackney",
+  "lat": 51.5462,
+  "lng": -0.06
+ },
+ {
+  "id": "s30",
+  "title": "Basil and mint seedlings, 4 pots",
+  "description": "Grown on my windowsill from seed.",
+  "price_pence": 300,
+  "tags": [
+   "herb",
+   "seedling",
+   "plant"
+  ],
+  "condition": "like new",
+  "seller": "Nadia H.",
+  "area": "Stoke Newington",
+  "lat": 51.5645,
+  "lng": -0.0725
+ },
+ {
+  "id": "s31",
+  "title": "Warm white fairy lights, USB",
+  "description": "Five metres, one bulb out.",
+  "price_pence": 250,
+  "tags": [
+   "lights",
+   "led",
+   "usb"
+  ],
+  "condition": "good",
+  "seller": "Joe M.",
+  "area": "Bethnal Green",
+  "lat": 51.5305,
+  "lng": -0.061
+ },
+ {
+  "id": "s32",
+  "title": "Foam pumpkins x2",
+  "description": "Carvable craft pumpkins, reusable every year.",
+  "price_pence": 300,
+  "tags": [
+   "pumpkin",
+   "halloween"
+  ],
+  "condition": "good",
+  "seller": "Kate S.",
+  "area": "Peckham",
+  "lat": 51.4752,
+  "lng": -0.07
+ }
+]

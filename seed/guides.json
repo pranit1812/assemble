@@ -1,0 +1,80 @@
+[
+  {
+    "id": "g_suit", "merchant_id": null, "title": "Superhero suit from a blue top and leggings",
+    "tags": ["bodysuit", "blue", "top", "leggings", "superhero"], "difficulty": "easy", "minutes": 15, "cost_pence": 1200,
+    "materials": ["Blue long-sleeve top", "Blue leggings", "Safety pins"],
+    "steps": ["Pick a top and leggings in the closest matching blues.", "Tuck the top into the leggings so the line sits at the waist.", "Pin any baggy bits at the back so the suit looks tight.", "Cover the join with the belt later.", "Check the fit in a mirror with your arms raised."]
+  },
+  {
+    "id": "g_cape", "merchant_id": "m_fabric", "title": "No-sew cape from 1m of satin",
+    "tags": ["cape", "red", "satin", "fabric-glue"], "difficulty": "easy", "minutes": 20, "cost_pence": 550,
+    "materials": ["1m red satin", "Fabric glue", "Hook-and-loop square or safety pin", "Scissors"],
+    "steps": ["Lay the satin flat, shiny side down.", "Cut a gentle curve along the bottom edge.", "Fold 2cm over at the top and glue it down to make a collar.", "Let the glue dry for 10 minutes.", "Glue a hook-and-loop square to each collar corner.", "Fasten at the neck and give it a swish."]
+  },
+  {
+    "id": "g_emblem", "merchant_id": "m_thread", "title": "Felt chest emblem with a printable template",
+    "tags": ["emblem", "felt", "iron-on", "template", "superman"], "difficulty": "easy", "minutes": 30, "cost_pence": 350,
+    "materials": ["Red felt", "Yellow felt", "Iron-on adhesive web", "Printed shield template", "Scissors"],
+    "steps": ["Print the shield template at A4 size.", "Cut the outer shield from yellow felt.", "Cut the S shape from red felt.", "Fuse the S onto the shield with adhesive web and a warm iron.", "Fuse the finished emblem onto the chest of the suit.", "Press through a tea towel for 30 seconds to set it."]
+  },
+  {
+    "id": "g_bootcovers", "merchant_id": "m_thread", "title": "Red boot covers from vinyl",
+    "tags": ["boot-covers", "boots", "red", "vinyl", "elastic", "sewing"], "difficulty": "medium", "minutes": 45, "cost_pence": 900,
+    "materials": ["1m red vinyl", "25mm elastic", "Needle and thread or a sewing machine", "Chalk"],
+    "steps": ["Wrap vinyl around your leg over a trainer and chalk the outline.", "Cut two matching pieces with a 1cm seam allowance.", "Sew the back seam of each cover.", "Stitch a loop of elastic under the sole.", "Turn right side out and pull on over your shoes."]
+  },
+  {
+    "id": "g_belt", "merchant_id": null, "title": "Yellow ribbon belt with a card buckle",
+    "tags": ["belt", "yellow", "ribbon", "cardboard"], "difficulty": "easy", "minutes": 10, "cost_pence": 200,
+    "materials": ["2m wide yellow ribbon", "Cereal box card", "Yellow paint or tape", "Glue"],
+    "steps": ["Measure the ribbon around your waist plus 30cm.", "Cut a rectangle buckle from card and cover it yellow.", "Glue the buckle to the middle of the ribbon.", "Tie the ends at the back and tuck them in."]
+  },
+  {
+    "id": "g_bottle_pot", "merchant_id": null, "title": "Self-watering pot from a 2L bottle",
+    "tags": ["self-watering", "self-watering-pot", "bottle", "reservoir", "inner-pot", "wick"], "difficulty": "easy", "minutes": 20, "cost_pence": 300,
+    "materials": ["Empty 2L plastic bottle", "30cm cotton cord or T-shirt strip", "Potting mix", "Scissors or craft knife"],
+    "steps": ["Cut the bottle in half about a third of the way down.", "Poke a small hole in the lid.", "Thread the cotton wick through the lid and knot it inside.", "Flip the top half into the bottom half, neck down.", "Fill the top with damp potting mix and plant.", "Pour water into the bottom until it touches the wick."]
+  },
+  {
+    "id": "g_jar_reservoir", "merchant_id": null, "title": "Glass jar reservoir for a small herb pot",
+    "tags": ["reservoir", "jar", "inner-pot", "herb", "wick"], "difficulty": "easy", "minutes": 15, "cost_pence": 0,
+    "materials": ["Wide glass jar", "Small pot that sits in the jar neck", "Cotton wick"],
+    "steps": ["Check the pot rests on the jar rim without falling in.", "Feed a wick through the pot drainage hole.", "Plant the herb in the pot.", "Fill the jar a third full of water.", "Sit the pot on top so the wick hangs in the water."]
+  },
+  {
+    "id": "g_wick", "merchant_id": null, "title": "Cotton wick from an old T-shirt",
+    "tags": ["wick", "cotton-cord", "fabric"], "difficulty": "easy", "minutes": 10, "cost_pence": 0,
+    "materials": ["Old 100% cotton T-shirt", "Scissors"],
+    "steps": ["Cut a 3cm strip across the body of the shirt.", "Pull the strip so it curls into a cord.", "Soak it in water before use.", "Cut to reach from reservoir floor to mid pot."]
+  },
+  {
+    "id": "g_float", "merchant_id": null, "title": "Cork-and-skewer water-level float",
+    "tags": ["float", "water-level"], "difficulty": "easy", "minutes": 15, "cost_pence": 150,
+    "materials": ["Wine cork", "Bamboo skewer", "Straw", "Red marker pen"],
+    "steps": ["Push the skewer into the cork.", "Colour the top 2cm of the skewer red.", "Push a straw down through the soil to the reservoir as a guide tube.", "Drop the skewer into the straw, cork first.", "Top up when the red mark sinks out of sight."]
+  },
+  {
+    "id": "g_esp32", "merchant_id": "m_pin", "title": "ESP32 soil moisture alert",
+    "tags": ["moisture-sensor", "sensor", "esp32", "microcontroller", "jumper-wires", "electronics"], "difficulty": "medium", "minutes": 60, "cost_pence": 1220,
+    "materials": ["ESP32 dev board", "Capacitive soil moisture sensor", "3 jumper wires", "USB cable", "Laptop"],
+    "steps": ["Wire sensor VCC to 3V3, GND to GND and AOUT to pin 34.", "Flash the example sketch from the Pin & Solder guide page.", "Read the value with the probe in dry soil, then in wet soil.", "Set the alert threshold halfway between the two.", "Push the probe into the pot beside the wick.", "Power it from any USB plug."]
+  },
+  {
+    "id": "g_potting_mix", "merchant_id": null, "title": "Mix your own light potting mix",
+    "tags": ["potting-mix", "soil", "plant"], "difficulty": "easy", "minutes": 15, "cost_pence": 600,
+    "materials": ["Coir brick", "Garden compost", "Perlite or grit", "Bucket"],
+    "steps": ["Soak the coir brick in a bucket until it swells.", "Mix two parts coir with one part compost.", "Stir in one part perlite for drainage.", "Squeeze a handful: it should hold, then crumble."]
+  },
+  {
+    "id": "g_witch_hat", "merchant_id": null, "title": "Cardboard witch hat",
+    "tags": ["witch", "hat", "cardboard", "black", "halloween"], "difficulty": "easy", "minutes": 30, "cost_pence": 250,
+    "materials": ["Large cereal box or card", "Black paint", "Tape", "Ribbon"],
+    "steps": ["Roll a cone from card to fit your head.", "Cut a ring for the brim with 2cm tabs inside.", "Tape the tabs inside the cone.", "Paint it all black and leave to dry.", "Tie a ribbon round the base."]
+  },
+  {
+    "id": "g_skeleton_paint", "merchant_id": null, "title": "Skeleton face paint in ten minutes",
+    "tags": ["face-paint", "skeleton", "halloween"], "difficulty": "easy", "minutes": 10, "cost_pence": 500,
+    "materials": ["White and black face paint", "Sponge", "Fine brush"],
+    "steps": ["Sponge white over the whole face.", "Paint black circles round the eyes.", "Add a black upside-down heart on the nose.", "Draw a line across the lips and add small teeth marks.", "Shade the cheek hollows with a little black."]
+  }
+]

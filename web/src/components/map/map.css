@@ -1,0 +1,127 @@
+/* Leaflet skin for Assemble: warm paper tiles, ink shopper dot, route-coloured pins.
+   Hex values are hardcoded on purpose (mirrors the @theme tokens in index.css). */
+
+.am-map.leaflet-container {
+  background: #f3efe6;
+  font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
+  font-size: 13px;
+  color: #1c1917;
+  outline: none;
+}
+.am-map.leaflet-container:focus-visible {
+  box-shadow: inset 0 0 0 2px #c2410c;
+}
+.am-map .leaflet-tile-pane {
+  filter: sepia(0.25) saturate(0.8) contrast(0.96) brightness(1.01);
+}
+
+/* ---------- markers ---------- */
+.am-icon { background: none; border: 0; }
+.am-icon:focus-visible { outline: none; }
+.am-icon:focus-visible .am-pin__dot { box-shadow: 0 0 0 3px #fbf9f4, 0 0 0 5px #c2410c; }
+
+/* shopper */
+.am-you { position: relative; width: 18px; height: 18px; }
+.am-you__halo {
+  position: absolute; inset: -9px; border-radius: 999px;
+  background: rgb(28 25 23 / 0.10);
+}
+.am-you__ping {
+  position: absolute; inset: 0; border-radius: 999px;
+  background: rgb(28 25 23 / 0.35);
+  animation: am-ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.am-you__dot {
+  position: absolute; inset: 2px; border-radius: 999px;
+  background: #1c1917; border: 2.5px solid #fbf9f4;
+  box-shadow: 0 1px 4px rgb(28 25 23 / 0.35);
+}
+.am-you__label {
+  position: absolute; left: 50%; top: 26px; transform: translateX(-50%);
+  white-space: nowrap; pointer-events: none;
+  padding: 3px 8px; border-radius: 999px;
+  background: #1c1917; color: #fbf9f4;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.01em; line-height: 1.3;
+  box-shadow: 0 4px 12px -4px rgb(28 25 23 / 0.45);
+}
+@keyframes am-ping {
+  0% { transform: scale(1); opacity: 0.55; }
+  80%, 100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* place pins */
+.am-pin { position: relative; width: 100%; height: 100%; cursor: pointer; }
+.am-pin__dot {
+  position: absolute; inset: 0; border-radius: 999px;
+  background: var(--pin, #57534e);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgb(28 25 23 / 0.35), 0 0 0 1px rgb(28 25 23 / 0.06);
+  transition: transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.am-pin:hover .am-pin__dot { transform: scale(1.25); }
+.am-pin--picked .am-pin__dot {
+  border-width: 3px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--pin, #57534e) 22%, transparent), 0 2px 6px rgb(28 25 23 / 0.35);
+}
+.am-pin__chip {
+  position: absolute; left: calc(100% + 6px); top: 50%; transform: translateY(-50%);
+  white-space: nowrap; pointer-events: none;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 8px 3px 6px; border-radius: 999px;
+  background: #fbf9f4; color: #1c1917;
+  border: 1px solid #e2dccf;
+  font-size: 11px; font-weight: 500; line-height: 1.3;
+  box-shadow: 0 4px 12px -6px rgb(28 25 23 / 0.35);
+}
+.am-pin__chip::before {
+  content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--pin, #57534e);
+}
+
+/* ---------- popup ---------- */
+.am-popup .leaflet-popup-content-wrapper {
+  background: #fbf9f4; color: #1c1917;
+  border: 1px solid #e2dccf; border-radius: 14px;
+  box-shadow: 0 1px 2px rgb(28 25 23 / 0.04), 0 12px 28px -12px rgb(28 25 23 / 0.28);
+}
+.am-popup .leaflet-popup-content { margin: 11px 14px 12px; line-height: 1.35; min-width: 150px; }
+.am-popup .leaflet-popup-tip { background: #fbf9f4; box-shadow: none; border: 1px solid #e2dccf; }
+.am-popup a.leaflet-popup-close-button { color: #a8a29e; top: 4px; right: 4px; }
+.am-popup a.leaflet-popup-close-button:hover { color: #1c1917; }
+.am-pop__tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: "Geist Mono", ui-monospace, monospace; font-size: 10px;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--pin, #78716c);
+}
+.am-pop__tag::before { content: ""; width: 6px; height: 6px; border-radius: 999px; background: var(--pin, #78716c); }
+.am-pop__label {
+  font-family: "Instrument Serif", Georgia, serif; font-size: 19px; line-height: 1.1;
+  margin-top: 3px; padding-right: 12px;
+}
+.am-pop__sub { margin-top: 3px; color: #1c1917; font-size: 13px; }
+.am-pop__dist {
+  margin-top: 7px; padding-top: 7px; border-top: 1px dashed #e2dccf;
+  color: #78716c; font-family: "Geist Mono", ui-monospace, monospace; font-size: 11px;
+}
+
+/* ---------- controls ---------- */
+.am-map .leaflet-control-zoom {
+  border: 1px solid #e2dccf !important; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 4px 14px -8px rgb(28 25 23 / 0.3);
+}
+.am-map .leaflet-control-zoom a {
+  width: 30px; height: 30px; line-height: 28px;
+  background: #fbf9f4; color: #1c1917; border-bottom-color: #e2dccf;
+  font-weight: 400;
+}
+.am-map .leaflet-control-zoom a:hover { background: #f3efe6; }
+.am-map .leaflet-control-zoom a.leaflet-disabled { color: #a8a29e; background: #fbf9f4; }
+.am-map .leaflet-control-attribution {
+  background: rgb(251 249 244 / 0.8); color: #a8a29e;
+  font-size: 9.5px; padding: 1px 6px; border-top-left-radius: 8px;
+}
+.am-map .leaflet-control-attribution a { color: #78716c; }
+
+@media (prefers-reduced-motion: reduce) {
+  .am-you__ping { animation: none; opacity: 0; }
+  .am-pin__dot { transition: none; }
+}

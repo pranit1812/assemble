@@ -1,0 +1,1229 @@
+[
+ {
+  "id": "p1",
+  "merchant_id": "m_party",
+  "title": "Superman-style chest emblem, iron-on",
+  "description": "Red and yellow shield patch, presses on in 30 seconds with a household iron.",
+  "price_pence": 350,
+  "tags": [
+   "emblem",
+   "iron-on",
+   "superman",
+   "superhero",
+   "red",
+   "yellow"
+  ],
+  "kind": "complete",
+  "stock": 14,
+  "eta_days": 0
+ },
+ {
+  "id": "p2",
+  "merchant_id": "m_party",
+  "title": "Red boot covers, adult one size",
+  "description": "Stretchy red covers that pull over trainers, elastic at the sole.",
+  "price_pence": 699,
+  "tags": [
+   "boot-covers",
+   "red",
+   "costume",
+   "adult"
+  ],
+  "kind": "complete",
+  "stock": 8,
+  "eta_days": 0
+ },
+ {
+  "id": "p3",
+  "merchant_id": "m_party",
+  "title": "Yellow costume belt with buckle",
+  "description": "Wipe-clean yellow belt with a gold buckle, adjustable up to 110cm.",
+  "price_pence": 499,
+  "tags": [
+   "belt",
+   "yellow",
+   "costume",
+   "superhero"
+  ],
+  "kind": "complete",
+  "stock": 10,
+  "eta_days": 0
+ },
+ {
+  "id": "p4",
+  "merchant_id": "m_party",
+  "title": "Blue stretch bodysuit, adult",
+  "description": "Plain royal blue long-sleeve bodysuit, the base for most superhero looks.",
+  "price_pence": 1499,
+  "tags": [
+   "bodysuit",
+   "blue",
+   "top",
+   "leggings",
+   "costume",
+   "adult"
+  ],
+  "kind": "complete",
+  "stock": 5,
+  "eta_days": 0
+ },
+ {
+  "id": "p5",
+  "merchant_id": "m_party",
+  "title": "Witch hat, black felt",
+  "description": "Wide-brim pointed hat with a stiffened crown.",
+  "price_pence": 450,
+  "tags": [
+   "witch",
+   "hat",
+   "black",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 0
+ },
+ {
+  "id": "p6",
+  "merchant_id": "m_party",
+  "title": "Vampire fangs and blood gel",
+  "description": "Mouldable fangs plus a small tube of washable fake blood.",
+  "price_pence": 299,
+  "tags": [
+   "vampire",
+   "costume",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 25,
+  "eta_days": 0
+ },
+ {
+  "id": "p7",
+  "merchant_id": "m_party",
+  "title": "Face paint palette, 8 colours",
+  "description": "Water-based palette with two brushes and a sponge.",
+  "price_pence": 599,
+  "tags": [
+   "face-paint",
+   "paint",
+   "halloween",
+   "kids"
+  ],
+  "kind": "complete",
+  "stock": 12,
+  "eta_days": 0
+ },
+ {
+  "id": "p8",
+  "merchant_id": "m_party",
+  "title": "Pumpkin carving kit",
+  "description": "Three safe saws and a scoop, plus six stencils.",
+  "price_pence": 399,
+  "tags": [
+   "pumpkin",
+   "halloween",
+   "template"
+  ],
+  "kind": "tool",
+  "stock": 15,
+  "eta_days": 0
+ },
+ {
+  "id": "p9",
+  "merchant_id": "m_party",
+  "title": "Orange fairy lights, 20 LED",
+  "description": "Battery string lights for windows and pumpkins.",
+  "price_pence": 499,
+  "tags": [
+   "lights",
+   "led",
+   "halloween",
+   "party"
+  ],
+  "kind": "complete",
+  "stock": 18,
+  "eta_days": 0
+ },
+ {
+  "id": "p10",
+  "merchant_id": "m_fabric",
+  "title": "Red satin, 1m cut",
+  "description": "Bright red polyester satin, 150cm wide. Enough for one adult cape.",
+  "price_pence": 450,
+  "tags": [
+   "cape",
+   "red",
+   "satin",
+   "fabric"
+  ],
+  "kind": "material",
+  "stock": 30,
+  "eta_days": 0,
+  "guide_id": "g_cape"
+ },
+ {
+  "id": "p11",
+  "merchant_id": "m_fabric",
+  "title": "Felt squares, red and yellow, pack of 6",
+  "description": "Soft 1mm craft felt, 23cm squares, easy to cut into an emblem.",
+  "price_pence": 180,
+  "tags": [
+   "emblem",
+   "felt",
+   "red",
+   "yellow",
+   "craft"
+  ],
+  "kind": "material",
+  "stock": 40,
+  "eta_days": 0
+ },
+ {
+  "id": "p12",
+  "merchant_id": "m_fabric",
+  "title": "Yellow grosgrain ribbon, 38mm x 2m",
+  "description": "Sturdy ribbon that holds its shape as a costume belt.",
+  "price_pence": 140,
+  "tags": [
+   "belt",
+   "yellow",
+   "ribbon"
+  ],
+  "kind": "material",
+  "stock": 50,
+  "eta_days": 0
+ },
+ {
+  "id": "p13",
+  "merchant_id": "m_fabric",
+  "title": "Blue stretch jersey, 1m",
+  "description": "Four-way stretch cotton jersey in royal blue.",
+  "price_pence": 750,
+  "tags": [
+   "bodysuit",
+   "blue",
+   "fabric"
+  ],
+  "kind": "material",
+  "stock": 12,
+  "eta_days": 0
+ },
+ {
+  "id": "p14",
+  "merchant_id": "m_fabric",
+  "title": "Red PU vinyl, half metre",
+  "description": "Glossy faux leather that sews like fabric, good for boot covers.",
+  "price_pence": 400,
+  "tags": [
+   "boot-covers",
+   "vinyl",
+   "red"
+  ],
+  "kind": "material",
+  "stock": 10,
+  "eta_days": 0
+ },
+ {
+  "id": "p15",
+  "merchant_id": "m_fabric",
+  "title": "Cotton piping cord, 3m",
+  "description": "Unbleached 5mm cotton cord that wicks water well.",
+  "price_pence": 120,
+  "tags": [
+   "wick",
+   "cotton-cord"
+  ],
+  "kind": "material",
+  "stock": 35,
+  "eta_days": 0
+ },
+ {
+  "id": "p16",
+  "merchant_id": "m_fabric",
+  "title": "Black velvet, 1m",
+  "description": "Heavy black velvet for cloaks and gothic trims.",
+  "price_pence": 650,
+  "tags": [
+   "vampire",
+   "black",
+   "fabric"
+  ],
+  "kind": "material",
+  "stock": 8,
+  "eta_days": 0
+ },
+ {
+  "id": "p17",
+  "merchant_id": "m_garden",
+  "title": "Glazed ceramic cachepot, 16cm",
+  "description": "Watertight glazed outer pot with no drainage hole.",
+  "price_pence": 699,
+  "tags": [
+   "reservoir",
+   "pot",
+   "planter"
+  ],
+  "kind": "part",
+  "stock": 9,
+  "eta_days": 0
+ },
+ {
+  "id": "p18",
+  "merchant_id": "m_garden",
+  "title": "Terracotta pot, 12cm",
+  "description": "Classic unglazed pot with a drainage hole for a wick.",
+  "price_pence": 249,
+  "tags": [
+   "inner-pot",
+   "pot",
+   "terracotta"
+  ],
+  "kind": "part",
+  "stock": 40,
+  "eta_days": 0
+ },
+ {
+  "id": "p19",
+  "merchant_id": "m_garden",
+  "title": "Peat-free potting mix, 10L",
+  "description": "Light, free-draining houseplant mix made from bark and coir.",
+  "price_pence": 499,
+  "tags": [
+   "potting-mix",
+   "soil",
+   "plant"
+  ],
+  "kind": "material",
+  "stock": 25,
+  "eta_days": 0
+ },
+ {
+  "id": "p20",
+  "merchant_id": "m_garden",
+  "title": "Water-level indicator for pots",
+  "description": "Push-in gauge that shows when the reservoir needs a top-up.",
+  "price_pence": 299,
+  "tags": [
+   "float",
+   "water-level"
+  ],
+  "kind": "part",
+  "stock": 15,
+  "eta_days": 0
+ },
+ {
+  "id": "p21",
+  "merchant_id": "m_garden",
+  "title": "Self-watering pot, 15cm, white",
+  "description": "Two-part pot with a reservoir and cotton wick included.",
+  "price_pence": 1299,
+  "tags": [
+   "self-watering-pot",
+   "self-watering",
+   "pot",
+   "planter"
+  ],
+  "kind": "complete",
+  "stock": 6,
+  "eta_days": 0
+ },
+ {
+  "id": "p22",
+  "merchant_id": "m_garden",
+  "title": "Herb seedlings tray: basil, mint, parsley",
+  "description": "Three healthy young plants ready to pot on.",
+  "price_pence": 600,
+  "tags": [
+   "herb",
+   "seedling",
+   "plant"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 0
+ },
+ {
+  "id": "p23",
+  "merchant_id": "m_garden",
+  "title": "Mini pumpkins, each",
+  "description": "Small decorative pumpkins, grown in Kent.",
+  "price_pence": 150,
+  "tags": [
+   "pumpkin",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 60,
+  "eta_days": 0
+ },
+ {
+  "id": "p24",
+  "merchant_id": "m_hardware",
+  "title": "Clear storage tub with lid, 2L",
+  "description": "Food-safe plastic tub, makes a neat hidden reservoir.",
+  "price_pence": 250,
+  "tags": [
+   "reservoir"
+  ],
+  "kind": "part",
+  "stock": 24,
+  "eta_days": 0
+ },
+ {
+  "id": "p25",
+  "merchant_id": "m_hardware",
+  "title": "Cotton sash cord, per metre",
+  "description": "Braided cotton cord cut to any length at the counter.",
+  "price_pence": 60,
+  "tags": [
+   "wick",
+   "cotton-cord"
+  ],
+  "kind": "material",
+  "stock": 100,
+  "eta_days": 0
+ },
+ {
+  "id": "p26",
+  "merchant_id": "m_hardware",
+  "title": "Plastic float ball, 50mm",
+  "description": "Hollow float ball, glue to a skewer for a water-level marker.",
+  "price_pence": 180,
+  "tags": [
+   "float",
+   "water-level"
+  ],
+  "kind": "part",
+  "stock": 20,
+  "eta_days": 0
+ },
+ {
+  "id": "p27",
+  "merchant_id": "m_hardware",
+  "title": "Cordless drill, day hire",
+  "description": "Drill plus bits for making wick holes, back by closing time.",
+  "price_pence": 800,
+  "tags": [
+   "drill"
+  ],
+  "kind": "tool",
+  "stock": 3,
+  "eta_days": 0
+ },
+ {
+  "id": "p28",
+  "merchant_id": "m_hardware",
+  "title": "Hot glue gun with 10 sticks",
+  "description": "Mini glue gun for quick costume and craft fixes.",
+  "price_pence": 699,
+  "tags": [
+   "hot-glue",
+   "craft"
+  ],
+  "kind": "tool",
+  "stock": 10,
+  "eta_days": 0
+ },
+ {
+  "id": "p29",
+  "merchant_id": "m_makers",
+  "title": "Capacitive soil moisture sensor",
+  "description": "Corrosion-resistant probe, 3.3V friendly, cable included.",
+  "price_pence": 399,
+  "tags": [
+   "moisture-sensor",
+   "sensor",
+   "electronics"
+  ],
+  "kind": "part",
+  "stock": 16,
+  "eta_days": 0
+ },
+ {
+  "id": "p30",
+  "merchant_id": "m_makers",
+  "title": "ESP32 dev board",
+  "description": "Wi-Fi board with USB, ready to flash from a laptop.",
+  "price_pence": 750,
+  "tags": [
+   "esp32",
+   "microcontroller",
+   "moisture-sensor",
+   "electronics",
+   "usb"
+  ],
+  "kind": "part",
+  "stock": 10,
+  "eta_days": 0
+ },
+ {
+  "id": "p31",
+  "merchant_id": "m_makers",
+  "title": "Jumper wires, 40 pack",
+  "description": "Mixed male and female jumpers, 20cm.",
+  "price_pence": 250,
+  "tags": [
+   "jumper-wires",
+   "wires",
+   "electronics"
+  ],
+  "kind": "part",
+  "stock": 30,
+  "eta_days": 0
+ },
+ {
+  "id": "p32",
+  "merchant_id": "m_makers",
+  "title": "Warm white LED string, USB",
+  "description": "5m of copper-wire micro lights.",
+  "price_pence": 450,
+  "tags": [
+   "lights",
+   "led",
+   "usb"
+  ],
+  "kind": "complete",
+  "stock": 14,
+  "eta_days": 0
+ },
+ {
+  "id": "p33",
+  "merchant_id": "m_camden",
+  "title": "Witch costume, adult",
+  "description": "Black dress with a tattered hem and a matching hat.",
+  "price_pence": 2200,
+  "tags": [
+   "witch",
+   "costume",
+   "adult",
+   "halloween",
+   "black"
+  ],
+  "kind": "complete",
+  "stock": 4,
+  "eta_days": 0
+ },
+ {
+  "id": "p34",
+  "merchant_id": "m_camden",
+  "title": "Vampire cloak, adult",
+  "description": "Floor-length black cloak with a red lining and high collar.",
+  "price_pence": 1400,
+  "tags": [
+   "vampire",
+   "costume",
+   "black",
+   "halloween",
+   "adult"
+  ],
+  "kind": "complete",
+  "stock": 5,
+  "eta_days": 0
+ },
+ {
+  "id": "p35",
+  "merchant_id": "m_camden",
+  "title": "Skeleton onesie, adult",
+  "description": "Printed bones on black jersey, glows faintly in the dark.",
+  "price_pence": 1800,
+  "tags": [
+   "skeleton",
+   "costume",
+   "adult",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 6,
+  "eta_days": 0
+ },
+ {
+  "id": "p36",
+  "merchant_id": "m_camden",
+  "title": "Superman adult costume, 3-day hire",
+  "description": "Full suit with cape, cleaned and pressed, returned after the weekend.",
+  "price_pence": 1500,
+  "tags": [
+   "superman-costume",
+   "superman",
+   "costume",
+   "superhero",
+   "adult"
+  ],
+  "kind": "complete",
+  "stock": 2,
+  "eta_days": 0
+ },
+ {
+  "id": "p37",
+  "merchant_id": "m_peckham",
+  "title": "Herb windowsill kit",
+  "description": "Trough, compost and three herb seedlings.",
+  "price_pence": 950,
+  "tags": [
+   "herb",
+   "seedling",
+   "planter",
+   "plant"
+  ],
+  "kind": "complete",
+  "stock": 8,
+  "eta_days": 0
+ },
+ {
+  "id": "p38",
+  "merchant_id": "m_peckham",
+  "title": "Self-watering trough, 40cm",
+  "description": "Long windowsill planter with a built-in reservoir.",
+  "price_pence": 1800,
+  "tags": [
+   "self-watering-pot",
+   "self-watering",
+   "planter"
+  ],
+  "kind": "complete",
+  "stock": 4,
+  "eta_days": 0
+ },
+ {
+  "id": "p39",
+  "merchant_id": "m_masq",
+  "title": "Superman adult costume, official",
+  "description": "Printed jumpsuit, attached cape and boot tops. Sizes S to XL.",
+  "price_pence": 3499,
+  "tags": [
+   "superman-costume",
+   "superman",
+   "costume",
+   "superhero",
+   "adult",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 40,
+  "eta_days": 1
+ },
+ {
+  "id": "p40",
+  "merchant_id": "m_masq",
+  "title": "Superman deluxe muscle costume, adult",
+  "description": "Padded muscle chest, detachable satin cape and belt.",
+  "price_pence": 5900,
+  "tags": [
+   "superman-costume",
+   "superman",
+   "costume",
+   "superhero",
+   "adult",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 12,
+  "eta_days": 1
+ },
+ {
+  "id": "p41",
+  "merchant_id": "m_masq",
+  "title": "Superman kids costume, age 3-10",
+  "description": "Soft jersey suit with a velcro cape.",
+  "price_pence": 1999,
+  "tags": [
+   "superman-costume",
+   "superman",
+   "costume",
+   "superhero",
+   "kids",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 30,
+  "eta_days": 1
+ },
+ {
+  "id": "p42",
+  "merchant_id": "m_masq",
+  "title": "Blue superhero bodysuit, adult",
+  "description": "Seamless blue stretch suit with hidden zip.",
+  "price_pence": 1999,
+  "tags": [
+   "bodysuit",
+   "blue",
+   "top",
+   "leggings",
+   "superhero",
+   "costume"
+  ],
+  "kind": "complete",
+  "stock": 25,
+  "eta_days": 1
+ },
+ {
+  "id": "p43",
+  "merchant_id": "m_masq",
+  "title": "Blue base-layer top, long sleeve",
+  "description": "Close-fit sports top in royal blue.",
+  "price_pence": 799,
+  "tags": [
+   "bodysuit",
+   "top",
+   "blue"
+  ],
+  "kind": "part",
+  "stock": 30,
+  "eta_days": 1
+ },
+ {
+  "id": "p44",
+  "merchant_id": "m_masq",
+  "title": "Blue footless leggings",
+  "description": "Matte royal blue leggings, pairs with the base-layer top.",
+  "price_pence": 599,
+  "tags": [
+   "bodysuit",
+   "leggings",
+   "blue"
+  ],
+  "kind": "part",
+  "stock": 30,
+  "eta_days": 1
+ },
+ {
+  "id": "p45",
+  "merchant_id": "m_masq",
+  "title": "Red superhero cape, adult",
+  "description": "Red satin cape with a hook-and-loop collar, 110cm long.",
+  "price_pence": 999,
+  "tags": [
+   "cape",
+   "red",
+   "superhero",
+   "costume"
+  ],
+  "kind": "complete",
+  "stock": 35,
+  "eta_days": 1
+ },
+ {
+  "id": "p46",
+  "merchant_id": "m_masq",
+  "title": "Superman-style chest emblem, iron-on patch",
+  "description": "Large embroidered shield patch, 20cm wide.",
+  "price_pence": 499,
+  "tags": [
+   "emblem",
+   "iron-on",
+   "superman",
+   "superhero"
+  ],
+  "kind": "complete",
+  "stock": 50,
+  "eta_days": 1
+ },
+ {
+  "id": "p47",
+  "merchant_id": "m_masq",
+  "title": "Red boot covers, adult",
+  "description": "Knee-high red covers with non-slip soles.",
+  "price_pence": 899,
+  "tags": [
+   "boot-covers",
+   "red",
+   "costume",
+   "adult"
+  ],
+  "kind": "complete",
+  "stock": 30,
+  "eta_days": 1
+ },
+ {
+  "id": "p48",
+  "merchant_id": "m_masq",
+  "title": "Yellow superhero belt",
+  "description": "Moulded yellow belt with a wide buckle.",
+  "price_pence": 699,
+  "tags": [
+   "belt",
+   "yellow",
+   "superhero",
+   "costume"
+  ],
+  "kind": "complete",
+  "stock": 30,
+  "eta_days": 1
+ },
+ {
+  "id": "p49",
+  "merchant_id": "m_masq",
+  "title": "Witch costume set with hat",
+  "description": "Dress, hat and striped tights in one bag.",
+  "price_pence": 2499,
+  "tags": [
+   "witch",
+   "costume",
+   "hat",
+   "halloween",
+   "adult"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 1
+ },
+ {
+  "id": "p50",
+  "merchant_id": "m_masq",
+  "title": "Vampire costume, adult",
+  "description": "Waistcoat, jabot and cloak set.",
+  "price_pence": 1999,
+  "tags": [
+   "vampire",
+   "costume",
+   "black",
+   "halloween",
+   "adult"
+  ],
+  "kind": "complete",
+  "stock": 18,
+  "eta_days": 1
+ },
+ {
+  "id": "p51",
+  "merchant_id": "m_masq",
+  "title": "Skeleton costume, glow in the dark",
+  "description": "Printed jumpsuit with a skull hood.",
+  "price_pence": 1699,
+  "tags": [
+   "skeleton",
+   "costume",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 22,
+  "eta_days": 1
+ },
+ {
+  "id": "p52",
+  "merchant_id": "m_masq",
+  "title": "Halloween face paint kit",
+  "description": "Twelve colours, glitter gel and a step-by-step card.",
+  "price_pence": 799,
+  "tags": [
+   "face-paint",
+   "halloween",
+   "paint"
+  ],
+  "kind": "complete",
+  "stock": 40,
+  "eta_days": 1
+ },
+ {
+  "id": "p53",
+  "merchant_id": "m_masq",
+  "title": "Black curly witch wig",
+  "description": "Long curly wig with a comfort cap.",
+  "price_pence": 899,
+  "tags": [
+   "wig",
+   "witch",
+   "black",
+   "halloween"
+  ],
+  "kind": "complete",
+  "stock": 15,
+  "eta_days": 1
+ },
+ {
+  "id": "p54",
+  "merchant_id": "m_thread",
+  "title": "Blue four-way stretch jersey, 1m",
+  "description": "Royal blue jersey, 150cm wide, cut to order.",
+  "price_pence": 850,
+  "tags": [
+   "bodysuit",
+   "blue",
+   "fabric"
+  ],
+  "kind": "material",
+  "stock": 60,
+  "eta_days": 2
+ },
+ {
+  "id": "p55",
+  "merchant_id": "m_thread",
+  "title": "Red satin, 1.5m",
+  "description": "Bright red satin, enough for a long adult cape.",
+  "price_pence": 675,
+  "tags": [
+   "cape",
+   "red",
+   "satin",
+   "fabric"
+  ],
+  "kind": "material",
+  "stock": 60,
+  "eta_days": 2
+ },
+ {
+  "id": "p56",
+  "merchant_id": "m_thread",
+  "title": "Hook-and-loop neck fastener, 2 pack",
+  "description": "Sew-on squares for a cape collar.",
+  "price_pence": 199,
+  "tags": [
+   "cape",
+   "velcro"
+  ],
+  "kind": "part",
+  "stock": 80,
+  "eta_days": 2
+ },
+ {
+  "id": "p57",
+  "merchant_id": "m_thread",
+  "title": "Felt sheets, A4, red and yellow x4",
+  "description": "Stiff 2mm felt that keeps a crisp emblem edge.",
+  "price_pence": 249,
+  "tags": [
+   "emblem",
+   "felt",
+   "red",
+   "yellow"
+  ],
+  "kind": "material",
+  "stock": 70,
+  "eta_days": 2,
+  "guide_id": "g_emblem"
+ },
+ {
+  "id": "p58",
+  "merchant_id": "m_thread",
+  "title": "Iron-on adhesive web, 1m",
+  "description": "Fuses felt to fabric with no sewing.",
+  "price_pence": 299,
+  "tags": [
+   "emblem",
+   "iron-on"
+  ],
+  "kind": "material",
+  "stock": 45,
+  "eta_days": 2
+ },
+ {
+  "id": "p59",
+  "merchant_id": "m_thread",
+  "title": "Red PU vinyl, 1m",
+  "description": "Glossy red faux leather, 140cm wide.",
+  "price_pence": 750,
+  "tags": [
+   "boot-covers",
+   "vinyl",
+   "red"
+  ],
+  "kind": "material",
+  "stock": 25,
+  "eta_days": 2,
+  "guide_id": "g_bootcovers"
+ },
+ {
+  "id": "p60",
+  "merchant_id": "m_thread",
+  "title": "Flat elastic, 25mm x 2m",
+  "description": "Holds boot covers snug under the sole.",
+  "price_pence": 150,
+  "tags": [
+   "boot-covers",
+   "elastic"
+  ],
+  "kind": "part",
+  "stock": 90,
+  "eta_days": 2
+ },
+ {
+  "id": "p61",
+  "merchant_id": "m_thread",
+  "title": "Yellow satin ribbon, 50mm x 2m",
+  "description": "Wide ribbon for a quick costume belt.",
+  "price_pence": 180,
+  "tags": [
+   "belt",
+   "ribbon",
+   "yellow"
+  ],
+  "kind": "material",
+  "stock": 80,
+  "eta_days": 2
+ },
+ {
+  "id": "p62",
+  "merchant_id": "m_thread",
+  "title": "Adhesive hook-and-loop strips",
+  "description": "Stick-on fastening for a ribbon belt.",
+  "price_pence": 199,
+  "tags": [
+   "belt",
+   "velcro"
+  ],
+  "kind": "part",
+  "stock": 60,
+  "eta_days": 2
+ },
+ {
+  "id": "p63",
+  "merchant_id": "m_thread",
+  "title": "Self-watering pot, 14cm, sage green",
+  "description": "Two-part pot with reservoir, wick and water gauge.",
+  "price_pence": 1499,
+  "tags": [
+   "self-watering-pot",
+   "self-watering",
+   "pot",
+   "planter"
+  ],
+  "kind": "complete",
+  "stock": 30,
+  "eta_days": 2
+ },
+ {
+  "id": "p64",
+  "merchant_id": "m_thread",
+  "title": "Planter reservoir base, 18cm",
+  "description": "Deep saucer-reservoir that holds a week of water.",
+  "price_pence": 799,
+  "tags": [
+   "reservoir",
+   "planter",
+   "pot"
+  ],
+  "kind": "complete",
+  "stock": 25,
+  "eta_days": 2
+ },
+ {
+  "id": "p65",
+  "merchant_id": "m_thread",
+  "title": "Inner pot with wick hole, 12cm",
+  "description": "Slotted liner pot designed to sit over a reservoir.",
+  "price_pence": 450,
+  "tags": [
+   "inner-pot",
+   "pot"
+  ],
+  "kind": "complete",
+  "stock": 25,
+  "eta_days": 2
+ },
+ {
+  "id": "p66",
+  "merchant_id": "m_thread",
+  "title": "Capillary wicks, pre-cut, 4 pack",
+  "description": "Braided cotton wicks, 30cm each.",
+  "price_pence": 349,
+  "tags": [
+   "wick",
+   "cotton-cord"
+  ],
+  "kind": "complete",
+  "stock": 50,
+  "eta_days": 2
+ },
+ {
+  "id": "p67",
+  "merchant_id": "m_thread",
+  "title": "Cotton cord, 5mm x 10m",
+  "description": "Natural cotton cord, cut your own wicks.",
+  "price_pence": 299,
+  "tags": [
+   "wick",
+   "cotton-cord"
+  ],
+  "kind": "material",
+  "stock": 50,
+  "eta_days": 2
+ },
+ {
+  "id": "p68",
+  "merchant_id": "m_thread",
+  "title": "Water-level indicator float, 15cm",
+  "description": "Red marker rises and falls with the reservoir.",
+  "price_pence": 399,
+  "tags": [
+   "float",
+   "water-level"
+  ],
+  "kind": "complete",
+  "stock": 40,
+  "eta_days": 2
+ },
+ {
+  "id": "p69",
+  "merchant_id": "m_thread",
+  "title": "Houseplant potting mix, 5L",
+  "description": "Peat-free blend with added perlite.",
+  "price_pence": 549,
+  "tags": [
+   "potting-mix",
+   "soil",
+   "plant"
+  ],
+  "kind": "complete",
+  "stock": 35,
+  "eta_days": 2
+ },
+ {
+  "id": "p70",
+  "merchant_id": "m_thread",
+  "title": "Coir compost brick, makes 8L",
+  "description": "Add water and it swells into light potting base.",
+  "price_pence": 250,
+  "tags": [
+   "potting-mix",
+   "soil"
+  ],
+  "kind": "material",
+  "stock": 45,
+  "eta_days": 2
+ },
+ {
+  "id": "p71",
+  "merchant_id": "m_pin",
+  "title": "ESP32 dev board, USB-C",
+  "description": "Wi-Fi and Bluetooth board, pins pre-soldered.",
+  "price_pence": 650,
+  "tags": [
+   "esp32",
+   "microcontroller",
+   "moisture-sensor",
+   "electronics",
+   "usb"
+  ],
+  "kind": "part",
+  "stock": 60,
+  "eta_days": 3,
+  "guide_id": "g_esp32"
+ },
+ {
+  "id": "p72",
+  "merchant_id": "m_pin",
+  "title": "Capacitive soil moisture sensor",
+  "description": "Probe that will not rust in wet soil, 3-pin cable.",
+  "price_pence": 350,
+  "tags": [
+   "moisture-sensor",
+   "sensor",
+   "electronics"
+  ],
+  "kind": "part",
+  "stock": 80,
+  "eta_days": 3
+ },
+ {
+  "id": "p73",
+  "merchant_id": "m_pin",
+  "title": "Jumper wires, female to female, 20 pack",
+  "description": "Connect the sensor to the board with no soldering.",
+  "price_pence": 180,
+  "tags": [
+   "jumper-wires",
+   "wires",
+   "moisture-sensor",
+   "electronics"
+  ],
+  "kind": "part",
+  "stock": 100,
+  "eta_days": 3
+ },
+ {
+  "id": "p74",
+  "merchant_id": "m_pin",
+  "title": "USB soil moisture monitor, ready to use",
+  "description": "Plug in, push into soil, it blinks when the plant is thirsty.",
+  "price_pence": 1299,
+  "tags": [
+   "moisture-sensor",
+   "sensor",
+   "usb",
+   "electronics"
+  ],
+  "kind": "complete",
+  "stock": 20,
+  "eta_days": 3
+ },
+ {
+  "id": "p75",
+  "merchant_id": "m_pin",
+  "title": "Smart self-watering planter kit",
+  "description": "Planter, ESP32, sensor and mini pump with phone alerts.",
+  "price_pence": 3900,
+  "tags": [
+   "self-watering-pot",
+   "self-watering",
+   "planter",
+   "esp32",
+   "sensor",
+   "electronics"
+  ],
+  "kind": "complete",
+  "stock": 10,
+  "eta_days": 3
+ },
+ {
+  "id": "p76",
+  "merchant_id": "m_pin",
+  "title": "3D-printed inner pot, PLA, 12cm",
+  "description": "Printed liner with a wick channel, made to order.",
+  "price_pence": 320,
+  "tags": [
+   "inner-pot",
+   "3d-print",
+   "pla"
+  ],
+  "kind": "part",
+  "stock": 15,
+  "eta_days": 3
+ },
+ {
+  "id": "p77",
+  "merchant_id": "m_pin",
+  "title": "3D-printed water-level float",
+  "description": "Float and marker stem that clips to any reservoir.",
+  "price_pence": 180,
+  "tags": [
+   "float",
+   "water-level",
+   "3d-print",
+   "pla"
+  ],
+  "kind": "part",
+  "stock": 15,
+  "eta_days": 3
+ },
+ {
+  "id": "p78",
+  "merchant_id": "m_pin",
+  "title": "3D-printed reservoir tray, 16cm",
+  "description": "Watertight printed tray, fits a 12cm inner pot.",
+  "price_pence": 440,
+  "tags": [
+   "reservoir",
+   "3d-print",
+   "pla"
+  ],
+  "kind": "part",
+  "stock": 10,
+  "eta_days": 3
+ },
+ {
+  "id": "p79",
+  "merchant_id": "m_pin",
+  "title": "LED fairy lights, USB, 5m",
+  "description": "Warm white micro lights for jars and shelves.",
+  "price_pence": 399,
+  "tags": [
+   "lights",
+   "led",
+   "usb"
+  ],
+  "kind": "complete",
+  "stock": 40,
+  "eta_days": 3
+ }
+]
