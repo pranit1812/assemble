@@ -59,10 +59,17 @@ function sanitize(cs: Comp[]): Comp[] {
   });
 }
 
+const GENERIC = new Set(['costume', 'halloween', 'kids', 'adult', 'red', 'blue', 'yellow', 'black', 'craft', 'party', 'garden', 'electronics']);
+export const cleanTitle = (text: string) => {
+  const t = text.replace(/^\s*(i('d| would)? (want|need|like|would like|'d like) to|help me|how (do|can) i)\s+(be|make|build|get|create|prototype|find|buy)?\s*(a|an|some|my)?\s*/i, '').replace(/[,.].*$/, '').trim().slice(0, 40);
+  return t ? t[0].toUpperCase() + t.slice(1) : 'Your goal';
+};
+
 function genericComponents(text: string): Comp[] {
   const s = text.toLowerCase();
-  const tag = TAGS.find((t) => s.includes(t)) ?? 'craft';
-  return [{ id: 'item', name: text.replace(/[,.].*$/, '').slice(0, 40), tag, tags: [] }];
+  const found = TAGS.filter((t) => new RegExp(`\\b${t}s?\\b`).test(s));
+  const tag = found.find((t) => !GENERIC.has(t)) ?? found[0] ?? 'craft';
+  return [{ id: 'item', name: cleanTitle(text), tag, tags: found.filter((t) => t !== tag) }];
 }
 
 export async function intake(text: string, image?: string) {
