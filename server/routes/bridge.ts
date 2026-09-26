@@ -53,11 +53,11 @@ bridgeRouter.post('/:id/offers', (req, res) => {
 
 // Offers for one shopper's goal (polled by the plan page).
 export function offersForGoal(goalId: string) {
-  const goal = get<any>('SELECT lat, lng FROM goals WHERE id = ?', goalId);
+  const goal = get<any>('SELECT lat, lng, created_at FROM goals WHERE id = ?', goalId);
   const comps = all<any>('SELECT id, tag FROM components WHERE goal_id = ?', goalId);
   return all<any>(`SELECT o.*, m.name AS mname, m.lat, m.lng, m.address, m.kind AS mkind, b.tag FROM offers o
       JOIN briefs b ON b.id = o.brief_id JOIN merchants m ON m.id = o.merchant_id ORDER BY o.created_at DESC LIMIT 20`)
-    .filter((o) => comps.some((c) => c.tag === o.tag))
+    .filter((o) => comps.some((c) => c.tag === o.tag) && (!goal || o.created_at >= goal.created_at))
     .map((o) => {
       const n = J<any>(o.note, {});
       return { id: o.id, componentId: comps.find((c) => c.tag === o.tag)!.id, merchant: o.mname, merchantId: o.merchant_id, title: n.title ?? 'Offer',

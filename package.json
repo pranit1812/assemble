@@ -6,7 +6,8 @@
     "dev": "concurrently -k -n api,web \"PORT=3001 tsx watch server/index.ts\" \"vite\"",
     "build": "vite build",
     "start": "NODE_ENV=production tsx server/index.ts",
-    "seed": "tsx seed/seed.ts"
+    "seed": "tsx seed/seed.ts",
+    "demo:reset": "tsx seed/seed.ts && node scripts/prewarm.mjs"
   },
   "dependencies": {
     "@types/leaflet": "^1.9.22",
