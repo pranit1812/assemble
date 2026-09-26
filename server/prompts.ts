@@ -14,6 +14,8 @@ Return JSON only:
   "budgetPence": integer or null (only if the user stated a budget; £40 -> 4000),
   "deadline": "today" | "tomorrow" | "monday".."sunday" | "1w" | "2w" | null (only if stated),
   "components": [ { "id": "kebab-id", "name": "Cape", "tag": "<ONE primary tag>", "tags": ["2-4 more tags"], "note": "max 8 words" } ],
+  "owned": [ids of components the user says, or shows in the photo, they ALREADY have],
+  "seen": null or (only if a photo is attached) one short friendly sentence on what you see that helps, e.g. "I can see a blue long-sleeve top and leggings.",
   "extraQuestion": null or { "type": "ClarifyCard", "key": "kebab-key", "question": "...", "options": [{"label":"...","value":"..."}], "multi": false }
 }
 Rules:
@@ -32,6 +34,8 @@ export const IntakeOut = z.object({
     .array(z.object({ id: z.string(), name: z.string(), tag: z.string(), tags: z.array(z.string()).default([]), note: z.string().optional() }))
     .min(1)
     .max(6),
+  owned: z.array(z.string()).default([]),
+  seen: z.string().nullable().optional(),
   extraQuestion: z
     .object({
       type: z.literal('ClarifyCard'),

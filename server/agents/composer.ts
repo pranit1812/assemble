@@ -39,7 +39,7 @@ export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, b
   for (const sid of shopIds.slice(0, 2)) {
     const m = get<any>('SELECT * FROM merchants WHERE id = ?', sid);
     if (!m) continue;
-    const items = localOpts.filter((x) => x.o.source.merchantId === sid && (x.picked || !shopIds.length || true)).map((x) => ({ componentId: x.c.id, title: x.o.title, pricePence: x.o.pricePence }));
+    const items = localOpts.filter((x) => x.o.source.merchantId === sid && (x.picked || !shopIds.length || true)).map((x) => ({ componentId: x.c.id, title: x.o.title, pricePence: x.o.pricePence, image: x.o.image }));
     const seen = new Set<string>();
     const uniq = items.filter((i) => (seen.has(i.title) ? false : (seen.add(i.title), true)));
     const when = deadlineDays(goal.deadline) <= 1 ? 'today' : 'this week';
@@ -63,7 +63,7 @@ export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, b
   blocks.push({ type: 'CostCompare', budgetPence: goal.budget_pence, rows: [row('Make it all', diy), row('Mindful mix', picks, { highlight: true }), allNew] });
 
   blocks.push({ type: 'PlanSummary', goalId: goal.id, title: goal.title, budgetPence: goal.budget_pence, deadline: deadlineLabel(goal.deadline),
-    items: bd.components.flatMap((c, i) => (picks[i] ? [{ componentId: c.id, name: c.name, tag: picks[i]!.tag, title: picks[i]!.title, pricePence: picks[i]!.pricePence, acquired: !!acquired[c.id] }] : [])) });
+    items: bd.components.flatMap((c, i) => (picks[i] ? [{ componentId: c.id, name: c.name, tag: picks[i]!.tag, title: picks[i]!.title, pricePence: picks[i]!.pricePence, acquired: !!acquired[c.id], image: picks[i]!.image }] : [])) });
 
   return blocks.map((b) => Block.parse(b));
 }

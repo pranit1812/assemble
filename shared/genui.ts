@@ -30,7 +30,8 @@ export const Option = z.object({
   isNew: z.boolean().optional(), // added to the catalogue in the last hour
   guideId: z.string().optional(),
   productIds: z.array(z.string()).optional(), // for Parts bundles
-  makeIt: z.boolean().optional(), // a material you still have to make something from
+  makeIt: z.boolean().optional(),
+  image: z.string().optional(), // product photo URL // a material you still have to make something from
 });
 export type Option = z.infer<typeof Option>;
 
@@ -40,6 +41,7 @@ export const ClarifyCard = z.object({
   question: z.string(),
   options: z.array(z.object({ label: z.string(), value: z.string() })).min(2).max(6),
   multi: z.boolean().default(false),
+  selected: z.array(z.string()).optional(), // pre-selected values (e.g. parts seen in the user's photo)
 });
 
 export const AgentNote = z.object({
@@ -78,7 +80,7 @@ export const LocalShopCard = z.object({
     walkIn: z.boolean(),
     email: z.string(),
   }),
-  items: z.array(z.object({ componentId: z.string(), title: z.string(), pricePence: z.number().int() })),
+  items: z.array(z.object({ componentId: z.string(), title: z.string(), pricePence: z.number().int(), image: z.string().optional() })),
   message: z.object({ to: z.string(), subject: z.string(), body: z.string() }),
 });
 
@@ -111,6 +113,7 @@ export const PlanSummary = z.object({
       title: z.string(),
       pricePence: z.number().int(),
       acquired: z.boolean(),
+      image: z.string().optional(),
     }),
   ),
 });

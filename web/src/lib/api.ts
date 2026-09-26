@@ -9,7 +9,7 @@ const post = (url: string, body: unknown) => fetch(url, { method: 'POST', header
 export type GoalInfo = { id: string; title: string; by: string; components: { id: string; name: string }[] };
 
 export const api = {
-  intake: (text: string, areaId: string, image?: string) => post('/api/goals', { text, areaId, image }).then((r) => j<{ goal: GoalInfo; blocks: Block[] }>(r)),
+  intake: (text: string, areaId: string, image?: string, userName?: string) => post('/api/goals', { text, areaId, image, userName }).then((r) => j<{ goal: GoalInfo; blocks: Block[] }>(r)),
   pick: (gid: string, componentId: string, optionId: string) => post(`/api/goals/${gid}/pick`, { componentId, optionId }).then((r) => j<{ blocks: Block[] }>(r)),
   acquire: (gid: string, componentId: string, acquired: boolean) => post(`/api/goals/${gid}/acquire`, { componentId, acquired }).then((r) => j<{ blocks: Block[]; allAcquired: boolean }>(r)),
   assembly: (gid: string) => fetch(`/api/goals/${gid}/assembly`).then((r) => j<{ blocks: Block[] }>(r)),

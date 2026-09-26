@@ -22,6 +22,12 @@ export function TagPill({ tag, small }: { tag: RouteTag; small?: boolean }) {
   );
 }
 
+export function Thumb({ src, size = 64, className = '' }: { src?: string; size?: number; className?: string }) {
+  const [ok, setOk] = useState(true);
+  if (!src || !ok) return null;
+  return <img src={src} alt="" loading="lazy" onError={() => setOk(false)} width={size} height={size} style={{ width: size, height: size }} className={`img-in shrink-0 rounded-xl object-cover ring-1 ring-line ${className}`} />;
+}
+
 const eta = (d: number) => (d <= 0 ? 'today' : d === 1 ? 'tomorrow' : `in ${d} days`);
 const mins = (m: number) => (m >= 60 ? `${Math.floor(m / 60)} h ${m % 60 ? `${m % 60} min` : ''}` : `${m} min`);
 
@@ -38,7 +44,7 @@ export function AgentNoteView({ b }: { b: BlockOf<'AgentNote'> }) {
 }
 
 export function ClarifyGroup({ cards, onSubmit, busy }: { cards: BlockOf<'ClarifyCard'>[]; onSubmit: (a: Record<string, string | string[]>) => void; busy: boolean }) {
-  const [ans, setAns] = useState<Record<string, string[]>>({});
+  const [ans, setAns] = useState<Record<string, string[]>>(() => Object.fromEntries(cards.filter((c) => c.selected?.length).map((c) => [c.key, c.selected!])));
   const toggle = (c: BlockOf<'ClarifyCard'>, v: string) =>
     setAns((a) => {
       const cur = a[c.key] ?? [];
@@ -127,7 +133,7 @@ function MindfulRing({ v }: { v: number }) {
   );
 }
 
-export function ComponentCard({ c, scouts, onPick, idx = 0 }: { c: { id: string; name: string; note?: string; options?: Option[]; pickId?: string | null; briefOpen?: boolean }; scouts?: ScoutState[string]; onPick?: (o: Option) => void; idx?: number }) {
+export function ComponentCard({ c, scouts, onPick, idx = 0, ownImage }: { c: { id: string; name: string; note?: string; options?: Option[]; pickId?: string | null; briefOpen?: boolean }; scouts?: ScoutState[string]; onPick?: (o: Option) => void; idx?: number; ownImage?: string }) {
   const o = c.options?.find((x) => x.id === c.pickId);
   return (
     <div className="rise rounded-2xl border border-line bg-card p-4 shadow-[var(--shadow-soft)] sm:p-5" style={{ animationDelay: `${idx * 70}ms` }}>
@@ -137,7 +143,8 @@ export function ComponentCard({ c, scouts, onPick, idx = 0 }: { c: { id: string;
       </div>
       <Ladder options={c.options} pickId={c.pickId} scouts={scouts} onPick={onPick} />
       {o && (
-        <div className="mt-4 flex gap-3">
+        <div className="mt-4 flex gap-3.5">
+          <Thumb key={o.id} src={o.tag === 'Own' ? ownImage : o.image} size={72} />
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <TagPill tag={o.tag} small />
@@ -182,7 +189,7 @@ export function LocalShopCardView({ b }: { b: BlockOf<'LocalShopCard'> }) {
       </div>
       <ul className="border-t border-line px-5 py-3 text-[14px]">
         {b.items.map((i) => (
-          <li key={i.title} className="flex justify-between py-1"><span className="text-ink">{i.title}</span><span className="font-mono text-muted">{pounds(i.pricePence)}</span></li>
+          <li key={i.title} className="flex items-center justify-between gap-3 py-1.5"><span className="flex items-center gap-3 text-ink"><Thumb src={i.image} size={36} className="rounded-lg" />{i.title}</span><span className="font-mono text-muted">{pounds(i.pricePence)}</span></li>
         ))}
       </ul>
       <div className="border-t border-line bg-paper/50 p-5">
@@ -226,7 +233,7 @@ export function CostCompareView({ b }: { b: BlockOf<'CostCompare'> }) {
   );
 }
 
-export function PlanSummaryView({ b, onToggle }: { b: BlockOf<'PlanSummary'>; onToggle: (cid: string, v: boolean) => void }) {
+export function PlanSummaryView({ b, onToggle, ownImage }: { b: BlockOf<'PlanSummary'>; onToggle: (cid: string, v: boolean) => void; ownImage?: string }) {
   const got = b.items.filter((i) => i.acquired).length;
   const total = b.items.reduce((s, i) => s + i.pricePence, 0);
   return (
@@ -242,6 +249,7 @@ export function PlanSummaryView({ b, onToggle }: { b: BlockOf<'PlanSummary'>; on
           <li key={i.componentId}>
             <label className="flex cursor-pointer items-center gap-3 py-2.5">
               <input type="checkbox" checked={i.acquired} onChange={(e) => onToggle(i.componentId, e.target.checked)} className="h-4.5 w-4.5 accent-[var(--color-own)]" />
+              <Thumb src={i.tag === 'Own' ? ownImage : i.image} size={40} className={`rounded-lg ${i.acquired ? 'opacity-50' : ''}`} />
               <div className="min-w-0 flex-1">
                 <div className={`text-sm ${i.acquired ? 'text-muted line-through' : 'text-ink'}`}>{i.name}</div>
                 <div className="truncate text-[12px] text-muted">{i.title}</div>

@@ -101,8 +101,8 @@ export async function intake(text: string, image?: string) {
   const deadline = parsed.deadline ?? out?.deadline ?? null;
   const dl = deadlineLabel(deadline);
   const restated =
-    out?.restated ??
-    `${title}${budgetPence ? `, under £${budgetPence / 100}` : ''}${dl ? `, by ${dl}` : ''}. I'll check what you own, what neighbours and local shops have, and only then what's new.`;
+    (out?.seen ? `${out.seen} ` : '') + (out?.restated ??
+    `${title}${budgetPence ? `, under £${budgetPence / 100}` : ''}${dl ? `, by ${dl}` : ''}. I'll check what you own, what neighbours and local shops have, and only then what's new.`);
 
   const cards: BlockOf<'ClarifyCard'>[] = [];
   if (budgetPence == null)
@@ -113,7 +113,8 @@ export async function intake(text: string, image?: string) {
       { label: 'Today', value: 'today' }, { label: 'Tomorrow', value: 'tomorrow' }, { label: 'This week', value: '1w' }, { label: 'No rush', value: 'any' }] });
   if (components.length > 1)
     cards.push({ type: 'ClarifyCard', key: 'owned', question: 'Anything you already have?', multi: true, options: [
-      ...components.slice(0, 5).map((c) => ({ label: c.name, value: c.id })), { label: 'Nothing yet', value: 'none' }] });
+      ...components.slice(0, 5).map((c) => ({ label: c.name, value: c.id })), { label: 'Nothing yet', value: 'none' }],
+      selected: (out?.owned ?? []).filter((o) => components.some((c) => c.id === o)) });
   if (out?.extraQuestion) cards.push({ ...out.extraQuestion, multi: !!out.extraQuestion.multi });
   cards.push({ type: 'ClarifyCard', key: 'skill', question: 'How hands-on do you want to be?', multi: false, options: [
     { label: 'Buy it ready', value: 'none' }, { label: 'Some glue and scissors', value: 'some' }, { label: 'Love a project', value: 'crafty' }] });
