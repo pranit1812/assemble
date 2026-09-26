@@ -4,8 +4,9 @@ import { createHash } from 'node:crypto';
 import { get, run } from '../db';
 import type { WebLink } from '../../shared/genui';
 
-const SHOPS = ['amazon.co.uk', 'ebay.co.uk', 'argos.co.uk', 'etsy.com', 'johnlewis.com', 'hobbycraft.co.uk', 'thepihut.com', 'ikea.com', 'screwfix.com', 'diy.com',
-  'temu.com', 'aliexpress.com', 'currys.co.uk', 'ao.com', 'espares.co.uk', 'wayfair.co.uk', 'dunelm.com', 'wickes.co.uk', 'toolstation.com',
+// Core shops first (proven results); the wider list only fills in when core finds fewer than 2.
+const SHOPS = ['amazon.co.uk', 'ebay.co.uk', 'argos.co.uk', 'etsy.com', 'johnlewis.com', 'hobbycraft.co.uk', 'thepihut.com', 'ikea.com', 'screwfix.com', 'diy.com'];
+const MORE_SHOPS = ['temu.com', 'aliexpress.com', 'currys.co.uk', 'ao.com', 'espares.co.uk', 'wayfair.co.uk', 'dunelm.com', 'wickes.co.uk', 'toolstation.com',
   'boots.com', 'halfords.com', 'decathlon.co.uk', 'very.co.uk', 'next.co.uk', 'backmarket.co.uk'];
 export const hasWeb = () => !!process.env.TAVILY_API_KEY;
 export const webStatus: { at?: string; ok?: boolean; detail?: string } = {};
@@ -45,11 +46,13 @@ const WORDS = (s: string) => s.toLowerCase().split(/[^a-z]+/).filter((w) => w.le
 // mention it, and trust a price only from the title or a plausible one in the snippet.
 export async function webScout(part: string, tag: string, context = ''): Promise<WebLink[]> {
   const q = `${part}${part.toLowerCase().includes(tag.replace('-', ' ')) ? '' : ` ${tag.replace('-', ' ')}`}${context ? ` ${context}` : ''} buy UK`;
-  const rs = await tavily(q, { domains: SHOPS, max: 8 });
   const need = [...new Set([...WORDS(tag.replace('-', ' ')), ...WORDS(part)])];
+  const relevant = (title: string) => { const t = title.toLowerCase(); return need.some((w) => t.includes(w.replace(/s$/, ''))); };
+  let rs = await tavily(q, { domains: SHOPS, max: 8 });
+  if (rs.filter((r) => relevant(r.title)).length < 2) rs = [...rs, ...(await tavily(q, { domains: MORE_SHOPS, max: 8 }))];
   const seen = new Set<string>();
   return rs
-    .filter((r) => { const t = r.title.toLowerCase(); return need.some((w) => t.includes(w.replace(/s$/, ''))); })
+    .filter((r) => relevant(r.title))
     .map((r) => {
       const domain = new URL(r.url).hostname.replace(/^www\./, '');
       const fromTitle = priceIn(r.title);
