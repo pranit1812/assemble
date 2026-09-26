@@ -6,6 +6,10 @@ import type { ZodType } from 'zod';
 import { get, run } from './db';
 
 export const hasLLM = () => !!process.env.LLM_API_KEY;
+// Last outcome, surfaced on /api/health for remote debugging (never includes the key).
+export const llmStatus: { at?: string; ok?: boolean; model?: string; host?: string; detail?: string } = {};
+const note = (ok: boolean, model: string, detail: string) =>
+  Object.assign(llmStatus, { at: new Date().toISOString(), ok, model, host: new URL(process.env.LLM_BASE_URL || 'https://api.x.ai/v1').host, detail: detail.slice(0, 300) });
 
 type Msg = { role: 'system' | 'user' | 'assistant'; content: unknown };
 
@@ -29,7 +33,9 @@ export async function llmJSON<T>(o: { messages: Msg[]; schema: ZodType<T>; timeo
       signal: ctrl.signal,
     });
     if (!res.ok) {
-      console.warn('[llm]', res.status, (await res.text()).slice(0, 300));
+      const body = (await res.text()).slice(0, 300);
+      console.warn('[llm]', res.status, body);
+      note(false, model, `${res.status} ${body}`);
       return null;
     }
     const data: any = await res.json();
@@ -37,13 +43,16 @@ export async function llmJSON<T>(o: { messages: Msg[]; schema: ZodType<T>; timeo
     const parsed = o.schema.safeParse(JSON.parse(text.replace(/^```(json)?|```$/gm, '').trim()));
     if (!parsed.success) {
       console.warn('[llm] schema miss', JSON.stringify(parsed.error.issues.slice(0, 3)));
+      note(false, model, `schema miss: ${JSON.stringify(parsed.error.issues.slice(0, 2))} | raw: ${text.slice(0, 120)}`);
       return null;
     }
     console.log(`[llm] ${model} ok in ${Date.now() - t0}ms`);
+    note(true, model, `ok in ${Date.now() - t0}ms`);
     run('INSERT OR REPLACE INTO llm_cache (key, value) VALUES (?, ?)', key, JSON.stringify(parsed.data));
     return parsed.data;
   } catch (e: any) {
     console.warn('[llm] fail', e?.name === 'AbortError' ? 'timeout' : e?.message);
+    note(false, model, e?.name === 'AbortError' ? 'timeout' : String(e?.message));
     return null;
   } finally {
     clearTimeout(timer);

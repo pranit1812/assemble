@@ -10,12 +10,21 @@ import { opsRouter } from './routes/ops';
 import { recipesRouter } from './routes/recipes';
 import { bridgeRouter } from './routes/bridge';
 import { TAGS } from '../shared/tags';
+import { z } from 'zod';
+import { llmJSON, llmStatus } from './llm';
+import { tavily, webStatus } from './agents/web';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const app = express();
 app.use(express.json({ limit: '8mb' }));
 
-app.get('/api/health', (_q, s) => { s.json({ ok: true, llm: !!process.env.LLM_API_KEY }); });
+app.get('/api/health', (_q, s) => { s.json({ ok: true, llm: !!process.env.LLM_API_KEY, web: !!process.env.TAVILY_API_KEY, llmLast: llmStatus, webLast: webStatus }); });
+// Fire one tiny model call + one search so /api/health shows real outcomes.
+app.post('/api/health/probe', async (_q, s) => {
+  const out = await llmJSON({ messages: [{ role: 'system', content: 'Return JSON {"ok": true}.' }, { role: 'user', content: 'ping ' + Date.now() }], schema: z.object({ ok: z.boolean() }), timeoutMs: 12000 });
+  const web = await tavily('self-watering plant pot UK', { max: 1 });
+  s.json({ llm: !!out, llmLast: llmStatus, web: web.length > 0, webLast: webStatus });
+});
 app.use('/api/admin', merchantRouter); // owner: Codex
 app.get('/api/ops/tags', (_q, s) => { s.json(TAGS); });
 app.use('/api/ops/recipes', recipesRouter); // owner: lead
