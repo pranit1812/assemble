@@ -272,8 +272,8 @@ export default function Home() {
             </div>
             {of(blocks, 'AgentNote').map((b, i) => <div key={i} className="mx-auto mt-6 max-w-3xl"><AgentNoteView b={b} /></div>)}
 
-            <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
-              <div className="space-y-4">
+            <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+              <div className="min-w-0 space-y-4">
                 {!lg && map && <NearbyMap block={map} />}
                 {(bd?.components ?? comps).map((c, i) => (
                   <ComponentCard key={c.id} idx={i} c={c} scouts={scouts[c.id]} ownImage={goalImage} onPick={bd ? (o) => pick(c.id, o) : undefined}
