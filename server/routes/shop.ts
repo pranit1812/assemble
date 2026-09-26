@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { TAGS } from '../../shared/tags';
-import { llmJSON } from '../llm';
+import { llmJSON, aiName } from '../llm';
 import { all, get, run, J, id, logEvent } from '../db';
 import { AREAS, DEFAULT_AREA, km } from '../../shared/areas';
 import { ROUTE_ORDER, pounds, type BlockOf, type Option, type PlanEvent } from '../../shared/genui';
@@ -53,7 +53,7 @@ shopRouter.post('/goals', async (req, res) => {
   logEvent('goal.created', r.title, area.name);
   if (image) queueVision(gid, image, String(text).trim(), r.components.map(({ id, name }) => ({ id, name })));
   if (!r.recipeId && r.by !== 'grok') queueRecipe(String(text).trim(), area.name);
-  track('Orchestrator', `Understood "${r.title}"`, `${r.components.length} parts · ${r.by === 'grok' ? 'Grok' : 'house recipe'} · ${area.name}`);
+  track('Orchestrator', `Understood "${r.title}"`, `${r.components.length} parts · ${r.by === 'grok' ? aiName() : 'house recipe'} · ${area.name}`);
   res.json({
     goal: { id: gid, title: r.title, by: r.by, components: r.components.map(({ id, name }) => ({ id, name })) },
     blocks: [{ type: 'AgentNote', agent: 'Orchestrator', text: r.restated }, ...r.cards],
@@ -218,7 +218,7 @@ shopRouter.post('/goals/:id/ask', async (req, res) => {
   const block = await advise({ question, goalTitle: goal.title, deadline: goal.deadline, budgetPence: goal.budget_pence,
     picks: st.bd.components.map((c) => ({ component: c.name, pick: c.options.find((o) => o.id === c.pickId) ?? null })),
     tags: comps.flatMap((c) => [c.tag, ...J<string[]>(c.tags, [])]) });
-  track('Advisor', `"${question.slice(0, 60)}"`, `${block.verdict} · ${block.by === 'grok' ? 'Grok' : 'rules'}${block.sources.length ? ` · ${block.sources.length} web sources` : ''}`);
+  track('Advisor', `"${question.slice(0, 60)}"`, `${block.verdict} · ${block.by === 'grok' ? aiName() : 'rules'}${block.sources.length ? ` · ${block.sources.length} web sources` : ''}`);
   res.json({ block });
 });
 
@@ -303,6 +303,6 @@ shopRouter.post('/listings', async (req, res) => {
   run('INSERT INTO listings (id, title, description, price_pence, tags, condition, seller, area, lat, lng) VALUES (?,?,?,?,?,?,?,?,?,?)',
     lid, title.slice(0, 80), description ?? '', Math.max(0, Math.round(Number(pricePence) || 0)), JSON.stringify(tags), condition || 'good', seller || 'A neighbour', a.name, a.lat + r * Math.cos(t), a.lng + r * Math.sin(t) * 1.6);
   logEvent('listing.created', title, a.name, null, { tags });
-  track('Listing agent', `Listed "${title}" in ${a.name}`, `tags: ${tags.join(', ')} · ${by === 'grok' ? 'Grok' : 'rules'}`);
+  track('Listing agent', `Listed "${title}" in ${a.name}`, `tags: ${tags.join(', ')} · ${by === 'grok' ? aiName() : 'rules'}`);
   res.json({ id: lid, title, tags, area: a.name });
 });

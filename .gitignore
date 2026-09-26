@@ -6,3 +6,4 @@ data/*.db*
 .DS_Store
 .img2threejs
 web/src/components/assembly/models/lab-*
+data/uploads
