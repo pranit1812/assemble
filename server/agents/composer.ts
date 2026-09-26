@@ -22,7 +22,7 @@ export type GoalRow = { id: string; title: string; user_name: string | null; are
 const pickOf = (c: Breakdown['components'][number]) => c.options.find((o) => o.id === c.pickId) ?? null;
 const sum = (os: (Option | null | undefined)[], f: (o: Option) => number) => os.reduce((s, o) => s + (o ? f(o) : 0), 0);
 
-export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, boolean>, note: BlockOf<'AgentNote'> | null, wholeNewPence: number | null): Block[] {
+export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, boolean>, note: BlockOf<'AgentNote'> | null, wholeNewPence: number | null, whole?: { title: string; source: string } | null): Block[] {
   const picks = bd.components.map(pickOf);
   const blocks: Block[] = [];
   if (note) blocks.push(note);
@@ -71,7 +71,7 @@ export function compose(goal: GoalRow, bd: Breakdown, acquired: Record<string, b
     label, totalPence: sum(os, (o) => o.pricePence), effortMins: sum(os, (o) => o.effortMins), etaDays: Math.max(0, ...os.map((o) => o?.etaDays ?? 0)),
     newItems: os.filter((o) => o && (o.tag === 'New' || o.tag === 'Parts' || o.tag === 'Local')).length, ...extra });
   const allNew = row('All new', nu);
-  if (wholeNewPence != null && wholeNewPence < allNew.totalPence) Object.assign(allNew, { label: 'Buy it boxed', totalPence: wholeNewPence, effortMins: 5, newItems: 1, etaDays: Math.max(2, allNew.etaDays) });
+  if (wholeNewPence != null && wholeNewPence < allNew.totalPence) Object.assign(allNew, { label: 'Buy it boxed', totalPence: wholeNewPence, effortMins: 5, newItems: 1, etaDays: Math.max(2, allNew.etaDays), ...(whole ? { item: whole } : {}) });
   blocks.push({ type: 'CostCompare', budgetPence: goal.budget_pence, rows: [row('Make it all', diy), row('Mindful mix', picks, { highlight: true }), allNew] });
 
   blocks.push({ type: 'PlanSummary', goalId: goal.id, title: goal.title, budgetPence: goal.budget_pence, deadline: deadlineLabel(goal.deadline),

@@ -426,7 +426,6 @@
   "description": "Red lining, high collar, from last year.",
   "price_pence": 500,
   "tags": [
-    "cape",
    "vampire",
    "costume",
    "black",
@@ -703,5 +702,50 @@
     "area": "Hackney",
     "lat": 51.5459,
     "lng": -0.054
+  },
+  {
+    "id": "s103",
+    "title": "Old RC car, motors and wheels still work",
+    "description": "Remote is lost, the car drives fine.",
+    "price_pence": 500,
+    "tags": [
+      "motor",
+      "wheels",
+      "robot"
+    ],
+    "condition": "good",
+    "seller": "Kwame A.",
+    "area": "Hackney",
+    "lat": 51.5448,
+    "lng": -0.059
+  },
+  {
+    "id": "s104",
+    "title": "USB power bank, 10,000 mAh",
+    "description": "Holds charge well.",
+    "price_pence": 400,
+    "tags": [
+      "battery",
+      "usb"
+    ],
+    "condition": "good",
+    "seller": "Mia",
+    "area": "Dalston",
+    "lat": 51.547,
+    "lng": -0.073
+  },
+  {
+    "id": "s105",
+    "title": "Old Android phone, cracked screen, works",
+    "description": "Good as a robot brain.",
+    "price_pence": 2500,
+    "tags": [
+      "phone"
+    ],
+    "condition": "good",
+    "seller": "Sam P.",
+    "area": "Hackney",
+    "lat": 51.5439,
+    "lng": -0.0552
   }
 ]

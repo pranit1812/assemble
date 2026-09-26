@@ -482,6 +482,9 @@
     "g_card_dividers": "kraft-boxes",
     "g_washi_labels": "washi-tape",
     "g_binder_cables": "cable-tidy",
-    "g_tshirt_basket": "fabric-storage-box"
+    "g_tshirt_basket": "fabric-storage-box",
+    "p214": "esp32-board",
+    "p218": "esp32-board",
+    "p216": "microcontroller-kit"
   }
 }

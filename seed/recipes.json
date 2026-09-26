@@ -392,5 +392,73 @@
         "note": "Drum, pump or electronics need a pro"
       }
     ]
+  },
+  {
+    "id": "phonebot",
+    "title": "Robot on wheels, phone as the brain",
+    "match": [
+      "robot",
+      "rover",
+      "robot car"
+    ],
+    "whole_tag": "robot-kit",
+    "components": [
+      {
+        "id": "brain",
+        "name": "Phone (the brain)",
+        "tag": "phone",
+        "tags": [
+          "phone"
+        ],
+        "note": "Camera, sensors and Bluetooth, already in your pocket"
+      },
+      {
+        "id": "chassis",
+        "name": "Chassis",
+        "tag": "chassis",
+        "tags": [
+          "chassis"
+        ],
+        "note": "Cardboard works for a first version"
+      },
+      {
+        "id": "motors",
+        "name": "Motors and wheels",
+        "tag": "motor",
+        "tags": [
+          "motor",
+          "wheels"
+        ],
+        "note": "An old RC car is a great donor"
+      },
+      {
+        "id": "driver",
+        "name": "Motor driver + ESP32",
+        "tag": "motor-driver",
+        "tags": [
+          "motor-driver",
+          "esp32"
+        ],
+        "note": "Lets the phone drive the motors over Bluetooth"
+      },
+      {
+        "id": "power",
+        "name": "Battery",
+        "tag": "battery",
+        "tags": [
+          "battery"
+        ],
+        "note": "A power bank or 4×AA pack"
+      },
+      {
+        "id": "mount",
+        "name": "Phone mount",
+        "tag": "phone-mount",
+        "tags": [
+          "phone-mount"
+        ],
+        "note": "Two binder clips do the job"
+      }
+    ]
   }
 ]

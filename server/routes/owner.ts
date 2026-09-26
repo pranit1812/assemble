@@ -1,10 +1,16 @@
 // Owner view: everything on the platform at a glance: merchants, shoppers' requests, demand, bots.
-import { Router } from 'express';
+import { Router, type Request } from 'express';
 import { all, get } from '../db';
 
 export const ownerRouter = Router();
 
-ownerRouter.get('/overview', (_q, res) => {
+// Signed in = the shop-portal passcode (header or its cookie) or the ops key. Everyone else gets no shopper names or wording.
+const signedIn = (req: Request) =>
+  (req.get('x-admin-passcode') ?? /(?:^|;\s*)assemble_admin=([^;]+)/.exec(req.headers.cookie ?? '')?.[1]) === (process.env.ADMIN_PASSCODE || 'fleek') ||
+  (!!process.env.OPS_KEY && req.get('authorization') === `Bearer ${process.env.OPS_KEY}`);
+
+ownerRouter.get('/overview', (req, res) => {
+  res.set('Cache-Control', 'no-store');
   const n = (sql: string, ...p: any[]) => (get<any>(sql, ...p)?.n ?? 0) as number;
   const kpis = {
     goalsToday: n("SELECT COUNT(*) n FROM goals WHERE created_at > datetime('now','-1 day')"),
@@ -30,5 +36,8 @@ ownerRouter.get('/overview', (_q, res) => {
   const count = (type: string) => all<any>(`SELECT label, COUNT(*) AS n FROM events WHERE type = ? AND created_at > datetime('now','-7 days') GROUP BY label ORDER BY n DESC LIMIT 6`, type);
   const bots = all<any>(`SELECT agent, title, status, detail, updated_at FROM tasks WHERE agent NOT IN ('Orchestrator','Scouts','Judge','Advisor') ORDER BY updated_at DESC LIMIT 10`);
   const unknownGoals = all<any>(`SELECT detail AS text, status FROM tasks WHERE agent = 'Recipe writer' ORDER BY created_at DESC LIMIT 6`);
-  res.json({ kpis, merchants, requests, topGoals: count('goal.created'), topUnmet: count('component.unmet'), bots, unknownGoals });
+  const me = signedIn(req);
+  res.json({ kpis, merchants, topGoals: count('goal.created'), topUnmet: count('component.unmet'), bots, signedIn: me,
+    requests: me ? requests : requests.map((g) => ({ ...g, text: g.title, user_name: null })),
+    unknownGoals: me ? unknownGoals : unknownGoals.map((x) => ({ ...x, text: 'A new kind of goal (sign in to see it)' })) });
 });

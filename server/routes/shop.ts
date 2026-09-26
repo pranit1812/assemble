@@ -7,6 +7,10 @@ import { AREAS, DEFAULT_AREA, km } from '../../shared/areas';
 import { ROUTE_ORDER, pounds, type BlockOf, type Option, type PlanEvent } from '../../shared/genui';
 import { intake, deadlineDays, getRecipe, parseConstraints } from '../agents/orchestrator';
 
+const STOP = new Set(['and', 'the', 'for', 'with', 'your', 'set', 'kit', 'pack', 'new', 'old', 'small', 'large', 'big']);
+const stems = (t: string) => t.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2 && !STOP.has(w)).map((w) => w.replace(/(es|s)$/, ''));
+const fits = (part: string, title: string) => { const want = new Set(stems(part)); return stems(title).some((w) => want.has(w)); };
+
 const COLOURS = new Set(['blue', 'yellow', 'black', 'white', 'green', 'purple', 'orange', 'pink', 'brown', 'grey', 'gray']);
 import { SCOUTS, wholeProduct, type ScoutCtx } from '../agents/scouts';
 import { score, rank, pickPlan, judgeWhys } from '../agents/judge';
@@ -16,14 +20,15 @@ import { queueVision } from './vision';
 import { webScout, hasWeb } from '../agents/web';
 import { advise } from '../agents/advisor';
 import { offersForGoal } from './bridge';
+import { triggerBot } from '../trigger';
 
 export const shopRouter = Router();
 
-type State = { bd: BlockOf<'Breakdown'>; note: BlockOf<'AgentNote'> | null; wholeNewPence: number | null; advice?: BlockOf<'AdviceCard'> | null };
+type State = { bd: BlockOf<'Breakdown'>; note: BlockOf<'AgentNote'> | null; wholeNewPence: number | null; whole?: { title: string; source: string } | null; advice?: BlockOf<'AdviceCard'> | null };
 
 // Compose the plan and slot the Advisor's card in after the cost comparison.
 function render(goal: GoalRow, st: State, acquired: Record<string, boolean>) {
-  const blocks = compose(goal, st.bd, acquired, st.note, st.wholeNewPence);
+  const blocks = compose(goal, st.bd, acquired, st.note, st.wholeNewPence, st.whole);
   if (st.advice) blocks.splice(blocks.findIndex((b) => b.type === 'CostCompare') + 1, 0, st.advice);
   return blocks;
 }
@@ -44,6 +49,8 @@ shopRouter.post('/goals', async (req, res) => {
   const { text = '', image, userName, areaId } = req.body ?? {};
   if (image && (typeof image !== 'string' || !image.startsWith('data:image/') || image.length > 6_000_000)) return void res.status(400).json({ error: 'Image must be a photo under ~4MB' });
   if (!String(text).trim() && !image) return void res.status(400).json({ error: 'Tell me a goal' });
+  // Long text would flood the owner and bot pages; real goals are a sentence or two.
+  if (String(text).length > 600 || String(userName ?? '').length > 60) return void res.status(400).json({ error: 'Keep it under 600 characters' });
   const area = AREAS.find((a) => a.id === areaId) ?? DEFAULT_AREA;
   const r = await intake(String(text).trim() || 'Help me make what is in this photo', image);
   const gid = id('g');
@@ -109,7 +116,10 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
         send({ t: 'scout', componentId: c.id, route, state: 'done', found: opts.length });
         return opts;
       }));
-      return { c, options: rank(found.flat().map((o) => score(o, x))) };
+      // No house recipe means the AI picked the category, so a local option only counts if its name
+      // shares a word with the part ("Tap washer" never gets "Plug fuses"). Otherwise: ask shops + web links.
+      const opts = goal.recipe_id ? found.flat() : found.flat().filter((o) => o.tag === 'Own' || fits(c.name, o.title));
+      return { c, options: rank(opts.map((o) => score(o, x))) };
     }));
 
     const n = results.reduce((s, r) => s + r.options.length, 0);
@@ -128,6 +138,7 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
     for (const c of bd.components.filter((c) => c.briefOpen)) {
       logEvent('component.unmet', c.name, goal.area);
       run('INSERT INTO briefs (id, goal_id, component, tag, area, budget_pence) VALUES (?,?,?,?,?,?)', id('b'), goal.id, c.name, comps.find((k) => k.id === c.id)!.tag, goal.area, null);
+      triggerBot('brief', `a shopper near ${goal.area} needs: ${c.name}. Ask nearby shops.`, { goalId: goal.id, part: c.name, area: goal.area });
     }
 
     const pickOpt = (cid: string) => bd.components.find((c) => c.id === cid)!.options.find((o) => o.id === picks[cid]) ?? null;
@@ -155,7 +166,7 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
     const summary = judged?.summary ?? `${notNew} of ${chosen.length} parts come from what you own, can make, or a neighbour already has. ${pounds(total)} all in, against ${pounds(newRef)} ${whole ? 'for a boxed one' : 'to buy it all new'}${budget ? `, and well inside your ${pounds(budget)}` : ''}.`;
     const note: BlockOf<'AgentNote'> = { type: 'AgentNote', agent: 'Judge', text: summary };
 
-    const state: State = { bd, note, wholeNewPence: whole?.price_pence ?? null, advice };
+    const state: State = { bd, note, wholeNewPence: whole?.price_pence ?? null, whole: whole ? { title: whole.title, source: whole.mname } : null, advice };
     run("UPDATE goals SET blocks = ?, status = 'planned' WHERE id = ?", JSON.stringify(state), goal.id);
     for (const c of bd.components) run('UPDATE components SET pick = ?, unmet = ? WHERE goal_id = ? AND id = ?', JSON.stringify(pickOpt(c.id)), c.briefOpen ? 1 : 0, goal.id, c.id);
     track('Scouts', `${n} routes for "${goal.title}"`, `${comps.length} parts × ${ROUTE_ORDER.length} routes near ${goal.area}`);

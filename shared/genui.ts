@@ -36,7 +36,7 @@ export const Option = z.object({
 export type Option = z.infer<typeof Option>;
 
 // Public web listings (Tavily) for parts no shop on Assemble stocks. Not ranked, no affiliate tags.
-export const WebLink = z.object({ title: z.string(), url: z.string(), domain: z.string(), pricePence: z.number().int().optional() });
+export const WebLink = z.object({ title: z.string(), url: z.string(), domain: z.string(), pricePence: z.number().int().optional(), match: z.number().int().min(0).max(100).optional() });
 export type WebLink = z.infer<typeof WebLink>;
 
 // "Should I buy now or wait? Does it matter which one?" — the Advisor's answer.
@@ -112,6 +112,7 @@ export const CostCompare = z.object({
       effortMins: z.number().int(),
       etaDays: z.number(),
       newItems: z.number().int(), // brand-new items bought
+      item: z.object({ title: z.string(), source: z.string() }).optional(), // the complete set, for 'Buy it boxed'
       highlight: z.boolean().optional(),
     }),
   ),

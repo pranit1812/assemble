@@ -35,7 +35,8 @@ bridgeRouter.post('/:id/offers', (req, res) => {
   if (!b) return void res.status(404).json({ error: 'No such brief' });
   const m = merchantFor(req);
   if (!m) return void res.status(401).json({ error: 'Answer with your merchant API key, or the admin passcode / ops key plus merchantId.' });
-  const { title, pricePence, price, note } = req.body ?? {};
+  const { title, pricePence, price } = req.body ?? {};
+  const note = req.body?.note == null ? undefined : String(req.body.note).slice(0, 300);
   const pence = Number.isFinite(pricePence) ? Math.round(pricePence) : Math.round((Number(price) || 0) * 100);
   if (!title || pence <= 0) return void res.status(400).json({ error: 'Offer needs a title and a price' });
   const extra = String(title).toLowerCase().split(/[^a-z-]+/).filter(isTag);
