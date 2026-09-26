@@ -10,6 +10,13 @@ import { imageFor } from '../images';
 export type ScoutCtx = { lat: number; lng: number; owned: Set<string>; skill: string; deadlineDays: number };
 
 const tagged = (col: string) => `EXISTS (SELECT 1 FROM json_each(${col}) WHERE value = ?)`;
+// Materials a part can be made from, so any shop stocking them shows up (e.g. a newly onboarded fabric shop's satin for a cape).
+const SERVES: Record<string, string[]> = {
+  cape: ['satin'], emblem: ['felt', 'iron-on'], belt: ['ribbon'], 'boot-covers': ['vinyl'], bodysuit: ['leggings', 'top'],
+  wick: ['cotton-cord'], reservoir: ['bottle', 'jar'], 'inner-pot': ['pot', 'terracotta'], 'potting-mix': ['soil'],
+  box: ['cardboard'], label: ['template'], 'shelf-riser': ['wood', 'crate'],
+};
+const taggedAny = (col: string, n: number) => `EXISTS (SELECT 1 FROM json_each(${col}) WHERE value IN (${Array(n).fill('?').join(',')}))`;
 const overlap = (tags: string, c: Comp) => J<string[]>(tags, []).filter((t) => c.tags.includes(t)).length;
 const isRecent = (iso: string) => Date.now() - Date.parse(iso.replace(' ', 'T') + 'Z') < 3600e3;
 const walkMins = (d: number) => Math.max(3, Math.round(d * 12));
@@ -43,8 +50,11 @@ function secondhand(c: Comp, x: ScoutCtx): Option[] {
 }
 
 function local(c: Comp, x: ScoutCtx): Option[] {
+  const want = [c.tag, ...(SERVES[c.tag] ?? [])];
   const rows = all<any>(`SELECT p.*, m.name AS mname, m.area AS marea, m.lat AS mlat, m.lng AS mlng FROM products p JOIN merchants m ON m.id = p.merchant_id
-    WHERE m.kind = 'local' AND m.walk_in = 1 AND p.stock > 0 AND ${tagged('p.tags')}`, c.tag);
+    WHERE m.kind = 'local' AND m.walk_in = 1 AND m.lat IS NOT NULL AND p.stock > 0 AND ${taggedAny('p.tags', want.length)}`, ...want)
+    // a material only counts for this part if it's the direct tag or clearly a material
+    .filter((p) => J<string[]>(p.tags, []).includes(c.tag) || p.kind === 'material' || p.kind === 'part');
   return rows
     .map((p) => ({ p, d: km(x, { lat: p.mlat, lng: p.mlng }) }))
     // fresh stock (e.g. a shop just answered a brief) first, then nearest
