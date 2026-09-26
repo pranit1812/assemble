@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { type Block, type BlockOf, type Option, type PlanEvent } from '@shared/genui';
+import { pounds, type Block, type BlockOf, type Option, type PlanEvent } from '@shared/genui';
 import type { Area } from '@shared/areas';
 import { api, type GoalInfo, type Offer } from '../lib/api';
 import { LocationPicker, loadArea } from '../components/map/LocationPicker';
@@ -69,6 +69,7 @@ export default function Home() {
   const [guides, setGuides] = useState<Block[]>([]);
   const [err, setErr] = useState('');
   const [offers, setOffers] = useState<Record<string, Offer>>({});
+  const [boxed, setBoxed] = useState(false);
   const [vision, setVision] = useState<{ status: string; seen?: string; owned?: string[] } | null>(null);
   const lastAnswers = useRef<Record<string, string | string[]>>({});
   const [asks, setAsks] = useState<{ q: string; b: BlockOf<'AdviceCard'> | null }[]>([]);
@@ -130,7 +131,7 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     try {
       const r = await api.intake(text, area.id, image, name || undefined);
-      setGoal(r.goal); setIntake(r.blocks); setPhase('clarify');
+      setGoal(r.goal); setIntake(r.blocks); setPhase('clarify'); setBoxed(false);
     } catch (e: any) { setErr(e.message); setPhase('idle'); }
   }
 
@@ -275,17 +276,33 @@ export default function Home() {
             <div className="mt-8 grid grid-cols-[minmax(0,1fr)] gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
               <div className="min-w-0 space-y-4">
                 {!lg && map && <NearbyMap block={map} />}
-                {(bd?.components ?? comps).map((c, i) => (
+                {boxed && (() => {
+                  const r = of(blocks, 'CostCompare')[0]?.rows.find((x) => x.item);
+                  const owned = (bd?.components ?? []).filter((c) => c.options.find((o) => o.id === c.pickId)?.tag === 'Own').map((c) => c.name);
+                  return r?.item ? (
+                    <div className="rise rounded-3xl border border-line bg-card p-6 shadow-[var(--shadow-soft)]">
+                      <div className="text-[11px] font-medium uppercase tracking-[0.14em] text-muted">Complete set</div>
+                      <div className="mt-2 flex items-baseline justify-between gap-4">
+                        <h3 className="min-w-0 font-display text-2xl text-ink">{r.item.title}</h3>
+                        <span className="shrink-0 font-display text-2xl text-ink">{pounds(r.totalPence)}</span>
+                      </div>
+                      <p className="mt-1 text-sm text-muted">{r.item.source} · ready in {r.etaDays} days · one box, nothing to make</p>
+                      {owned.length > 0 && <p className="mt-3 text-sm text-ink/80">Heads up: you already have the {owned.join(', ').toLowerCase()}. The set includes it again.</p>}
+                      <button onClick={() => setBoxed(false)} className="mt-5 rounded-full border border-line px-4 py-2 text-sm text-ink transition hover:border-ink/40">Build it from parts instead</button>
+                    </div>
+                  ) : null;
+                })()}
+                {!boxed && (bd?.components ?? comps).map((c, i) => (
                   <ComponentCard key={c.id} idx={i} c={c} scouts={scouts[c.id]} ownImage={goalImage} onPick={bd ? (o) => pick(c.id, o) : undefined}
                     offer={offers[c.id]} onUseOffer={async (o) => goal && setBlocks((await api.rescout(goal.id, c.id, `product:${o.productId}`)).blocks)} />
                 ))}
-                {of(blocks, 'CostCompare').map((b, i) => <CostCompareView key={i} b={b} />)}
+                {of(blocks, 'CostCompare').map((b, i) => <CostCompareView key={i} b={b} onBoxed={() => setBoxed(true)} />)}
                 {of(blocks, 'AdviceCard').map((b, i) => <AdviceCardView key={i} b={b} />)}
                 {of(blocks, 'LocalShopCard').map((b) => <LocalShopCardView key={b.shop.id} b={b} />)}
               </div>
               <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
                 {!lg ? null : map ? <NearbyMap block={map} /> : <div className="grid h-[360px] place-items-center rounded-2xl border border-line bg-card text-sm text-muted"><span className="pulse-dot">Scouting around {area.name}…</span></div>}
-                {summary && <PlanSummaryView b={summary} onToggle={toggle} ownImage={goalImage} />}
+                {summary && !boxed && <PlanSummaryView b={summary} onToggle={toggle} ownImage={goalImage} />}
               </aside>
             </div>
 

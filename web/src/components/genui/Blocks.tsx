@@ -278,7 +278,7 @@ export function LocalShopCardView({ b }: { b: BlockOf<'LocalShopCard'> }) {
   );
 }
 
-export function CostCompareView({ b }: { b: BlockOf<'CostCompare'> }) {
+export function CostCompareView({ b, onBoxed }: { b: BlockOf<'CostCompare'>; onBoxed?: () => void }) {
   const max = Math.max(...b.rows.map((r) => r.totalPence), b.budgetPence ?? 0, 1);
   return (
     <div className="rise rounded-2xl border border-line bg-card p-5 shadow-[var(--shadow-soft)]">
@@ -298,6 +298,12 @@ export function CostCompareView({ b }: { b: BlockOf<'CostCompare'> }) {
               {b.budgetPence != null && <div className="absolute -top-1 h-4.5 w-px bg-accent" style={{ left: `${(b.budgetPence / max) * 100}%` }} />}
             </div>
             <div className="mt-1 text-[12px] text-muted">{mins(r.effortMins)} effort · ready {eta(r.etaDays)} · {r.newItems === 0 ? 'nothing bought new' : `${r.newItems} new item${r.newItems > 1 ? 's' : ''}`}</div>
+            {r.item && (
+              <div className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-xl bg-paper/70 px-3 py-2 text-[13px]">
+                <span className="min-w-0 text-ink">{r.item.title} <span className="text-muted">· {r.item.source}</span></span>
+                {onBoxed && <button onClick={onBoxed} className="shrink-0 rounded-full border border-line px-3 py-1 text-[12px] text-ink transition hover:border-ink/40">Get the complete set instead</button>}
+              </div>
+            )}
           </div>
         ))}
       </div>

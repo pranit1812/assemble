@@ -24,11 +24,11 @@ import { triggerBot } from '../trigger';
 
 export const shopRouter = Router();
 
-type State = { bd: BlockOf<'Breakdown'>; note: BlockOf<'AgentNote'> | null; wholeNewPence: number | null; advice?: BlockOf<'AdviceCard'> | null };
+type State = { bd: BlockOf<'Breakdown'>; note: BlockOf<'AgentNote'> | null; wholeNewPence: number | null; whole?: { title: string; source: string } | null; advice?: BlockOf<'AdviceCard'> | null };
 
 // Compose the plan and slot the Advisor's card in after the cost comparison.
 function render(goal: GoalRow, st: State, acquired: Record<string, boolean>) {
-  const blocks = compose(goal, st.bd, acquired, st.note, st.wholeNewPence);
+  const blocks = compose(goal, st.bd, acquired, st.note, st.wholeNewPence, st.whole);
   if (st.advice) blocks.splice(blocks.findIndex((b) => b.type === 'CostCompare') + 1, 0, st.advice);
   return blocks;
 }
@@ -166,7 +166,7 @@ shopRouter.post('/goals/:id/plan', async (req, res) => {
     const summary = judged?.summary ?? `${notNew} of ${chosen.length} parts come from what you own, can make, or a neighbour already has. ${pounds(total)} all in, against ${pounds(newRef)} ${whole ? 'for a boxed one' : 'to buy it all new'}${budget ? `, and well inside your ${pounds(budget)}` : ''}.`;
     const note: BlockOf<'AgentNote'> = { type: 'AgentNote', agent: 'Judge', text: summary };
 
-    const state: State = { bd, note, wholeNewPence: whole?.price_pence ?? null, advice };
+    const state: State = { bd, note, wholeNewPence: whole?.price_pence ?? null, whole: whole ? { title: whole.title, source: whole.mname } : null, advice };
     run("UPDATE goals SET blocks = ?, status = 'planned' WHERE id = ?", JSON.stringify(state), goal.id);
     for (const c of bd.components) run('UPDATE components SET pick = ?, unmet = ? WHERE goal_id = ? AND id = ?', JSON.stringify(pickOpt(c.id)), c.briefOpen ? 1 : 0, goal.id, c.id);
     track('Scouts', `${n} routes for "${goal.title}"`, `${comps.length} parts × ${ROUTE_ORDER.length} routes near ${goal.area}`);

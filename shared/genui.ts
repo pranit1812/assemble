@@ -112,6 +112,7 @@ export const CostCompare = z.object({
       effortMins: z.number().int(),
       etaDays: z.number(),
       newItems: z.number().int(), // brand-new items bought
+      item: z.object({ title: z.string(), source: z.string() }).optional(), // the complete set, for 'Buy it boxed'
       highlight: z.boolean().optional(),
     }),
   ),
